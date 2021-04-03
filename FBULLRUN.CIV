@@ -1,0 +1,127 @@
+First Bull Run July 20, 1861
+111,0,0,0,0,0
+"ษอออออออออออออออออออออออออออออออออออออออออออออออออออออป"
+"บ . . . . . + . ^ ^ . . . . . . . . . . + + + = + + + บ"
+"บ. . . . . . + ^ * ^ . * * . . . . . . . + . . = . . .บ"
+"บ . . . ^ ^ . + ^ ^ . * * * . . = . . . . + . . = . . บ"
+"บ. . . ^ ^ ^ . + . . . . . . = = = = . . . . . . = . .บ"
+"บ . . ^ ^ ^ . . + . . . = = = . . . = + + + + + + + + บ"
+"บ. . ^ ^ ^ . . + þ . . = + + + + + + [ . . + . . = . .บ"
+"บ . . . + + + + + + + + + . ^ ^ . . . = . + . . = . . บ"
+"บ+ + + + = = = = + = = . ^ þ ^ ^ * . . = . + . = . . .บ"
+"บ = = = = * * . . + . . ^ ^ ^ ^ * * . . = = + . = . . บ"
+"บ. . . * . . . . . + . ้ ^ ^ ^ . * * * . . + = = = . .บ"
+"บ . . ^ ^ ^ . . . . + ^ ^ ^ ^ . . . . . . . + = . = = บ"
+"บ. . ^ ^ ^ . . . . . + þ ^ ^ . . . * . . . + = . . . +บ"
+"บ . ^ ^ ^ ^ . . . . + ^ ^ ^ . . . . * * . + = . . . + บ"
+"บ. ^ ^ ^ ^ . . . * . + ^ ^ . . . * . . = + + + + + + .บ"
+"บ ^ ^ ^ ^ . . . * ^ * + ^ * * . . * * = + . . . þ + . บ"
+"บ. ^ ^ ^ . . . * ^ ^ * + . * . * . . = . + . . . . + .บ"
+"บ ^ ^ ^ ^ . . . ^ ^ * + . . . . * * . * + * . . . . + บ"
+"บ. ^ ^ . . . . . * * . + . . * . . . * + * * . . . . +บ"
+"บ . ^ . . . . . . . . . + . . . . . * * + * . . . . . บ"
+"บ. . . . . . . . . . . . + . . . . . * + * * . . . . .บ"
+"ศอออออออออออออออออออออออออออออออออออออออออออออออออออออผ"
+""
+""
+1,"Bee","I",40,80,226,31,5,46,0,0
+2,"Bartow","I",40,70,316,28,6,43,0,0
+3,"Evens","I",40,80,266,24,8,46,0,0
+4,"Jackson's","I",90,90,1111,32,10,46,0,-1
+5,"Gen.Jackson","G",95,90,200,30,10,94,15,-1
+6,"Hampton's","I",80,80,350,38,10,42,0,0
+7,"Imbolen's Battery","N",80,80,300,35,11,46,0,0
+8,"Stanard's Battery","N",80,80,300,33,13,46,0,0
+9,"Penderton's Battery","N",80,80,300,31,15,46,0,0
+10,"Coche","I",80,80,975,28,18,46,0,0
+11,"Early","I",80,80,937,35,19,46,0,0
+12,"Bonham","I",80,80,943,12,20,46,40,99
+13,"EK Smith","I",80,80,876,20,20,46,40,99
+14,"Washington Battery","A",80,80,300,16,20,46,37,99
+15,"JEB Stewart","Cavalry",80,80,500,30,20,46,22,99
+16,"BEAUREGUARD","G",80,80,200,37,17,46,0,0
+17,"","",80,80,0,0,0,0,0,0
+18,"","",0,0,0,0,0,0,0,0
+19,"","",0,0,0,0,0,0,0,0
+20,"","",0,0,0,0,0,0,0,0
+21,"","",0,0,0,0,0,0,0,0
+22,"","",0,0,0,0,0,0,0,0
+23,"","",0,0,0,0,0,0,0,0
+24,"","",0,0,0,0,0,0,0,0
+25,"","",0,0,0,0,0,0,0,0
+26,"","",0,0,0,0,0,0,0,0
+27,"","",0,0,0,0,0,0,0,0
+28,"","",0,0,0,0,0,0,0,0
+29,"","",0,0,0,0,0,0,0,0
+30,"","",0,0,0,0,0,0,0,0
+31,"","",0,0,0,0,0,0,0,0
+32,"","",0,0,0,0,0,0,0,0
+33,"","",0,0,0,0,0,0,0,0
+34,"","",0,0,0,0,0,0,0,0
+35,"","",0,0,0,0,0,0,0,0
+36,"","",0,0,0,0,0,0,0,0
+37,"","",0,0,0,0,0,0,0,0
+38,"","",0,0,0,0,0,0,0,0
+39,"","",0,0,0,0,0,0,0,0
+40,"","",0,0,0,0,0,0,0,0
+41,"Schenck","I",80,80,1000,51,3,46,0,0
+42,"Carlisle's Battery","A",80,80,300,52,4,46,0,0
+43,"Keyes","I",80,80,1000,34,2,46,0,0
+44,"Gen.Tyler","G",80,80,200,28,2,46,0,0
+45,"Sherman","I",80,80,1000,26,4,46,0,0
+46,"Ayer's Battery","N",80,80,300,31,3,46,0,0
+47,"Wilcox","I",80,80,1000,20,4,46,0,0
+48,"Arnold's Battery","A",80,80,300,17,5,43,0,0
+49,"Franklin","I",80,80,1000,14,4,46,0,0
+50,"Gen.Heintzelman","G",80,80,200,15,5,46,0,0
+51,"Howard","I",80,80,1000,4,2,46,0,0
+52,"Rickett's Battery","A",80,80,300,7,3,46,0,0
+53,"Burnside","I",80,64,475,18,2,42,0,0
+54,"A.Porter","I",80,80,355,7,5,94,0,0
+55,"Griffin's Battery","N",80,80,300,8,6,94,0,0
+56,"Marines","I",55,80,250,3,5,46,0,0
+57,"Sykes","I",80,80,375,12,6,46,0,0
+58,"McDOWELL","G",59,99,200,11,3,94,0,0
+59,"Union Cav.","Cavalry",80,80,500,7,1,46,0,0
+60,"","",0,0,0,0,0,0,0,0
+61,"","",0,0,0,0,0,0,0,0
+62,"","",0,0,0,0,0,0,0,0
+63,"","",0,0,0,0,0,0,0,0
+64,"","",0,0,0,0,0,0,0,0
+65,"","",0,0,0,0,0,0,0,0
+66,"","",0,0,0,0,0,0,0,0
+67,"","",0,0,0,0,0,0,0,0
+68,"","",0,0,0,0,0,0,0,0
+69,"","",0,0,0,0,0,0,0,0
+70,"","",0,0,0,0,0,0,0,0
+71,"","",0,0,0,0,0,0,0,0
+72,"","",0,0,0,0,0,0,0,0
+73,"","",0,0,0,0,0,0,0,0
+74,"","",0,0,0,0,0,0,0,0
+75,"","",0,0,0,0,0,0,0,0
+76,"","",0,0,0,0,0,0,0,0
+77,"","",0,0,0,0,0,0,0,0
+78,"","",0,0,0,0,0,0,0,0
+79,"","",0,0,0,0,0,0,0,0
+80,"","",0,0,0,0,0,0,0,0
+(Scenario courtesy of Grant Richards of Kingston, MA)
+    The first major battle of the war is set to occur near Bull Run
+Creek, at Manassas Junction, Virginia.
+
+    Beauregard has anticipated a Union move, and taken up positions
+near the creek while requesting more support from J.E. Johnston.
+Irvin McDowell, the Union commander, is convinced that the Stone
+Bridge was strongly defended. He intends for Tyler make a feint at
+the bridge, while the main force under Hunter and Hientzelman will
+surprise the Rebs by crossing at Sudley Ford to the north.
+
+    This flanking movement is detected by the Confederate Evans,
+however, who was reinforced by Bee and Bartow. As the battle
+progresses in an uncoordinated attack, the Confederates will be
+pushed back and the lines pushed near breaking. T.J. Jackson
+earned his "Stonewall" name by holding firm near the Henry House
+position (he is entrenched to simulate this in the game) despite
+the fierce attack. Confederate reinforcements will arrive at about
+4 P.M., when in real life the tide of battle shifted, and a
+Federal retreat began. When a wrecked wagon on Cub Run bridge
+blocked the Union withdrawal, the orderly retreat became a rout.
