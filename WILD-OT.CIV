@@ -1,0 +1,123 @@
+WILDERNESS - Orange Turnpike May 5,1864
+100,0,0,0,0,0
+"ษอออออออออออออออออออออออออออออออออออออออออออออออออออออหออออออออออออออออออออออออป"
+"บ * * * * * = * * * * + * * . + . * * * * * * * . . = บ                        บ"
+"บ* * * * = = * * * * + * * * * + . * * * * * * . . + þฬออออออออออออออออออออออออน"
+"บ * * * = * * * * * + * * * * * + . * * * * * * + + . บ                        บ"
+"บ* * = = * * * * * + * * * * * * + . * * * * * + . . .บ                        บ"
+"บ * = * * * * * + + * * * * * * * + + . * * . + . . . บ                        บ"
+"บ* * * * * * * * * * * * * * . = = = + + + þ + . . . ฐฬออออออออออออออออออออออออน"
+"บ * * * * * * + * * * * * . ^ = . ^ = = = + + ^ ^ ฐ ฐ บ                        บ"
+"บ* * * * * * + * * * * * * = = . * * * . = = + . ฐ ^ ^บ                        บ"
+"บ * * * * * + . * * * * * = . . * * * . . . = + ฐ þ ^ บ                        บ"
+"บ* * * * * + * . * * * = = . . . . . . . . . ^ + + + +ฬออออออออออออออออออออออออน"
+"บ * * * * + * . * . * * * * . . + + + + + + + + ^ þ . บ                        บ"
+"บ. * * + + * * . . . . . + + + + * * . . . ^ = + + + +บ                        บ"
+"บ . + + * . * . ้ + + + + . . * + * . . . þ ^ = = = = บ                        บ"
+"บ. + . * . . * + + * . * . * * * + . . . . . = . . . =บ                        บ"
+"บ + + + + + + + * . * * * * . * . + . = = = = . . . . บ                        บ"
+"บ+ . * . . * . . * * * * * . . . . + = . = ^ ^ . . . .บ                        บ"
+"บ . . . * . * . * . * * * * . = = + = ^ ^ = . . . . . บ                        บ"
+"บ* . * . = = = = * * * * = = = * + = . . ^ = . . . * *บ                        บ"
+"บ * * * = . . . = = = = = * * * + * = . . * = . . * * บ                        บ"
+"บ* * * = * * . . . * * * * . . + * * = . . . = * * * *บ                        บ"
+"ศอออออออออออออออออออออออออออออออออออออออออออออออออออออสออออออออออออออออออออออออผ"
+""
+""
+1,"Ewell","GENERAL",85,85,200,12,14,46,33,0
+2,"Early","General",80,80,50,2,16,43,33,0
+3,"Hays","Infantry",80,80,750,3,15,43,22,0
+4,"Pegram","Infantry",80,80,750,4,16,46,22,0
+5,"Gordon","Infantry",80,80,750,5,15,43,22,0
+6,"Johnson","General",80,80,82,7,13,43,0,0
+7,"Walker's Stnwall","Infantry",80,80,750,10,12,43,0,0
+8,"Stewart","Infantry",80,80,750,8,12,43,0,0
+9,"Jones","Infantry",80,80,750,9,13,42,0,0
+10,"Stafford","Infantry",80,80,750,9,11,42,0,0
+11,"Rodes","General",80,80,50,13,15,43,10,0
+12,"Daniel","Infantry",80,80,750,14,16,46,13,0
+13,"Ramseur","Infantry",80,80,750,2,14,46,44,99
+14,"Dole","Infantry",80,80,750,15,15,43,18,0
+15,"Battle","Infantry",80,80,750,14,14,42,20,0
+16,"RD Johnson","Infantry",80,80,750,13,13,42,22,0
+17,"1st NC","Cavalry",110,96,164,15,7,43,0,-1
+18,"Ewell's","Artillery-Rifle",80,80,300,9,15,43,0,0
+19,"","",0,0,0,0,0,0,0,0
+20,"","",0,0,0,0,0,0,0,0
+21,"","",0,0,0,0,0,0,0,0
+22,"","",0,0,0,0,0,0,0,0
+23,"","",0,0,0,0,0,0,0,0
+24,"","",0,0,0,0,0,0,0,0
+25,"","",0,0,0,0,0,0,0,0
+26,"","",0,0,0,0,0,0,0,0
+27,"","",0,0,0,0,0,0,0,0
+28,"","",0,0,0,0,0,0,0,0
+29,"","",0,0,0,0,0,0,0,0
+30,"","",0,0,0,0,0,0,0,0
+31,"","",0,0,0,0,0,0,0,0
+32,"","",0,0,0,0,0,0,0,0
+33,"","",0,0,0,0,0,0,0,0
+34,"","",0,0,0,0,0,0,0,0
+35,"","",0,0,0,0,0,0,0,0
+36,"","",0,0,0,0,0,0,0,0
+37,"","",0,0,0,0,0,0,0,0
+38,"","",0,0,0,0,0,0,0,0
+39,"","",0,0,0,0,0,0,0,0
+40,"","",0,0,0,0,0,0,0,0
+41,"Warren","GENERAL",96,80,102,26,20,42,16,99
+42,"Wadsworth","General",80,80,50,24,20,42,16,99
+43,"Cutler","Infantry",80,80,750,21,19,61,5,99
+44,"Rice","Infantry",80,80,750,22,20,42,15,99
+45,"Stone","Infantry",80,80,750,20,20,42,11,99
+46,"Robinson","General",80,80,50,43,13,254,22,0
+47,"Denison","Infantry",80,80,750,38,14,46,11,0
+48,"Baxter","Infantry",80,80,750,44,12,94,33,0
+49,"Griffin","General",82,80,50,25,13,43,0,0
+50,"Ayer","Infantry",80,80,720,22,12,46,0,0
+51,"Swetzer","Infantry",80,80,750,24,12,46,0,0
+52,"Bartlett","Infantry",80,80,750,23,13,43,0,0
+53,"Crawford","General",80,80,50,33,19,43,33,99
+54,"McChandless","Infantry",80,80,750,32,20,43,33,99
+55,"Fisher","Infantry",80,80,750,28,20,46,33,99
+56,"Sedgwick","GENERAL",80,80,200,31,1,43,0,0
+57,"Wright","General",80,80,50,17,5,43,0,0
+58,"Brown","Infantry",80,80,750,19,5,43,0,0
+59,"Upton","Infantry",80,80,750,20,4,43,0,0
+60,"Russell","Infantry",80,80,750,21,3,43,0,0
+61,"Shaler","Infantry",80,80,750,22,2,43,11,0
+62,"Neill","Infantry",80,80,750,23,1,43,22,99
+63,"Leonard","Infantry",80,80,750,41,13,46,34,0
+64,"U.S. Grant","General",85,85,82,44,10,46,44,0
+65,"Warren's","Artillery-Rifle",80,80,300,39,11,43,0,0
+66,"Meade","General",82,77,200,46,10,94,44,0
+67,"","",0,0,0,0,0,0,0,0
+68,"","",0,0,0,0,0,0,0,0
+69,"","",0,0,0,0,0,0,0,0
+70,"","",0,0,0,0,0,0,0,0
+71,"","",0,0,0,0,0,0,0,0
+72,"","",0,0,0,0,0,0,0,0
+73,"","",0,0,0,0,0,0,0,0
+74,"","",0,0,0,0,0,0,0,0
+75,"","",0,0,0,0,0,0,0,0
+76,"","",0,0,0,0,0,0,0,0
+77,"","",0,0,0,0,0,0,0,0
+78,"","",0,0,0,0,0,0,0,0
+79,"","",0,0,0,0,0,0,0,0
+80,"","",0,0,0,0,0,0,0,0
+(courtesy of Grant Richards)
+On May 5, 1864 the two great armies of the Civil War collided
+Grant, leaving Culpeper CH, crossed the Rappadan and entered the
+great forest called the Wilderness. Lee learning of Grant's move
+left Orange CH, with Ewell Corp on the Orange Turnpike and
+Longstreets Corp on the Plank Rd. Mead attacked Lee before
+Grant could reach the open ground beyond the Wilderness, but
+prevented Lee from attacking the Union rear. The battle was split
+between the engagements at the Orange Turnpike and the Plank Rd,
+and although the Union held the ground between (the Chewing Farm),
+Mead pulled Crawfords Division out, and Lee moved in. Grant then
+ordered Burnside's Corp in, but the Rebels were able to hold out.
+
+On the Orange Turnpike, Ewell's Corp fought despertly to hold out
+against superior Union numbers, and at the same time began to dig
+in. Can Mead attack before the Rebels have protected their lines?
+Can Ewell defend against Wadsworth, Crawford, Wright's divisions?

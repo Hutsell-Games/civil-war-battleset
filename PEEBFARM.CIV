@@ -1,0 +1,120 @@
+Peebles' Farm: September 30th, 1864 [PBLSFARM.CIV]
+100,0,0,0,0,0
+"ษอออออออออออออออออออออออออออออออออออออออออออออออออออออป"
+"บ * * * * * ^ ^ ^ ^ ^ * * ^ ^ ^ ^ ^ ^ + ^ ^ . ฐ ฐ + . บ"
+"บ^ ^ * ^ ^ ^ * * * * ^ ^ ^ * * * * . + . . . ฐ ฐ + . +บ"
+"บ * ^ ^ * * * = = = * * * * = = = = = [ ฐ ฐ ฐ = # ^ + บ"
+"บ= * * * = = = + + = = = = = # . þ þ þ þ + + # [ # + .บ"
+"บ = = = = + + + ^ + + + + + [ # ^ þ þ þ þ ^ ^ # = # # บ"
+"บ+ + + + + ^ ^ ^ ^ ^ ^ ^ ^ . = # ^ þ þ þ þ + ^ # = # +บ"
+"บ ^ ^ ^ ^ ^ * * * ^ ^ + + + [ # ^ ^ + ^ ^ ^ + # : # . บ"
+"บ* * * * * * * + + + + = = = : # # # # # # # # : : # .บ"
+"บ * * * * + + + * + = = * . . + : : + : : : : + : # . บ"
+"บ* * * * + * ^ * = ้ : : ^ + + * : + : : : : : + # . ^บ"
+"บ * * * + ^ ^ ^ * = + + ^ + * * : # # # # # # # # . ^ บ"
+"บ= = * + * * ^ ^ * = = + + * * : # + ^ ^ ^ ^ ^ ^ + ^ #บ"
+"บ * = [ = = * ^ ^ * * [ * ^ * : # + . . . . . . . + # บ"
+"บ^ + + * * = * * ^ + + = * ^ * : # + ^ ^ ^ ^ ^ ^ + # =บ"
+"บ + ^ ^ ^ * = = * + ^ * = * ^ * : # # # # # # # # # = บ"
+"บ= * * ^ ^ * * [ + * * = * ^ * * : + ^ : = = = = = [ .บ"
+"บ = = * * * * + = = * = * ^ * + + + . ^ * * * * * . + บ"
+"บ* * = = = = + * * = = * ^ + + * * + . ^ * * ^ * * . +บ"
+"บ ^ * * * * [ = = = * * + + * + * * + ^ * = * * = = = บ"
+"บ* ^ ^ ^ ^ + * * * [ + + * * * + + + . ^ * = * * * * =บ"
+"ศอออออออออออออออออออออออออออออออออออออออออออออออออออออผ"
+""
+"25/26/12/+"
+1,"Goode VA","wI",80,80,800,46,4,35,0,-1
+2,"McAfee NC","wI",80,80,1000,47,5,35,0,-1
+3,"Gracie AL","wI",80,80,900,48,6,35,0,-1
+4,"Wallace SC","wI",80,80,1000,47,7,35,0,-1
+5,"Bushrod Johnson","wG",80,80,50,42,4,43,0,0
+6,"Weiseger VA","I",80,80,1000,46,8,35,0,-1
+7,"King AL","I",80,80,1000,44,8,35,0,-1
+8,"Harris MS","I",80,80,800,42,8,35,0,-1
+9,"Finegan FL","I",80,80,1200,40,8,35,0,-1
+10,"Gibson GA","I",80,80,1000,38,8,35,0,-1
+11,"Fletcher Archer","wI",60,60,650,36,8,35,0,-1
+12,"McComb TN/VA","I",80,80,1400,34,8,35,0,0
+13,"MacRae NC","I",80,80,1000,32,8,35,0,0
+14,"McGowan SC","I",80,80,800,31,7,35,0,0
+15,"Lane NC","I",80,80,1000,32,6,35,0,0
+16,"Lucius Davis VA","C",80,80,300,20,8,43,0,0
+17,"Barringer NC","C",80,80,400,18,8,43,0,0
+18,"WHF Lee","G",80,80,50,19,7,94,0,0
+19,"John Dunovant SC","C",80,60,300,7,13,91,0,0
+20,"Pierce Young GA","C",80,80,550,13,19,91,0,0
+21,"Henry Farley","I",70,70,500,16,16,91,0,0
+22,"Butler","G",80,80,50,3,15,43,0,0
+23,"Joel Griffin","C",80,80,300,23,11,43,0,0
+24,"Henry Heth","G",80,80,50,38,6,254,0,0
+25,"William Mahone","G",80,80,50,40,6,254,0,0
+26,"Cadmus Wilcox","G",80,80,50,36,6,254,0,0
+27,"Hampton CAV Corps","G",80,80,100,11,9,43,0,0
+28,"AP Hill 3rd Corps","G",80,80,100,38,4,254,0,0
+29,"Chew's","H",80,80,90,9,11,43,0,0
+30,"Pegram's","wE",80,80,120,45,5,94,0,-1
+31,"McIntosh's","wE",80,80,150,46,6,94,0,-1
+32,"Richardson's","wE",80,80,90,43,7,94,0,-1
+33,"Poague's","wE",80,80,150,41,7,94,0,-1
+34,"George Pickett","G",80,80,50,38,2,43,50,99
+35,"Thomas VA","I",80,80,750,39,1,43,55,99
+36,"Terry VA","I",80,80,750,39,1,43,60,99
+37,"Steuart VA","I",80,80,750,39,1,43,65,99
+38,"Hunton VA","I",80,80,750,39,1,43,70,99
+39,"Corse VA","I",80,80,750,39,1,43,75,99
+40,"Walker's","A",80,80,200,33,7,94,0,0
+41,"Lynch II-1-1","wI",60,60,1300,49,3,35,0,-1
+42,"McGee II-1-2","wI",60,60,1200,50,4,35,0,-1
+43,"Glenny II-1-4","wI",60,60,1000,51,5,35,0,-1
+44,"Hancock II Corps","wG",60,60,100,54,6,43,0,0
+45,"Egan II-2-1","wI",60,60,1150,52,6,35,0,-1
+46,"Smyth II-2-3","wI",60,60,1200,51,7,35,0,-1
+47,"Murphy II-2-2","wI",80,80,800,52,8,35,0,-1
+48,"McAllister II-3-3","wI",60,60,1000,51,9,35,0,-1
+49,"DeTrobriand II-3-1","wI",60,60,1250,50,10,35,0,-1
+50,"Pierce II-3-2","wI",60,60,1050,49,11,35,0,-1
+51,"Russell IX-3-2","wI",70,70,700,47,11,35,0,0
+52,"Stearns IX-3-1","wI",70,70,600,45,11,35,0,-1
+53,"Myron Beaumont","C",80,80,300,30,18,43,0,0
+54,"Henry Davies","C",80,80,500,28,16,94,0,0
+55,"Charles Smith","C",80,80,300,36,16,43,0,0
+56,"Gregg CAV-2","G",80,80,50,33,17,43,0,0
+57,"John Robison","C",80,80,400,52,16,91,0,0
+58,"Ira Spaulding","wI",70,70,700,54,2,43,0,0
+59,"Marsena Patrick","wI",70,70,700,54,4,46,0,0
+60,"McCoy","I",70,70,400,41,13,46,0,0
+61,"Baxter V-3-2","I",80,80,1100,41,11,35,0,0
+62,"Bragg V-3-1","I",80,80,1000,43,11,35,0,0
+63,"Otis V-2-1","I",80,80,1200,34,12,35,0,0
+64,"Grimshaw V-2-3","I",80,80,800,35,11,35,0,0
+65,"Graham V-2-2","I",80,80,850,37,11,35,0,0
+66,"Hoffman V-3-3","I",80,80,800,39,11,35,0,0
+67,"Sickel V-1-1","I",80,80,500,33,13,35,0,0
+68,"Gregory V-1-2","I",80,80,700,34,14,35,0,0
+69,"Gwyn V-1-3","I",80,80,900,35,15,35,0,0
+70,"Coulter","I",70,70,700,37,15,35,0,0
+71,"Curtin IX-2-1","I",80,80,1100,39,15,35,0,0
+72,"Griffin IX-2-2","I",80,80,1150,41,15,35,0,0
+73,"Hartranft IX-1-2","I",80,80,900,43,15,35,0,0
+74,"McLaughlen IX-1-3","I",80,80,900,45,15,35,0,0
+75,"Harriman IX-1-1","I",80,80,1000,47,15,35,0,0
+76,"Hazard's","wE",80,80,450,53,5,35,0,-1
+77,"Warren V Corps","G",80,80,100,35,13,43,0,0
+78,"Wainwright's","A",80,80,350,39,13,46,0,0
+79,"Parke IX Corps","G",80,80,100,36,14,43,0,0
+80,"Meade POTOMAC","wG",80,80,200,53,3,43,0,0
+                 (scenario courtesy of Pat Wamsley)
+       The fifth Union offensive during the long Siege of Petersburg
+started on September 30th, 1864.  Meade only assigned part of his army to
+the striking force.  Hancock's demoralized II Corps served as a garrison,
+maintaining the siege lines.  Other units guarded the Federal forts near
+the Jerusalem Plank Road and the Weldon Railroad.   Meade's striking
+force included Warren's V Corps and Parke's IX Corps.  The Union
+commander hoped to reach the Boydton Plank Road, and then cut
+Petersburg's main supply line, the Southside Railroad.  However, Wade
+Hampton's cavalry had started a Rebel defense line east of the Boydton
+Plank Road, along the Squirrel Level Road.  A.P. Hill planned to sent
+infantry to man this line if a Union attack was imminent.
+[Actual USA losses ~2900.  CSA ~1700.]
+
