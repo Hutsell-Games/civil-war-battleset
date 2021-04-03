@@ -1,0 +1,13 @@
+echo off
+cls
+echo CivilWar 2.5 EGA
+color bright white on green
+bc/o/e civwar25 civwar25.obj nul.lst
+bc/o/e civwar2b civwar2b nul.lst
+bc/o civwar2c civwar2c nul.lst
+link @civwar25.lnk
+pause
+lzeshell cw
+del *.old
+del civwar25.obj
+del civwar2b.obj

@@ -1,0 +1,1570 @@
+                                i
+                CIVILWAR BATTLE SET Documentation
+                     EGA CIVILWAR BATTLE SET
+                  American Civil War Version 2.4
+                       1/2 Player War Game
+                   (c) 1993-1994  W. R. Hutsell
+
+                         C O N T E N T S
+ 
+         1      INTRODUCTION                                   1 
+         1.1   Description                                     1 
+         1.2   Hardware Requirements                           1 
+         1.3  Files                                            1 
+         2      MAIN MENU & GAME PARAMETERS                    2 
+         2.1  Main Menu                                        2 
+         2.2  2 Player Option                                  3 
+         2.3  Game Parameters                                  4 
+         2.4  Screen Blank Function                            7 
+         3      MAIN BATTLE SCREEN                             7 
+         3.1   Main Battle Screen                              7 
+         3.2   Battle Map                                      8 
+         3.3  'Terrain' Command                                8 
+         3.4   Armies Summary Data                             8 
+         3.5   Active Unit Data                                8 
+         3.6   Message Window                                  8 
+         4      UNIT TYPES & ATTRIBUTES                        9 
+         4.1   Unit Types                                      9 
+         4.2   Unit Attributes                                 10 
+         4.3   Generals                                        10 
+         4.4   Cancel Orders                                   10 
+         4.5   Inspire Units                                   11 
+         4.6   Group Move-to-Location Orders                   11 
+         5      VISIBILITY & MOVEMENT                          12 
+         5.1   Visibility                                      12 
+         5.2   Movement                                        12 
+         5.3  Controlling Diagonal Moves                       12 
+         5.4   Single Hex Movement                             13 
+         5.5   Move-to-Location Orders                         13 
+         5.6   Group Move-to-Location Orders                   14 
+         5.7   Charge                                          14 
+         5.8   Rest                                            15 
+         5.9   Wait                                            15 
+         5.10  Stacking                                        15 
+         5.11 'Join' Command to Check Stacking Options         16
+
+                                ii
+
+         6      COMBAT                                         16 
+         6.1   Normal Combat                                   16 
+         6.2   Artillery                                       16 
+         6.3   Line of Sight                                   17 
+         6.4  'View' Command to Check Line of Sight            18 
+         6.5   Limbering Artillery                             18 
+         6.6   Cannonade                                       19 
+         6.7   Cavalry Charge                                  19 
+         6.8   Resolving Combat                                19 
+         6.9   Combat Results                                  19 
+         6.10  Retreat                                         20 
+         6.11 Killed Leaders                                   21 
+         6.12 Eliminated Units                                 21 
+         6.13 Capturing Artillery                              21 
+         6.14 End of Game                                      21 
+         7      HOT KEY COMMANDS                               21 
+         7.1   Hot Keys                                        21 
+         8      OTHER COMMANDS - MENUS                         22 
+         8.1   Unit Command Menu                               22 
+         8.2  Move to Location                                 22 
+         8.3  Intelligence                                     23 
+         8.4  Rest                                             23 
+         8.5  Game Options                                     23 
+         8.6  (special options)                                23 
+         8.7  Game Options                                     23 
+         8.8  Order of Battle ('O')                            24 
+         8.9  Game Score ('G')                                 24 
+         8.10 Screen Redraw ('S')                              24 
+         8.11 Briefing                                         24 
+         9      NOTES                                          24 
+         9.1  Realism                                          24 
+         9.2  Time                                             24 
+         9.3  Distance & Other Factors                         25 
+         10      BIBLIOGRAPHY                                  25 
+
+
+                     CIVILWAR BATTLE SET 2.4
+     ===========================================================
+      1 INTRODUCTION
+     ===========================================================
+      1.1   Description
+     ==================
+     CIVILWAR BATTLE SET Version 2.4 is an EGA tactical level war game
+     based on battles from the American Civil War. It represents over
+     four years of research, programming, and play testing. It is an
+     evolution of the prize-winning ASCII game which has earned
+     accolades from wargamers around the world. The game is easy to
+     play, yet difficult to master, and provides an almost endless set
+     of variations and challenges.
+     
+     "Winning" the battles depends on relative casualties, number
+     of units eliminated, and controlling a key location on the
+     battlefield (the 'objective'). There are several types of
+     units and varying terrain situations, all of which affect
+     the battle outcome. With this game , you can create,
+     customize, and reconstruct Civil War battles. As much as
+     possible, the game allows you freedom to not only play the
+     scenarios, but also adjust the armies, and even modify most
+     of the important aspects of the game itself.
+     
+     If you are not a registered user, you should become one and
+     receive the latest version of the game, more scenarios,
+     along with technical support. For details on how to
+     register, see the file REGISTER.DOC.
+     
+     If that file is missing, you may contact me:
+                  W. R. Hutsell
+                  2021 Hutchinson Drive
+                  Kingsport, TN 37660  USA
+     
+      1.2   Hardware Requirements
+     ============================
+     This version requires EGA graphics or better (VGA or SVGA). It is
+     written in Microsoft Program Development Basic 7.1 and requires
+     DOS 2.1 or higher. The program is provided in complied form, and
+     all required files are included.
+     
+      1.3  Files
+     ===========
+     There are 2 main program files, 2 utility files, and several
+     supporting data files:
+     
+         CW22.EXE  - the main CIVILWAR EGA game program
+         CS22.EXE  - the CIVILSET EGA scenario editor
+
+				- 2  -
+ 
+         xxx.CIV   - EGA battle data files, each representing a
+                     battle scenario. Ones with a '$AVE' prefix
+                     are used to save games in progress
+      PREFER.CFG   - configuration file to save your customized
+                     game parameter preferences
+       UNION.LDR   - file of 15 Union leaders and ratings
+       REBEL.LDR   - file of 15 Rebel leaders and ratings
+     TERRAIN.EGA  |
+     STDICON.EGA  |
+     MISC.EGA     |
+     ALTICON.EGA  |- EGA icon files (MUST HAVE!)
+     REBEL.EGA    |
+     YTANK.EGA    |
+     
+        GENERALZ   - history file of games played and scores, by
+                     player name
+     
+        MAXSKORS   - high scores achieved for each scenario played
+     
+       NEWHI.SCR   - high scores for each scenario completed
+     
+      MONTHS.DAT  |
+      PNAMES1.DAT |
+      PNAMES2.DAT |- supplemental files for CS Editor
+      RNAMES.DAT  |
+      YNAMES.DAT  |
+     
+     ===========================================================
+      2 MAIN MENU & GAME PARAMETERS
+     ===========================================================
+      2.1  Main Menu
+     ===============
+     The main menu appears as shown below. Additional information
+     is provided in the following paragraphs.
+     
+          +======================+
+          |       MAIN MENU      |
+          +======================+
+          | Player : UNION       |
+          | Load File            |
+          | Save File            |
+          | Fight                |
+          | Parameters           |
+          | Directory C:\CIVIL21 |
+          | Scenario Editor      |
+          | Quit                 |
+          +======================+
+     Menu options are selected by moving the highlighted bar over
+     the desired choice (using up/down arrow keys) and pressing
+     the 'Enter' key.
+     
+     The choices are:
+     
+     a. Select player (shows the current side selected and allows
+        you to toggle between Union or Confederate side)
+     
+
+				- 3  -
+ 
+     b. Load File (load EGA 'xxx.CIV' scenario file on current
+        directory). A menu window will then appear listing the
+        scenario files available on the current directory.
+     
+     c. Save file (save in-progress battle) Most scenarios will
+        play quickly enough that you will not need this option.
+        You will need to use F10 to return to the MAIN MENU to
+        save a game once it has Provision for up to 5 saved games
+        (named $AVE1.CIV through $AVE5.CIV). The date and time of
+        the games is stamped when the file is saved to help in
+        identifying the files. NOTE: If you save over another
+        saved game, the older one will be overwritten.
+     
+     d. Fight (run a loaded battle file). Selecting this option
+        will display the main battle screen (described elsewhere).
+        Once the battle is begun, you may return to the main menu by
+        pressing the F10 key when it is your turn to move.
+     
+     e. Adjust various game parameters. This gives you access to
+        customize the game itself to meet your needs.
+     
+     f. Directory allows you to enter a new drive and directory.
+        Press "Enter" after you have typed the desired drive and
+        directory. When the main menu reappears, the new
+        directory information will be displayed. If there is an
+        error, the directory will not be changed.
+     
+     g. Option to go directly to the scenario editor, without
+        having to exit to DOS. Be sure to save your game if you
+        have one in progress.
+     
+     h. Quit option (allows you to exit the program).
+     
+        NOTE: All menus may be used by selecting desired option
+              with arrow keys (up/down, 'Home' for top, 'End' for
+              bottom) and pressing 'Enter'. A short cut is to
+              enter the first letter of the desired command.
+              'Escape' cancels the menu.
+     
+      2.2  2 Player Option
+     =====================
+     To choose this option, keep changing the SIDE option at the
+     top of the main menu until it indicates "BOTH SIDES". Then
+     load a scenario and begin to play as usual. When the first
+     side finishes, the screen is redrawn, and you will be
+     allowed to play the other side.
+     
+     This can be used for a 2 player game, with both players
+     sitting at the keyboard. It is probably even better suited
+     to allow one person to play both side to recreate an entire
+     battle. The way the simulation is designed results in a lot
+     of side changes, with some turns being very short. This
+     means that is 2 people are playing there will be a lot of
+     switching from one to the other. Also, when this option is
+     selected, the RECON condition is turned ON, which means that
+     movement is not hidden.
+
+				- 4  -
+
+     Each time the side changes, the number of total possible
+     moves for that side for that turn is shown. This number is
+     also displayed at the top right of the screen during the
+     turn. The number of actual units that can actually be moved
+     may be fewer, since some units may be "under orders" and
+     will move automatically.
+     
+     Occasionally, one side will have no units that can be moved
+     for a particular turn. In that case, the turn is advanced,
+     and control is passed back to the other side.
+     
+     As a convenience to the second person, some additional keys
+     can be used for important commands. The gray "*" key on the
+     numeric keypad can be used as the "escape" key, to facilitate
+     a second person sharing the keyboard, without having to reach
+     all the way across the keyboard to reach the "Esc".
+     
+     Likewise, the gray "+" key  on the numeric keypad can be used
+     as the "F" key to fire artillery.
+     
+      2.3  Game Parameters
+     =====================
+     CIVILWAR BATTLESET was designed for flexibility to suit your
+     personal preference. Most of the important game parameters
+     are available to you to customize as you wish. If you select
+     the game parameter option, a sub menu will appear (as shown
+     below) which allows you to select and adjust the parameters
+     desired. Unless you save them in PREFER.CFG, they are set
+     only for the duration of the game. Until they are adjusted,
+     they will remain at a "normal" setting as specified by the
+     current PREFER.CFG file.
+     
+          +=======================+
+          | Set Game Parameters   |
+          +=======================+
+          | Difficulty 3          |
+          | Adjust Start Position |
+          | Visibility 16         |
+          | Enemy Aggression 3    |
+          | Message Display 3     |
+          | SOUND                 |
+          | Scoring Factors       |
+          | Unit Reliability 3    |
+          | Computer vs. Computer |
+          | Stack Limit 500       |
+          | Limber: ON            |
+          | Line of Sight : ON    |
+          | Capture Artil: ON     |
+          | History : ON          |
+          | Artillery Fire Rate:3 |
+          | SAVE Settings         |
+          +=======================+
+     
+     a. DIFFICULTY : Difficulty level makes your opponent either
+        easier or harder to fight. If difficulty is low, the
+
+				- 5  -
+ 
+        enemy takes proportionately more losses, and is more
+        likely to retreat. If difficulty level is high, the enemy
+        takes fewer losses, and will tenaciously hold his ground.
+        Difficulty ranges from 1 (very easy) to 5 (very hard) and
+        is maintained in PREFER.CFG.
+     
+     b. ADJUST START POSITION : Adjusting the starting position
+        randomizes the initial position of units slightly to
+        provide variety in scenarios. Adjusting the start
+        position will randomly shift unit locations slightly
+        (both yours and the enemy's). This has no effect on the
+        scenario file; only the game currently being played is
+        affected. This is NOT maintained in the configuration
+        file.
+     
+     c. VISIBILITY : Visibility affects the range at which units
+        can see other units and fire on them with artillery. This
+        is normally set at 18 spaces (a hex is 2 spaces). (See
+        also Visibility and Movement).
+     
+     d. ENEMY AGGRESSION : The enemy is preset with an
+        'aggression level' from 1 (very timid) to 5 (recklessly
+        aggressive), which controls his likelihood of moving to
+        engage and attack, and the intensity of his attacks. This
+        can be adjusted to make the enemy either more or less
+        aggressive. A more aggressive enemy will shift to the
+        offensive and launch more and stronger attacks. A timid
+        enemy will seek cover, launch weaker attacks, and play a
+        more defensive-minded battle. Increased aggressiveness
+        does not necessarily make the enemy harder to defeat, nor
+        does more timidity mean he will be easier to defeat. Good
+        defensive terrain, coupled with a less aggressive
+        strategy, can be very effective.
+     
+     e. MESSAGE DISPLAY : Option to let you set how long messages
+        are displayed. Previously if the sound option was turned
+        off, some messages went by too fast for some users to
+        read. Now you can play without the noises and still see
+        what just happened. This can be set in 5 graduations from
+        very fast (1) to very slow (5). The default setting is 3.
+     
+      NOTE: Anytime a message is being displayed in the game and
+            you want to go on, simply hit a key. This works
+            regardless of how long message are set to be
+            displayed.
+     
+     f. SOUND : Option to let you toggle between SOUND and QUIET.
+        This is mainly for the purpose of saving in your
+        PREFER.CFG since the game has another toggle that is
+        easier to access when it is in progress. (See GAME
+        OPTIONS menu).
+     
+     g. SCORING FACTORS : You can adjust the some of the factors
+        used in scoring the game. These factors are:
+     
+        Number of enemy casualties caused...... 1 point
+
+				- 6  -
+ 
+        Number of enemy units eliminated....... x points
+        Number of turns Objective controlled... y points
+        Bonus: Objective held on last turn..... z points
+        Bonus: Annihilating All Enemy Units.. 250 points (fixed)
+     
+        Initially x is 5 points, y is 10 points, and z is 100
+        points. You should be careful not to vary these values
+        too much from the initial values. Very large scoring
+        factors may result in numbers too large to compute,
+        causing an overflow error.
+     
+     h. UNIT RELIABILITY : Leaders in the Civil War often acted
+        on local initiative rather than following the original
+        plan. This is simulated through unit reliability. A very
+        reliable unit will always follow your orders exactly. A
+        very unreliable unit will be difficult to control, and
+        will often charge in directions and engage in fights you
+        didn't intend. This tendency can be somewhat frustrating
+        (although realistic) and can be adjusted from (100%
+        reliable) to 5 (maverick). The default is 3, which
+        provides some of the challenge of controlling the units
+        without being reduced to the role of spectator.
+     
+        A option is provided a truly 'absolutely reliable'
+        setting. However, this override prevents issuing 'move to
+        location' orders when units are set on maximum
+        reliability. The override essentially clears ALL move
+        orders a unit might have prior to its turn.
+     
+     i. A computer vs. computer option has been provided to help
+        in evaluating playability/balance of scenarios you
+        design. You must first load a scenario, then select  the
+        "Computer vs. Computer" option. Sound is automatically
+        turned OFF and message delays are set at minimum level to
+        make this play as fast as possible. The RECON option is
+        turned ON to allow you to view all units in play. (Note
+        that units that have not yet arrived will NOT be shown
+        until their time of arrival). The elapsed time used (real
+        time) is displayed as the game progresses. Play should
+        proceed very rapidly.
+     
+        Although the computer plays both sides using the same
+        logic rules, it displays the score from the point of view
+        of the side you have chosen (in your preference file).
+     
+        To interrupt the computer vs. computer game in progress,
+        press AND HOLD F10 until the opening menu appears.
+        (Control-Break will not interrupt the game). However,
+        once the automatic computer vs. computer mode is begun,
+        you CANNOT toggle to the normal fight mode from the
+        opening menu. If you wish to play a game normally after
+        you have used this option, you should restart the
+        program.
+     
+     j. The STACK LIMIT can be adjusted in increments of 500
+        from a stack limit of 0 (no stacking permitted) to
+        2000. The default is 500.
+
+				- 7  -
+     k. Artillery LIMBER toggle : The default setting is ON,
+        which means that artillery must be limbered to move and
+        unlimbered to fire. (See unit information for
+        instructions on limbering/unlimbering artillery).
+     
+     l. Artillery LINE OF SIGHT toggle : The default setting is
+        ON, which means that artillery must have a clear line of
+        sight to target an enemy.  (See unit information for more
+        detail on how line of sight is determined).
+     
+     m. Artillery CAPTURE option toggle : The default setting is
+        ON, which means that some portion of eliminated artillery
+        units may be captured. (See COMBAT section below for a
+        more complete explanation).
+     
+     n. HISTORY toggle : The default setting is ON, which means
+        that game high scores will be reported and saved (file
+        MAXSKORS), as well as the cumulative performance of each
+        commander (file GENERALZ).
+     
+     o. ARTILLERY FIRE RATE : Artillery rate of fire can be
+        adjusted in the PARAMETERS menu from 1 (very slow) to 5
+        (very fast). This setting applies to all artillery pieces
+        in the battle. Default setting is 3 (moderate).
+     
+     o. SAVE SETTINGS : Option to create a new PREFER.CFG file.
+        The setting will be displayed on the title screen when
+        the game is started.
+     
+      2.4  Screen Blank Function
+     ===========================
+     A screen blank function has been added, activated by
+     "Ctrl-B". The game screen will be replaced by a blank screen
+     with a C:> prompt. To go back to the game type "Ctrl-B"
+     again.
+     
+     ===========================================================
+      3 MAIN BATTLE SCREEN
+     ===========================================================
+      3.1   Main Battle Screen
+     =========================
+     The battle screens is divided into 4 zones as shown:
+     
+     +==========================================================+
+     |                                          |               |
+     |                                          |  2 - Armies   |
+     |                                          |      Summary  |
+     |                                          |      Data     |
+     |                                          |               |
+     |              1- Battle Map               +===============+
+     |                                          | 3 - Active    |
+     |                                          |     Unit      |
+     |                                          |     Data      |
+     |                                          |               |
+     |                                          |               |
+     +==========================================================+
+                         4 - Message Window
+
+				- 8  -
+     
+      3.2   Battle Map
+     =================
+     The battle map is based on a hexagonal layout, 27 hexes wide
+     by 20 hexes high, with terrain features shown by EGA graphic
+     icons. More complete information is provided on-line via the
+     F1 help key.
+     
+       DESCRIPTION             MOVEMENT EFFECT
+     ----------------------- ---------------------
+       forest/wooded terrain    slow
+       road                     fast
+       bridge                   fast
+       plowed field             slow (same as woods)
+       clear or open terrain    normal
+       swamp/small stream       very slow
+       hill/elevation           slow
+       river/lake/water         prohibited
+       mountain                 very slow
+       fortification            normal
+       objective                normal
+       village/house            normal
+     
+      3.3  'Terrain' Command
+     =======================
+     A "T" (for Terrain) command has been added to show the
+     terrain without units. This temporarily toggles the unit
+     icons off, then replaces all visible units after you have
+     viewed the terrain.
+     
+      3.4   Armies Summary Data
+     ==========================
+     The number of turns remaining in the battle is shown in the
+     top section of this zone. A summary is given of the total
+     losses incurred by each army and the number of turns each
+     side has controlled the objective. The side you are playing
+     is indicated by a '' character. The side currently
+     controlling the objective is indicated by a '' character.
+     
+      3.5   Active Unit Data
+     =======================
+     A summary is given for the player-controlled unit that is
+     active, showing unit number, unit name, unit type, current
+     strength, terrain, leadership, and morale. In addition, the
+     time the unit will next be available for movement is shown.
+     If the unit is under 'orders', the message "ORDERS" will
+     appear next to the unit number. The message "DUG IN" appears
+     for entrenched units. The unit displayed is available for
+     moving, is attacking, is being attacked, or is being
+     'scanned' by the cursor.
+     
+      3.6   Message Window
+     =====================
+
+				- 9  -
+ 
+     The message window provides comments on battle maneuvers and
+     outcomes as they occur. It also shows when the enemy
+     (computer) is taking its turn. At the very beginning of the
+     game, the enemy will take a longer turn as he sets his
+     overall strategy. Afterwards, enemy turns will be quicker.
+     
+     ===========================================================
+      4 UNIT TYPES & ATTRIBUTES
+     ===========================================================
+      4.1   Unit Types
+     =================
+     There are 4 basic unit types, Infantry, Artillery, Cavalry,
+     and Generals. Artillery has 4 main subtypes: Rifled
+     Artillery, Napoleons (smoothbore), Horse Artillery, and
+     Emplaced Guns (stationary). In addition.  there are Boat
+     units (representing gunboats) which are a special form of
+     artillery. They are shown on the display by distinctive
+     "standard" military icons, in gray for Confederate units and
+     blue for Union units. (Press 'F1' to get a full display of
+     icons, terrain features and effects, and hot key commands).
+     
+                            Melee
+     Type       Movement    Combat     Special Abilities
+     -------    -------    --------    -------------------------
+     Infantry   average     average    may 'charge' on open
+                                       ground if morale is 60 or
+                                       greater
+     
+     Cavalry    fast        good       very good ATTACK on open
+                                       terrain; movement very
+                                       slow if not on roads or
+                                       open/clear terrain
+     
+     Artillery  slow        poor       may fire on units at a
+                                       distance; (rifled) more
+                                       accurate than smooth bores
+     
+     Napoleon   slow        poor       may fire on units at a
+     (smooth                           distance; less range and
+      bores)                           accuracy than rifled artillery,
+                                       but more effective at close
+                                       range targets due to use of
+                                       canister shot
+     
+     Horse      average     poor       may fire on units at a
+     Artillery                         distance; more mobile than
+                                       other artillery but causes less
+                                       damage
+     
+     Emplaced   NONE        poor       may fire on units at a
+     Guns                              distance; large caliber &
+                                       powerful guns; can not
+                                       move even if attacked
+     
+     General    average     poor       increased combat effect on
+                                       adjacent friendly units;
+
+				- 10  -
+ 
+                                       can cancel orders of other
+                                       units; can inspire units
+                                       into action
+     
+     Boat       average     (only      acts as artillery unit in
+                             vs.       water hexes; will sink if
+                             other     receives severe hit
+                             boats)
+     
+      4.2   Unit Attributes
+     ======================
+     Each unit has the following attributes:
+     
+       Attribute     Limits               Influences
+       ---------    -------              ------------
+       Unit number   1-80                Identifier only
+       Name          16 characters max   Identifier only
+       Unit Type     I,è,A,N,H,C,G,B     Combat, move, & other
+       Strength      depends on type     Combat
+       Leadership    10-110              Combat, move, & other
+       Morale        10-110              Combat, move, & other
+     
+     Units which have leadership lower than about 50-60 are
+     poorly led, and will have difficulty in movement and combat.
+     Likewise, units with morale less than about 50-60 will not
+     be very effective, and should be rested if possible. Units
+     with morale lower than 60 cannot use the 'charge' option.
+     
+     During the heat of battle, morale and leadership may briefly
+     go outside the ranges shown.
+     
+      4.3   Generals
+     ===============
+     A General unit greatly improves the fighting abilities of
+     adjacent units, both attack and defense. In addition, Generals
+     have a powerful ability to iNspire units into action. However,
+     you must be careful in actually engaging General unit itself,
+     since it is usually relatively weak (which reduces combat
+     effectiveness).
+     
+      4.4   Cancel Orders
+     ====================
+     Sometimes in the thick of battle you will have units engaged
+     in combat (and not moving) or with movement orders which you
+     need to redirect. To cancel existing orders for all friendly
+     units, type 'X' when a General unit has its turn. As
+     described earlier, this is not 100% effective (some units
+     will ignore it) and may cause morale and leadership to suffer
+     in units that do comply.
+     
+     Friendly units that are "under orders" are indicated on the
+     map as units WITHOUT a contrasting color border. For
+     instance, Union units normally have a light blue border, but
+     Union units currently under orders do not have the border.
+     
+     When a General cancels orders, units that obey will flash
+
+				- 11  -
+ 
+     briefly after the order is issued. Then a message indicates
+     how many units obeyed out of the total currently 'under
+     orders'. This allows you to see whether you need to issue
+     additional commands to cancel orders.
+     
+     The "cancel orders" option shows how many units FAILED to
+     obey orders and thus are still on local command. Using this
+     in conjunction with the intelligence option change allows
+     more control over units.
+     
+      4.5   Inspire Units
+     ====================
+     General units may issue an iNspire command to rally another
+     individual unit. The hot key for this command is 'N' (for
+     iNspire). Using this command, a General unit may activate
+     another unit nearby IF the target unit meets all these
+     conditions:
+     
+     (a) unit is close enough - maximum distance is .5 of the
+         visibility limit set for the game
+     (b) the sum of the General's leadership and morale factors
+         is greater than the sum of the target unit's leadership
+         and morale.
+     (c) unit's next move will occur within 10 turns
+     
+     The General unit does not move when iNspiring another unit.
+     The target unit has its time of next action set to the
+     current turn. The General unit has its time of next action
+     set to the time the target unit WOULD HAVE moved. The target
+     unit gains 5 morale points; the General unit loses 7 morale
+     points.
+     
+     If the target unit is too far to communicate, there is no
+     penalty.
+     
+     If the General unit has insufficient leadership and morale
+     to inspire the target unit, the General loses 7 morale
+     points AND 5 leadership points due to the loss of respect.
+     If the target unit's time of next action is more than 10
+     turns away, the General unit suffers the loss of 7 morale
+     points.
+     
+     The "iNspired" unit normally will activate and be ready to
+     move within the same turn. In effect, the General unit has
+     passed its movement turn to another unit (by exhorting and
+     inspiring them into action). This allows you to rally
+     worn-out troops for one last action (e.g., to seize the
+     objective).
+     
+      4.6   Group Move-to-Location Orders
+     ====================================
+     General units may order several nearby units to move to a
+     destination by issuing a group move-to-location order. The
+     hot key for this command is F6. More information on this
+     command is given in the visibility & movement section.
+     
+
+				- 12  -
+ 
+     ===========================================================
+      5 VISIBILITY & MOVEMENT
+     ===========================================================
+      5.1   Visibility
+     =================
+     All your friendly units are visible, but enemy units are not
+     always visible. Enemy units do not become visible until they
+     are within a certain visibility range from friendly units.
+     The visibility range is calculated from a base visibility
+     range (set in the battle data file), and adjusted based on
+     the terrain occupied by both the friendly unit and the enemy
+     unit. If your unit occupies a mountain or hill it has
+     increased ability to see enemy units; while occupying a
+     forest or swamp, it has decreased ability to see enemy
+     units. If the enemy is in a forest, he is much more
+     difficult to see, and your unit must be closer. Enemies that
+     move into forests may disappear from view. The base
+     visibility range may be altered (see Game Parameters
+     section).
+     
+      5.2   Movement
+     ===============
+     When one of your units is ready to move, it will be
+     highlighted and a short tone will sound. At that point, you
+     have several command options as described in the paragraphs
+     below. If the unit is entrenched, you will be prompted to
+     confirm that you want it to move. If you do not confirm the
+     move, the unit automatically is Rested.
+     
+      5.3  Controlling Diagonal Moves
+     ================================
+     Diagonal movement is supported in this game, using the numeric
+     key pad, with NUMLOCK turned OFF, as shown below:
+     
+                         +------+------+------+
+                         |  7   |  8   |  9   |
+      Move UP & LEFT ----->     |      |     <----- Move UP & RIGHT
+                         | Home |      | PgUp |
+                         +------+------+------+
+                         |  4   |  5   |  6   |
+         Move LEFT ------->     |      |     <----- Move RIGHT
+                         |      |      |      |
+                         +------+------+------+
+                         |  1   |  2   |  3   |
+      Move DOWN & LEFT --->     |      |     <----- Move DOWN & RIGHT
+                         | End  |      | PgDn |
+                         +------+------+------+
+     
+     Note that this scheme is required because the map is hex-based.
+     The game will respond to the Up or Down moves (either on the
+     numeric keypad, or the "inverted T" arrows), but since there are
+     no directly up or down moves on the map, it must convert them to
+     a diagonal move, which is done on a 50%-50% random basis, either
+     left or right.
+     
+     TO BE ABLE TO CONTROL THE EAST-WEST DIRECTION OF NORTH-SOUTH
+
+				- 13  -
+ 
+     MOVEMENT, YOU MUST USE THE NUMERIC KEYPAD.
+     
+      5.4   Single Hex Movement
+     ==========================
+     You may move the unit to an adjacent unoccupied hex by using
+     the appropriate arrow key (numeric key pad). Since the unit
+     may not move directly up or down on the hexagonal map, the
+     'up' or 'down' keys are reinterpreted as diagonal 'up' or
+     'down' moves. You cannot control whether these reinterpreted
+     diagonal moves are right or left (done randomly), so you
+     should generally avoid using the 'up' and 'down' keys for
+     single hex movement.
+     
+     If you attempt to move into a prohibited hex (occupied or
+     water), a tone will sound. There is no movement penalty.
+     
+     After the unit moves, it may reveal enemy units that were
+     previously hidden.
+     
+     Any units that were entrenched at the beginning of the
+     scenario (using the scenario editor) may be reluctant to
+     move from the safety of their trenches. Occasionally such
+     units will not respond to move orders (a message to that
+     effect is displayed). Units that are low on morale or that
+     are poorly led are more likely to do this.
+     
+      5.5   Move-to-Location Orders
+     ==============================
+     Single hex movement may be tedious. You may wish to give
+     your units orders to move to a particular location instead.
+     To do this, press 'M' when the unit is highlighted and a
+     cursor will appear on top of the unit. Move this cursor with
+     the arrow keys to the desired destination, and press
+     'Enter'. When the "move to" order is issued, the destination
+     is will be indicated by a small white circle and a line will
+     connect the unit with its intended target. On its next turn,
+     your unit will then begin to move to the selected
+     destination, following the most direct path. (It will not
+     necessarily follow the same path you used in moving the
+     cursor to the destination). If it is blocked by a friendly
+     unit or by prohibited terrain (water or edge of map screen),
+     or if the unit is attacked in any way, the movement order
+     will be cancelled, and the unit will wait for new
+     instructions.
+     
+     Artillery units must be LIMBERED (or the limber option must
+     be turned off) to respond to move-to-location orders. Orders
+     can be issued to unlimbered artillery, but the orders are
+     ignored, and the unit will not move. This applies to the
+     special group move-to-location orders issued by General
+     units as well. Emplaced artillery can not receive
+     move-to-location orders.
+     
+     For destinations that are far away, moving the cursor may be
+     speeded by holding down 'Shift' before pressing the desired
+     arrow key. The cursor will then move to the indicated map
+
+				- 14  -
+ 
+     edge. Pressing the '5' key at the center of the key pad will
+     center the cursor on the screen.
+     
+     Once a unit has reached its assigned destination, it will
+     flash and a tone will sound, along with a message that it
+     has arrived at its destination. At that point its orders are
+     cancelled, and it will await further instructions.
+     
+     While units are 'under orders' to move you will not normally
+     be able to access them, even if you change your mind about
+     what they should do. The only way you can overcome this is
+     having one of your General units cancel the unit orders
+     using the 'X' command. (See 'hot keys' section). This is not
+     100% effective (due to communication breakdowns and stubborn
+     subordinate officers). Even if the orders are actually
+     cancelled, morale and leadership may be reduced in units
+     affected due to the conflicts between unit commanders and
+     General unit. Thus, the 'cancel orders' option should be
+     used only as needed to free units that have become locked in
+     combat.
+     
+     Since the General units are your only means to cancel
+     orders, you should usually not give them movement orders.
+     That way, you will be able to access them more frequently.
+     
+     Though your units will normally wait for your commands, on
+     occasion they will decide to move on their own initiative
+     (generally in an attempt to engage an enemy unit which they
+     have sighted). Such units issue their own orders to move to
+     the chosen destination. You can choose to adjust the
+     tendency of your troops to do act on their own by setting
+     the 'Reliability' level in the 'Game Parameters' menu.
+     
+      5.6   Group Move-to-Location Orders
+     ====================================
+     A General unit ONLY may order a group of nearby units to
+     move to a destination. To activate this feature, press F6
+     when a General unit is highlighted and awaiting your
+     command. A cursor will appear as described in the
+     Move-to-Location option above. Move the cursor to the
+     target destination and press 'Enter'. The number of nearby
+     units that plan to obey the order is given in the screen
+     message. Units must be no further away than half the
+     visibility limit to receive the order. Likewise, in order to
+     obey the order, the unit must not be 'under orders'. Note
+     that the General unit himself does not go 'under orders',
+     only those OTHER UNITS that comply with his orders.
+     
+      5.7   Charge
+     =============
+     Infantry units ONLY may double their speed for short
+     distances on OPEN TERRAIN OR ROADS only with a 'C' (CHARGE)
+     command. Units in 'charge' mode will be shown with a
+     distinctive icon. While in 'charge' mode they will move
+     twice as fast as normal infantry.
+     
+
+				- 15  -
+ 
+     If charging units become involved in combat, or are attacked
+     by artillery, or move into any other than open or roads
+     terrain, they will switch out of 'charge' mode. In addition,
+     each time a unit in 'charge' mode is moved, there is a
+     chance that the unit will simply become too tired to
+     continue the charge. Units that are moved until they are too
+     tired will be delayed in their action for a time while they
+     rest.
+     
+     The 'charge' option affects both movement and combat
+     (increases 'shock' effect of attacks). Units with too low
+     morale will not be able to charge at all until their morale
+     improves.
+     
+     Note that switching to 'charge' mode requires one turn. Then
+     the unit may be moved a single hex or given orders.
+     
+      5.8   Rest
+     ===========
+     You may not wish to move a unit on its turn. By pressing the
+     space bar you can skip the unit and allow it to rest for a
+     few turns. If the unit's morale is low, it will improve
+     slightly after resting.
+     
+      5.9   Wait
+     ===========
+     To avoid having to repeatedly issue a 'Rest' order, an
+     option is provided whereby units may 'Wait'. Press 'W' when
+     the unit has its turn. The unit icon will change to a solid
+     colored block. The unit will become inactive, automatically
+     resting to regain morale. The unit will reactivate if
+     attacked (either melee or cannonade). Waiting units suffer
+     no penalty if attacked.
+     
+     In addition, you may activate the WAITing unit at any time
+     another friendly unit has a turn. Press 'I' for the
+     intelligence cursor and pass it over the inactive unit you
+     wish to wake. The icon will change to the normal icon. Now
+     press 'esc' and the first unit can take whatever action you
+     wish.
+     
+      5.10  Stacking
+     ===============
+     Normally, units cannot move onto other friendly units
+     (stack). However, units can now be stacked under certain
+     conditions:
+     
+        (a) TOTAL unit strength resulting from stacking must be
+            stack limit or less (stack limit default is 500)
+        (b) If dissimilar units are stacked, an INFANTRY unit
+            will result, unless one of the units is a
+            GENERAL, in which case a GENERAL will result
+     
+     The leadership value for the stacked unit will usually be the
+     higher of the two units that are being combined. An exception is
+     if one of the units is a General and the other is not; in that
+
+				- 16  -
+ 
+     case, the resulting leadership value is always that of the
+     General unit.
+     
+     Morale will generally INCREASE slightly if LIKE units are
+     stacked. It will generally DECREASE slightly if UNLIKE units are
+     stacked.
+     
+     Stacking results in a time delay for the unit to get reorganized.
+     The reorganization delay is reduced if leadership is high.
+     
+      5.11 'Join' Command to Check Stacking Options
+     ==============================================
+     The 'J' (for 'JOIN') option allows a unit to check for other
+     units it might combine with, given the current stack limit. All
+     units which the unit in question could join will be displayed (if
+     any), while all other friendly units will temporarily be blanked
+     out.
+     
+     ===========================================================
+      6 COMBAT
+     ===========================================================
+      6.1   Normal Combat
+     ====================
+     Units can attack enemy units in an adjacent hex. To do so,
+     attempt to move the selected unit on top of the enemy. A
+     menu will appear in the 'Armies Summary Data' zone of the
+     screen showing the attack options. Four different
+     intensities of attack are permitted:
+     
+              Option         Relative Intensity
+          --------------     ------------------
+          Light Skirmish             1
+          Medium Fight               2
+          Heavy Attack               3
+          All-Out Assault            8
+     
+     Note the 'All-Out Assault' is just that, and that it should
+     be used relatively sparingly, since it will result in heavy
+     casualties for BOTH sides. If you do not wish to attack at
+     all, you may cancel the attack by pressing the 'escape' key;
+     however, that will forfeit the unit's turn for the current
+     round (the price paid for indecision).
+     
+     Normally your units will wait for you to issue an attack
+     order. However, they may occasionally attack on their own
+     initiative. When this happens, you will receive a message in
+     the 'Message Window' zone, and the attack intensity menu
+     will appear for you to select the intensity, as described
+     above. Pressing 'Esc' will abort the attack for now, but the
+     unit will miss its turn.
+     
+     When units become engaged in combat, they are somewhat
+     'locked in place', and their ability to respond to orders is
+     reduced. They also are more likely to act on their own
+     initiative, to renew the combat without any orders to do so.
+     
+
+				- 17  -
+ 
+      6.2   Artillery
+     ================
+     Artillery ('A','B','E', 'H', or 'N') units may bombard
+     visible enemy units some distance away, rather than melee
+     adjacent units (which they do very poorly anyway). To fire
+     the cannons, press 'F' (for 'FIRE') when the artillery unit
+     is given its turn to move. (If LIMBER option is ON, you will
+     be prompted to unlimber first)
+     
+     When you fire artillery, a cursor will appear. Also, the
+     range of the cannon and the current distance to target is
+     displayed in the 'Message Window'. If the cursor is moved
+     out of range of the cannon, the distance will be highlighted
+     (to remind you it is out of range). You may move the cursor
+     using the key pad (as described earlier for unit movement)
+     to the selected target, then press 'Enter'. Both the firing
+     cannon battery and the defending unit are highlighted until
+     the results are displayed in the 'Message Window' and in the
+     'Armies Summary'.
+     
+     When firing artillery, the valid enemy targets only will be
+     visible during the firing phase. Valid targets must be in
+     range. Additionally,if the line of sight option is ON, they
+     must also be in line of sight. ALL visible enemy units will
+     reappear after firing.
+     
+     Range of the artillery depends on the same factors as
+     visibility (elevation and cover). Rifled artillery ('A' and
+     'E') is more effective at longer ranges than smoothbore
+     napoleons ('N'). Horse artillery ('H') is lighter and more
+     mobile than either and causes less damage.
+     
+     An 'EMPLACED GUN' unit type has been added to allow for
+     fixed, fortified gun positions. These are treated as very
+     heavy rifled artillery for the purpose of range and damage.
+     For a given artillery unit strength, EMPLACED GUNS will do
+     more damage than any other artillery type. They fire at a
+     slightly slower rate than other rifled cannons, however.
+     EMPLACED GUNS can not retreat or otherwise move. They can be
+     captured if the 'artillery capture' option is activated.
+     
+     Enemy artillery will concentrate more fire on units that
+     threaten the artillery unit (especially those immediately
+     adjacent). Damage from canister fire at close range is often
+     devastating. This makes artillery units tough to overrun, if
+     they have a chance to fire.
+     
+     There is a (low) probability of artillery exploding and
+     killing members of the firing battery.
+     
+      6.3   Line of Sight
+     ====================
+     The line of sight option restricts artillery units to fire
+     only at enemy units not blocked by obstructing terrain
+     features. Line of sight is considered by tracing an
+     approximate straight line path from the firing unit to the
+
+				- 18  -
+ 
+     enemy (while keeping to the map hexes). Line of sight is
+     traced until an obstruction is encountered. If there are no
+     obstructions, the line of sight is reported as clear.
+     Otherwise, the artillery unit cannot see the enemy and is
+     prohibited from firing at that target.
+     
+     Trees, villages, hills and mountains are considered
+     obstructions. Army units are NOT considered as obstructions.
+     
+     A firing unit on a hill may see over ONE obstructed hex with
+     a forest or village (but not any additional obstructed
+     hexes). A firing unit on a hill cannot see over a hill or
+     mountain.
+     
+     A firing unit on a mountain may see over TWO obstructed
+     forest or village hexes. A firing unit on a mountain can see
+     over ONE hill, but never over another mountain.
+     
+     The line of sight option can be toggled on or off as desired
+     in the game parameter menu. Because gunboats will generally
+     have a more unobstructed view, they have an increased line
+     of sight ability vs. land based artillery.
+     
+      6.4  'View' Command to Check Line of Sight
+     ===========================================
+     Any unit may check for visible enemy units within line of
+     sight from the location of the checking unit by typing 'V'
+     (for 'VIEW'). This helps you scout where to set up your
+     artillery. Visible terrain hexes are shown in reverse color,
+     as are visible friendly units. Enemy units visible to the
+     checking unit are shown in normal colors. Enemy units that
+     are not visible to the checking unit are not displayed until
+     you press a key.
+     
+      6.5   Limbering Artillery
+     ==========================
+     A 'limber' feature is provided to add realism by requiring
+     all land-based artillery units (Artillery-Rifled, Napoleon,
+     and Horse Artillery) to limber before being moved and to
+     unlimber before being fired. The 'L' hot key will toggle
+     land-based artillery units between limbered and unlimbered
+     states. A LIMBERED unit is represented on the map by an open
+     circle (think of it as a "wheel") and its unit description
+     has an 'L' in front of the name (e.g. LNapoleon). Unlimbered
+     units are represented by icons as in the regular game.
+     Changing between limbered/unlimbered requires 5 additional
+     turns. In addition, units with morale less than 60 require
+     an additional 5 turns to change.
+     
+     The feature is activated via a toggle in the 'Game
+     Parameters' and-based artillery units (Artillery-Rifled,
+     Napoleon, and Horse Artillery) to limber before being moved
+     and to unlimber before being fired. When the limber feature
+     is ON, you cannot move unlimbered artillery units nor fire
+     limbered units.
+     
+
+				- 19  -
+ 
+     Limbered artillery is extremely vulnerable to attack, either
+     melee or artillery fire. Limbered artillery is very
+     ineffective in melee attack.
+     
+     If limber option is set ON, all unlimbered artillery unit
+     types cannot retreat until they are limbered. This means
+     unlimbered artillery units simply have to take the punishment
+     while they are under attack.
+     
+      6.6   Cannonade
+     ================
+     Attacks by artillery (cannonades) are a special type of
+     combat. The outcome depends on the strength of the attacking
+     unit, the strength of the defending unit, the terrain, and
+     luck. Given the more uncertain nature of this form of
+     combat, the outcomes are more variable. However, in the long
+     run cannonades will cause considerable damage. Cannonades
+     against units immediately next to the artillery unit will
+     cause twice the normal damage, as the defenders receive
+     canister fire at pointblank range. Napoleon units are even
+     more effective in pointblank attacks due to their use of
+     canister (grapeshot).
+     
+      6.7   Cavalry Charge
+     =====================
+     When cavalry in a CLEAR or ROAD hex attacks an enemy also in
+     a CLEAR of ROAD hex, the cavalry may 'charge' (receive an
+     attack bonus). The charge option is automatically put into
+     effect and a special message will announce it. Note that
+     bridge hexes do not allow charges due to the constricted
+     space.
+     
+      6.8   Resolving Combat
+     =======================
+     In resolving the combat, the attacker goes first, then the
+     defender. While the attacker is attacking, the defender's
+     terrain is used in determining defender casualties. When the
+     defender returns fire, the attacker's terrain is used in
+     determining extent of attacker casualties.
+     
+     Attacking is risky business, since the attacker must expose
+     himself, while the defender can take advantage of whatever
+     cover is available. Thus, attackers will generally take
+     proportionally more casualties. The results will be
+     displayed as the battle progresses in the 'Armies Summary'
+     area and in the 'Message Window'. Morale of both armies
+     under fire will decrease.
+     
+      6.9   Combat Results
+     =====================
+     The primary factors affecting combat results are shown
+     below:
+
+				- 20  -
+      Factor               Relative Effect
+      -----                ---------------------
+      Intensity .......... Major
+      Unit Strength ...... Major
+      Unit Leadership .... Moderate (major if very low)
+      Unit Morale ........ Moderate (major if very low)
+      Terrain ............ Moderate (major for some
+      (see note)                     conditions, such as cavalry
+                                     in swamps)
+      Unit Type .......... Moderate (major if Artillery or
+                                     General units directly
+                                     involved in combat)
+      Adjacent Friendly .. Moderate
+      General
+      LUCK ............... Slight-Moderate
+      Adjacent Friendly
+      Unit ............... Slight
+     
+      NOTE: The terrain occupied by BOTH combatants is considered
+      in adjusting combat outcome. A unit is at a disadvantage in
+      swamps, but is at an advantage in forest or hill hexes. A
+      unit is at a considerable advantage on mountains or in fort
+      hexes. Cavalry and Artillery units (all types) are
+      particularly disadvantaged in swamps, and somewhat
+      disadvantaged in forests. Entrenchment (if any) is also
+      considered. Entrenched units gain a bonus in addition to any
+      terrain effect.
+     
+      6.10  Retreat
+     ==============
+     If a unit takes particularly heavy casualties, and
+     leadership and morale are sufficiently low, it will decide
+     to retreat. When this happens, the unit attempts to move to
+     one of the 3 hexes furthest from the attacker. The selected
+     hex must be an unoccupied hex. When a unit attempts to pull
+     back, a message will appear and the unit will appear in
+     purple. When an army retreats, its morale suffers, and it
+     takes a few additional casualties as wounded men are
+     captured.
+     
+     Since pulling back means exposure to enemy fire, units will
+     take additional casualties when they decide to retreat.
+     Units that are cut off and unable to retreat will take
+     particularly heavy additional losses in the confusion.
+     Botched retreats will also reduce effectiveness of unit
+     leadership.
+     
+     Sometimes the enemy unit will have to retreat as well, if it
+     has taken heavy losses. In some instances, one unit in
+     combat will have to retreat while the victor has not taken
+     much damage. The victorious unit may advance to pursue the
+     fleeing unit. Morale increases for the pursuing unit;
+     leadership may also improve, as the commander hones his
+     skills.
+     
+     The human attacker is given the option to pursue if
+     reliability setting is normal or better (instead of
+     automatically pursuing).
+
+				- 21  -
+     
+      6.11 Killed Leaders
+     ====================
+     Occasionally, the unit commander himself will be killed in
+     the combat. When this happens, a message to that effect will
+     appear in the 'Message Window'. The leadership ability of
+     the new leader will be displayed. It will usually (but not
+     always) be lower than the deceased commander.
+     
+      6.12 Eliminated Units
+     ======================
+     Occasionally units will be eliminated from the battle. This
+     is announced in the message window and an "death's head"
+     icon will appear in the hex the eliminated unit occupied.
+     When this happens, the opponent is awarded additional
+     victory points (as established in the scoring factors) for
+     eliminating the unit.
+     
+     If one side is completely annihilated by having ALL of its
+     units eliminated, the game will end. A bonus of 250 points
+     is awards to the victor in this case.
+     
+      6.13 Capturing Artillery
+     =========================
+     In the case of eliminated artillery, some portion of the
+     eliminated unit may be captured by the attacker. This will
+     occur if: (a) The "artillery capture" option is ON (b) There
+     is an unused unit number for the attacking side for the new
+     artillery unit that will be formed. (c) The attacker chooses
+     to pursue into the hex where the eliminated unit had been.
+     The option to capture occurs only when the artillery unit is
+     eliminated. Otherwise, the unit is permanently removed from
+     the remainder of the game.
+     
+      6.14 End of Game
+     =================
+     The game ends when time expires or one side is annihilated. The
+     side controlling the objective at the end gets a bonus as
+     explained earlier.
+     
+     When time expires, you are given an option to allow you continue
+     to play 10 more turns even though the scenario has ended. The
+     side controlling the objective gets the end-game bonus each time
+     this option is chosen, even though the game continues. Scenarios
+     may be extended indefinitely using this option.
+     
+     ===========================================================
+      7 HOT KEY COMMANDS
+     ===========================================================
+      7.1   Hot Keys
+     ===============
+     In addition to the movement and combat commands, there are
+     several commands available during the battle. Some of these
+     are accessed through the menus described later. Most can be
+     reached using 'hot keys' as described below.
+     
+
+				- 22  -
+ 
+         Command                    Use
+     -----------+----------------------------------------
+     (space bar)| Rest the unit - skip a turn
+         G      | Game score
+         O      | Order of battle summary
+         Q      | Toggle between SOUND and QUIET
+         R      | RECON Mode Toggle *
+         S      | Screen redraw
+     -----------+----------------------------------------
+         I      | Intelligence on visible units
+                | and Activate WAITed units
+         J      | Check for valid stacking options
+         M      | Move to destination - give move orders
+         T      | Terrain - temporarily remove all unit icons
+         V      | View line of sight (All Units)
+         W      | Wait (All Units)
+     -----------+----------------------------------------
+         N      | iNspire Unit (General units only)
+         X      | Cancel orders (General units only)
+         F6     | Group Move to Destination (General units only)
+     -----------+----------------------------------------
+         C      | Charge (Infantry units only)
+     -----------+----------------------------------------
+         F      | Fire (Artillery, Napoleon, Horse Artillery only)
+     -----------+----------------------------------------
+       (F1)     | On line Help
+       (F2)     | Unit Command Menu
+       (F3)     | Game Options Menu
+       (F10)    | Return to main menu from game level
+     -----------Å----------------------------------------                                    -
+     
+     * When RECON is activated, ALL enemy units currently in the
+       battle will become visible, even if they are out of
+       visibility range. Eliminated units and units that are
+       delayed and have not yet appeared in the battle will NOT be
+       revealed.
+     
+     ===========================================================
+      8 OTHER COMMANDS - MENUS
+     ===========================================================
+      8.1   Unit Command Menu
+     ========================
+     This menu is accessed by pressing the F2 key when one of
+     your units is waiting for orders (is highlighted).
+     
+               Menu           Hot key Equivalent
+     +==================+
+     | UNIT COMMAND     |
+     +==================+
+     | Move to location |         M
+     | Intelligence     |         I
+     | Rest             |      (space bar)
+     | Game Options     |        ---
+     | (special options)|      X,C,or F depending on unit type
+     +==================+
+     
+
+				- 23  -
+ 
+      8.2  Move to Location
+     ======================
+     This option is described in the Visibility and Movement section
+     above. Note that the group move to location option is not
+     available from the Unit Command menu.
+     
+      8.3  Intelligence
+     ==================
+     This option causes cursor to appear on your highlighted
+     unit. The cursor may be moved to get strength and terrain
+     information on any unit that is currently visible. Press
+     'esc' when done. Placing the cursor over a friendly unit
+     will display that unit's current status in the 'active unit
+     data' window.
+     
+     If the friendly unit under the cursor is WAITed, it will
+     activate on its next time of action. (Note that this may not
+     be immediately).
+     
+     Intelligence is useful to identify units that are weak or
+     are bogged down by terrain or combat and not likely to move
+     very soon. When doing an intelligence scan of friendly units
+     that are 'under orders' to go to a specific location, that
+     location is shown on the map and with a line connected to
+     the unit.
+     
+     Use of the Intelligence command does not cost a turn. This
+     gives the human player more information in selecting units
+     to attack.
+     
+      8.4  Rest
+     ==========
+     This option is described in elsewhere. The Wait option
+     allows units to repeatedly rest.
+     
+      8.5  Game Options
+     ==================
+     This is another way to the game menu option (see below).
+     
+      8.6  (special options)
+     =======================
+     This option will appear only if a General, Artillery, or
+     Infantry type unit is waiting for orders. It will give these
+     options:
+     
+                Cancel Orders   (General)
+                Fire            (Artillery)
+                Charge          (Infantry)
+     
+     Note that all of these may be directly accessed using the
+     appropriate 'hot key'. In addition, the 'W', 'N', and 'F6'
+     commands may ONLY be accessed by hot keys.
+     
+      8.7  Game Options
+     ==================
+     This menu is displayed by pressing the F3 key, or via the
+
+				- 24  -
+ 
+     unit command menu.
+     
+                Menu           Hot key Equivalent
+     +====================+
+     | GAME OPTIONS       |
+     +====================+
+     | Order of Battle    |          O
+     | Game Score         |          G
+     | Screen Redraw      |          S
+     | Briefing           |         ---
+     +====================+
+     
+      8.8  Order of Battle ('O')
+     ===========================
+     This option gives a detailed listing of all your units and
+     their status, as well as listings of known (visible) enemy
+     units. While the information for your own units is accurate,
+     it is only approximately correct for enemy units. Units in
+     trouble will be shown in red.
+     
+      8.9  Game Score ('G')
+     ======================
+     This option gives the current game score. The score depends
+     on the scoring factors and the current game status. Scoring
+     depends on relative casualties, number of units eliminated,
+     and number of turns of control of the objective. (A ''
+     character will appear in the 'Armies Summary Data' zone next
+     to the word 'Objective' for the army controlling the
+     objective). The objective is 'controlled' by moving a
+     friendly unit onto the 'é' character on the battle map. ONCE
+     OCCUPIED, THE OBJECTIVE REMAINS UNDER CONTROL UNTIL AN ENEMY
+     MOVES ONTO IT - you do not have to CONTINUE to occupy the
+     objective to get further credit for control.
+     
+      8.10 Screen Redraw ('S')
+     =========================
+     This option redraws the screen.
+     
+      8.11 Briefing
+     ==============
+     Information on the battle (background, objectives,
+     commanders, special problems, significance, etc.) will be
+     provided if it is available in the scenario.
+     
+     ===========================================================
+      9 NOTES
+     ===========================================================
+      9.1  Realism
+     =============
+     Liberties have been taken with time, distance, movement, and
+     unit attributes in the scenarios provided, in the interest
+     of simplicity and game playability. However, the historical
+     scenarios have been researched and play tested for
+     correspondence to actual results.
+
+				- 25  -
+      9.2  Time
+     ==========
+     You cannot give orders to every unit on every turn as the
+     game progresses. This is unlike some other war games, where
+     each unit can move each turn, but units move different
+     numbers of spaces.
+     
+     In this game, movement is always one space, but the
+     different unit movements take different amounts of time  due
+     to unit type, terrain, leadership and morale factors. In my
+     mind this more closely simulates the confusion of battles at
+     a tactical level, and still allows the game to be easily
+     played. Fast moving units will still move fast (they get
+     MORE TURNS!) but cannot dash 5 hexes to the objective on a
+     single turn while all other units are in suspended
+     animation.
+     
+     In the included scenarios, a time unit may be considered
+     about 3-5 minutes.
+     
+      9.3  Distance & Other Factors
+     ==============================
+     Hexes are about 150 yards each, making game map about 2
+     miles (high) by 5 miles (wide). An infantry unit can travel
+     at a normal pace 10 hexes (1 mile) in about 40 turns (1/2 -
+     1 hour). In 'Charge' mode an infantry unit can travel at
+     twice the normal pace (for short distances only).
+     
+     Civil war artillery pieces were quite varied, but a range of
+     about a mile (20 spaces or 10 hexes) is not unreasonable.
+     Most of the effective firing will done at targets that are
+     closer.
+     
+     Unit strengths are intended to be relative approximations
+     only. All these factors can be modified as desired, either
+     in the design of the scenario, or through the game
+     parameters.
+     
+     ===========================================================
+      10 BIBLIOGRAPHY
+     ===========================================================
+     
+     Angle, Paul M. A Pictorial History of the Civil War Years.
+                    ------------------------------------------
+           Garden City, New York: Doubleday, 1967.
+     
+     Churchill, Winston S. The American Civil War.
+                           -----------------------
+           New York:Fairfax Press, 1958.
+     
+     Clark, Champ. Gettysburg : The Confederate High Tide.
+                   --------------------------------------
+          Alexandria, VA: Time-Life Books, 1985.
+     
+     Davis, William C. Gettysburg, The Story Behind the Scenery.
+                       ----------------------------------------
+          Las Vegas, Nevada: K.C. Publications, 1983.
+
+				- 26  -
+ 
+     
+     Dunnigan, James F. How to Make War.
+                        ---------------
+          New York: Quill, 1983.
+     
+     Flato, Charles. The Golden Book of the Civil War.
+                     --------------------------------
+          New York: Western Publishing Company, 1961.
+     
+     Horn, Stanley F. The Battle of Stones River.
+                      ---------------------------
+          Harrisburg, PA: Historical Times, 1972.
+     
+     Jordan, Robert Paul. The Civil War
+                          -------------
+          Washington, D.C.: National Geographic Society, 1969.
+     
+     Kennedy, Frances H. ed., The Civil War Battlefield Guide
+                              -------------------------------
+          The Conservation Fund, Houghton Mifflin Co., Boston,
+          1990.
+     
+     Stevenson, Paul. Wargaming in History:The American Civil War
+                      -------------------------------------------
+          New York. Sterling Publishing, 1990.
+     
+     Sword, Wiley. The Battle of Shiloh
+                   --------------------
+          Harrisburg, PA: Historical Times (National Park
+          Service), 1978.

@@ -1,0 +1,609 @@
+                                i
+            CIVILSET v2.4 - EGA Scenario Setup/Editor
+                     for CIVILWAR BATTLE SET
+
+                         C O N T E N T S
+ 
+         1      I N T R O D U C T I O N                        1 
+         1.1   Introduction                                    1 
+         2      M A I N    M E N U                             1 
+         2.1   Main Menu                                       1 
+         2.2   Initial (Blank) Scenario                        2 
+         2.3   Load Scenario                                   2 
+         2.4   Save Scenario                                   2 
+         3      M A P   E D I T                                2 
+         3.1  MAP Edit                                         2 
+         3.2  'O' Objective                                    3 
+         3.3  'L' Alternate Objective                          3 
+         3.4  Removing Alternative Objective                   4 
+         4      A R M Y    E D I T                             4 
+         4.1  ARMY Edit                                        4 
+         4.2  Add New Unit (Using Hot Keys)                    4 
+         4.3  Add New Unit (Using Menu)                        5 
+         4.4  Edit Existing Unit (Hot Key)                     5 
+         4.5  Edit Existing Unit (Using Menu)                  6 
+         4.6  Delay Unit (Hot Key = D)                         7 
+         4.7  Entrench Unit (Hot Key = E)                      7 
+         4.8  Modify Unit Leadership (Hot Key = L)             8 
+         4.9  Modify Unit Morale (Hot Key = M)                 8 
+         4.10 Move Unit to New Position (Hot Key = P)          8 
+         4.11 Set Stack Flag (Hot Key = +)                     8 
+         4.12 Modify Unit Strength (Hot Key = S)               8 
+         4.13 Zap Unit (Hot Key = Z)                           8 
+         4.14 UNZap Unit (Hot Key = !)                         8 
+         4.15 Change Unit Type (Hot Key = T)                   9 
+         5      M I S C E L L A N E O U S                      9 
+         5.1  Description                                      9 
+         5.2  Briefing                                         9 
+         5.3  [convert old format]                             9 
+         5.4  Directory                                        10 
+         5.5  Random Scenario                                  10 
+         5.6  CIVILWAR 2.3 Game                                10 
+         5.7  Quit                                             10 
+
+            CIVILSET v2.4 - EGA Scenario Setup/Editor
+     ===========================================================
+      1              I N T R O D U C T I O N
+     ===========================================================
+      1.1   Introduction
+     ===================
+     This CIVILSET editor allows you to create, modify, and save
+     battle scenarios for the EGA version of CIVILWAR BATTLE SET.
+     A scenario is a combination of battle map (with terrain
+     features and battlefield objective),armies, and description.
+     Scenarios (xxx.CIV) files are saved as "flat" ASCII files
+     and with  practice you may choose to use a word processor or
+     text editor to directly modify the files.
+     
+     The scenario files allow up to 40 units per side. The game
+     program MUST have all files in the new format (version 1.4
+     or later). If you have any files developed in the old
+     format, you MUST convert them to the new format before using
+     them. (See below for how to do this).
+     
+     The editor requires the following files:
+     TERRAIN.EGA -¿
+     STDICON.EGA -Å Icon Files MUST be present
+     MISC.EGA    -Ù
+     UNION.LDR - 15 prominent Union leaders and ability ratings*
+     REBEL.LDR - 15 prominent Rebel leaders and ability ratings*
+     MONTHS.DAT -   dates for random scenarios
+     PNAMES1.DAT -  place names for random scenarios
+     PNAMES2.DAT -  more place names for random scenarios
+     RNAMES.DAT -   Rebel unit names for random scenarios
+     YNAMES.DAT -   Union unit names for random scenarios
+     
+     * The two *.LDR files are simple ASCII files and can be
+     modified with a text editor. The only requirement is that
+     the total number of leaders in each file MUST be 15 and that
+     the each individual entry is in the format:
+     
+     "leader name",ability #
+     
+     The leader name can be no more than 16 characters. The
+     leadership ability score must be in the range of 10-110.
+     
+     ===========================================================
+      2              M A I N    M E N U
+     ===========================================================
+     
+      2.1   Main Menu
+     ================
+     
+         +========================+
+         |         Options        |
+         +========================+
+         | Initial Scenario       |
+
+				- 2  -
+ 
+         | Load Scenario Load     |
+         | Save Scenario          |
+         | MAP Edit               |
+         | ARMY Edit              |
+         | Description            |
+         | Briefing               |
+         | [ convert old format ] |
+         | Directory C:\CIVIL17   |
+         | Random Scenario        |
+         | CIVILWAR 2.3 Game      |
+         | Quit                   |
+         +========================+
+     
+      2.2   Initial (Blank) Scenario
+     ===============================
+     This option zeros all army units and provides a blank game
+     map (all 'clear' hexes). Use it to create entirely new
+     scenarios.
+     
+      2.3   Load Scenario
+     ====================
+     This option provides you with a list of the xxx.CIV battle
+     scenario files that are on the current directory, to allow
+     you to select one to load. File selection is done via menu,
+     by moving the cursor up or down with the "arrow keys" on the
+     key pad, then pressing "Enter" to make a selection of the
+     hilighted item.
+     
+      2.4   Save Scenario
+     ====================
+     Before saving the file, you will be prompted to provide the
+     battle name and time limit if you have not already done so.
+     You will also be prompted for the file name (1-8 characters
+     identifying the file on the directory). If you use a name
+     already in use, the old file will be overwritten. YOU DO NOT
+     NEED TO PROVIDE THE ".CIV" EXTENDER. Messages will advise
+     you of the status of the file save.
+     
+     ===========================================================
+      3              M A P   E D I T
+     ===========================================================
+      3.1  MAP Edit
+     ==============
+     This option allows you to move the cursor across the battle
+     map to place the terrain features. Move the cursor (arrow
+     keys) to the desired position then type the letter of the
+     feature desired (upper or lower case).
+     
+              B = Bridge
+              C = Clear
+              F = Fort
+              H = Hill
+              M = Mountain
+              O = Objective (must have one)
+              P = Plowed Field
+              R = Road
+
+				- 3  -
+ 
+              S = Swamp
+              T = Trees
+              V = Village
+              W = Water (armies cannot move on water)
+     
+     You will see a raised "button" on the right hand side of the
+     screen. If you press 'D' (for 'Duplicate') while a given
+     feature is under the cursor, the button will be depressed,
+     meaning the selected feature will be duplicated wherever the
+     cursor is moved. Pressing 'D' again will toggle the
+     'Duplicate' feature off. This 'Duplicate' mode allows you to
+     quickly draw large repetitive map features.
+     
+     Placing a terrain feature over an army unit causes the army
+     to temporarily not be visible. Press 'A' to make armies
+     visible again. Use the F10 key to return to the initial menu
+     when you have finished editing your map.
+     
+     If you wish to temporarily remove the armies to view the
+     underlying terrain, then press "Z". Pressing "Z" again will
+     replace the armies.
+     
+      3.2  'O' Objective
+     ===================
+     The scenario will not work properly unless it has an
+     objective located on the map. You may also specify an
+     alternate objective (see below).
+     
+     After placing the objective you have the option of having
+     the game begin with the objective under control of one of
+     the sides instead of having it automatically being
+     uncontrolled. A menu will appear when you place the
+     objective, which allows you to specify who initially
+     controls the objective.
+     
+     Selecting "None" or pressing "Esc" will cause the objective
+     to be uncontrolled. Choosing a side will cause the objective
+     to INITIALLY be controlled by that side, whether or not
+     there is a unit on the objective. It is presumed to have
+     been seized prior to the scenario beginning.
+     
+      3.3  'L' Alternate Objective
+     =============================
+     It is now possible to establish a SINGLE alternate
+     objective, which becomes the battle objective after a
+     specified number of turns into the game. This is done using
+     the CIVILSET editor (the "L" command in the Map editor). The
+     alternate objective does not appear on the map until the
+     specified number of turns has elapsed, when the original
+     objective will disappear and be replaced by a specified
+     terrain feature.
+     
+     In the .CIV data file, this will appear on line 26 as a
+     series of characters separated by slashes. For instance:
+     
+     "10/25/17/["
+
+				- 4  -
+ 
+     
+     The number before the first slash is the number of turns
+     before the alternate objective becomes the active objective
+     (10 in the example above).
+     
+     The next number is the x-coordinate of the alternate
+     objective (25 in the example).
+     
+     The next number is the y-coordinate of the alternate
+     objective (17 in the example).
+     
+     The character after the last slash is the terrain character
+     ([ is the 'Bridge' terrain character in the example)
+     
+      3.4  Removing Alternative Objective
+     ====================================
+     An alternate objective can be removed only by using the
+     'L' command to bring up the alternate objective menu, then
+     selecting the Remove option.
+     
+     ===========================================================
+      4              A R M Y    E D I T
+     ===========================================================
+      4.1  ARMY Edit
+     ===============
+     In the army editor You may add new units, edit existing
+     units, or remove existing units. At any time, you may REDRAW
+     the screen by pressing F3.
+     
+     You will see at the right of the screen two buttons, a "U"
+     (for Union) and an "R" (for Rebel). One button will be
+     depressed, the other raised. The depressed button is for the
+     side currently being placed. Pressing the other button
+     toggles to the other side.
+     
+     You will also see a window with the letters of the available
+     'hot keys'. This will read 'I A E H N C G B' if the cursor
+     is not over an army unit. It will read 'D E L M P S T Z' if
+     the cursor is over an army unit. For instance, if the cursor
+     is not over an existing unit, pressing 'C' will place a
+     cavalry unit at the position of the cursor. The complete
+     list of editor 'hot keys' show below can be accessed by the
+     help menu (F1 key). Also, a status line is provided to show
+     unit information by passing the cursor over a unit.
+     
+      4.2  Add New Unit (Using Hot Keys)
+     ===================================
+     A unit placed will be for the side currently selected. If
+     you use a hot key, the unit type selected is immediately
+     placed at the cursor position.
+     
+        +===================================================+
+        | A      rifled ARTILLERY unit at cursor            |
+        | B      gun BOAT unit at cursor (must be water hex)|
+        | C      CAVALRY unit at cursor                     |
+        | E      EMPLACED GUN at cursor                     |
+
+				- 5  -
+ 
+        | G      GENERAL unit at cursor                     |
+        | H      HORSE artillery unit at cursor             |
+        | I      INFANTRY unit at cursor                    |
+        | N      NAPOLEON (smooth bore) artillery at cursor |
+        | R      toggle to place Rebel armies               |
+        | U      toggle to place Union armies               |
+        | F3     redraw the screen                          |
+        | F10    return to Main Menu                        |
+        +===================================================+
+     
+      4.3  Add New Unit (Using Menu)
+     ===============================
+     Alternatively, you may press' Enter' to pop up an menu that
+     will allow you to select the unit type to place at the
+     cursor position.
+     
+     You will be prompted to enter the name of the unit. If you
+     hit 'Enter' a menu will appear listing the names and
+     abilities of 15 prominent leaders for the side being placed.
+     If select one of these leaders, the name and associated
+     morale/leadership values is automatically assigned to the
+     unit. If you press 'Esc' you are returned to the option of
+     providing your own name. If you assign your own name, the
+     morale/leadership values will initially be set at default
+     values.
+     
+     After you enter the desired name, press 'Enter' and the unit
+     will be placed. If you wish to modify any of the unit
+     attributes, you must edit the unit as described below.
+     
+     Each side has a maximum of 40 units available for
+     positioning. There is no restriction on number of units of a
+     given type. The current number of units of each type and
+     total strength of all units is shown for each side as units
+     are placed or edited. Also, the ratio of total Union
+     strength to total Rebel strength is shown.
+     
+     The menu also provides a screen redraw feature.
+     
+      4.4  Edit Existing Unit (Hot Key)
+     ==================================
+     To edit a unit using the hot keys, place the cursor over the
+     unit and press the appropriate key:
+     
+         +======================================================+
+         |  D          DELAY unit                               |
+         |  L          modify unit's LEADERSHIP factor          |
+         |  M          modify unit's MORALE factor              |
+         |  P          move unit to a new POSITION              |
+         |  +          (in conjunction with moving to a new     |
+         |             position-- allows units to be stacked)   |
+         |  S          modify unit's STRENGTH                   |
+         |  T          change a unit's TYPE (I A E H N C G B)   |
+         |  Z          ZAP unit at cursor                       |
+         |  !          UNzap last unit zapped                   |
+         |  (return)   EDIT unit (bring up menu)                |
+         +======================================================+
+
+				- 6  -
+ 
+
+     
+     The effect of these keys is described in the sections below.
+     
+      4.5  Edit Existing Unit (Using Menu)
+     =====================================
+     To edit a unit, move the cursor to the unit and press
+     'Enter'. You will be given a menu with options to edit the
+     unit. When you elect to edit, a window will be displayed
+     with the unit characteristics:
+     
+        +================================================+
+        |  side and number   Rebels numbered  1-40       |
+        |                    Union numbered  41-80       |
+        +================================================+
+        |  strength          Defaults:                   |
+        |                    750 for infantry            |
+        |                    500 for cavalry             |
+        |                    300 for artillery, boats    |
+        |                             and Napoleons      |
+        |                    100 for horse artillery     |
+        |                    200 for general             |
+        +================================================+
+        |  morale            (default is 80)             |
+        +================================================+
+        |    leadership      (default is 80)             |
+        +================================================+
+        |    unit name       (default to menu choice)    |
+        +================================================+
+        |    time delay        If shown with an *,       |
+        |    before            the unit is NOT on field  |
+        |    first             until time delay          |
+        |    action            has elapsed.              |
+        |                      (default is 0)            |
+        +================================================+
+        |    entrenchment      Message if unit is        |
+        |                      entrenched                |
+        +================================================+
+     
+     To change an attribute, select the desired characteristic
+     from the menu. Strength, morale, and leadership are
+     increased or decreased by using the numeric keypad:
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+				- 7  -
+ 
+                             increases
+                             value by 10
+                                 |
+                        +-----+--|--+-----+
+         sets value  ----> 7  |  8  |  9 <----- increases
+         at MAXIMUM     |Home |     |PgUp |     value by 100
+                        |     |     |     |
+                        +-----+-----+-----+
+         decreases   ----> 4  |  5  |  6 <----- increases
+         value by 1     |     |     |     |     value by 1
+                        |     |     |     |
+                        +-----+-----+-----+
+         sets value  ----> 1  |  2  |  3 <----- decreases
+         at MINIMUM     |End  |     |PgDn |     value by 100
+                        |     |     |     |
+                        +-----+--|--+-----+
+                                 |
+                            decreases
+                            value by 10
+     
+     Unit name may be changed by typing in a new name at the
+     prompt. You cannot change the unit's side; if unit placed is
+     for wrong side, first delete it, then toggle to the other
+     side, and place the new unit.
+     
+     Pressing the 'escape' key will cancel the edit and close the
+     edit menu.
+     
+     
+      4.6  Delay Unit (Hot Key = D)
+     ==============================
+     When specifying a 'Delay' for units, you are given the
+     option to have the delayed unit either a) be off the screen
+     until the specified delay has elapsed (default option) or b)
+     be on screen but simply inactive. When examining a unit, a
+     '*'next to the 'Dly' value indicates the unit will be OFF
+     SCREEN until the delay elapses. Units that are OFF SCREEN
+     will be shown by a blank colored box instead of the normal
+     icon.
+     
+     For example:
+       *Dly : 5  means that the unit under the cursor will not
+                 appear until 5 turns have elapsed. After that
+                 time, the unit will arrive at the battle as soon
+                 as the location at the cursor is not occupied by
+                 another army.
+     
+        Dly : 15 means the unit under the cursor will be on the
+                 map but inactive until 15 turns elapse.
+     
+      4.7  Entrench Unit (Hot Key = E)
+     =================================
+     Units can be 'entrenched' using the editor.
+     Computer-controlled units that are entrenched at the
+     beginning of a scenario will hold their position during the
+     game. Human-controlled units that are entrenched at the
+
+				- 8  -
+ 
+     beginning of a scenario may refuse to leave entrenchments
+     (if leadership/morale is low). Even if units follow orders
+     to leave entrenchments, they require extra time to do so.
+     Once units are un-entrenched, they cannot be re-entrenched
+     in the game (though you COULD save the game and re-entrench
+     using the editor). While entrenched, units will fight at a
+     bonus (in addition to any terrain bonus) if attacked.
+     Entrenched artillery units will still fire, but are receive
+     the entrenchment defensive bonus.
+     
+      4.8  Modify Unit Leadership (Hot Key = L)
+     ==========================================
+     Use up/down arrow keys to change leadership in range of
+     10-110. Higher numbers reflect better leadership.
+     
+      4.9  Modify Unit Morale (Hot Key = M)
+     ======================================
+     Use up/down arrow keys to change morale in range of 10-110.
+     Higher numbers reflect better morale.
+     
+      4.10 Move Unit to New Position (Hot Key = P)
+     =============================================
+     Existing units can be repositioned by pressing 'P' when the
+     cursor is over the desired unit. The move the cursor to the
+     new location, and press 'Enter' to move the unit. This
+     feature is not available in the Edit menu.
+     
+      4.11 Set Stack Flag (Hot Key = +)
+     ==================================
+     Normally in placing or repositioning units, you cannot stack
+     them. However, there is a way to stack units while
+     repositioning them (using the "P" command). Press the "+"
+     key while the unit is being repositioned to set the Stack
+     Flag ON. Then move the unit to the position desired (even if
+     on top of another unit) and press Enter. Only one unit will
+     be displayed, although more than one unit can occupy the
+     same location. This is intended only for delayed units where
+     multiple units will come onto the screen at different times
+     from the same location. If used otherwise, it could possibly
+     lead to strange results during game play.
+     
+      4.12 Modify Unit Strength (Hot Key = S)
+     ========================================
+     Use up/down arrow keys to change the unit' strength. Maximum
+     strength for artillery units is 1000; for other units it is
+     3000.
+     
+      4.13 Zap Unit (Hot Key = Z)
+     ============================
+     Using the hot key 'Z' or selecting the 'ZAP UNIT' option
+     from the edit window will remove the unit. This is useful to
+     remove incorrect units.
+     
+      4.14 UNZap Unit (Hot Key = !)
+     ==============================
+     If you accidentally Zapped a unit and HAVE NOT YET PLACED A
+
+				- 9  -
+ 
+     NEW UNIT, an exclamation mark ('!') will appear in the
+     window of available options. Pressing '!' will restore the
+     unit Zapped at the cursor. (The unit recalled is the LAST
+     unit Zapped). If the exclamation mark does not show in the
+     window, you cannot recover the Zapped unit.
+     
+      4.15 Change Unit Type (Hot Key = T)
+     ====================================
+     When the cursor is over a unit, you may change the unit type
+     by first pressing 'T', then responding to the prompt to
+     enter the first letter of the unit type. All the other unit
+     attributes will remain the same, except that artillery type
+     units will be restricted to a maximum strength of 1000.
+     
+     ===========================================================
+      5              M I S C E L L A N E O U S
+     ===========================================================
+     
+      5.1  Description
+     =================
+     The scenario description includes the battle name text that
+     appears at the top of the game screen, and the time limit
+     (number of turns) for the scenario. NOTE: the battle name
+     text description is simply a title line, and NOT the file
+     name). DO NOT USE COMMAS. A suggestion is to use the battle
+     name and historical date.
+     
+     You must also select a time limit (number of turns) for the
+     scenario. This sets a limit on how long the scenario will
+     last.
+     
+      5.2  Briefing
+     ==============
+     The scenario briefing consists of up to 22 lines of text
+     which is available on-line when the game itself is played.
+     You will be prompted for then scenario briefing, which
+     should give a synopsis of the battle along with any
+     particular battle problems or peculiarities you might want
+     to call to attention. When you have finished, pressing the
+     'Esc' key will return you to the main menu.
+     
+      5.3  [convert old format]
+     ==========================
+     Use this option to read OLD FORMAT files created with early
+     versions of CIVILWAR BATTLE SET (prior to version 1.4). Then
+     SAVE file as described above. The following procedure is
+     suggested:
+     
+        a) Make a back up copy of your old scenario (just in
+           case...)
+        b) Load the old scenario using the 'convert old format'
+           option.
+           (Do NOT use the 'Load Scenario' option or an error
+           will result).
+        c) Save the scenario under the 'Save Scenario' option. It
+           can now be loaded using the 'Load Scenario' option.
+
+				- 10  -
+ 
+     
+      5.4  Directory
+     ===============
+     With this option you may change the directory or drive used
+     by the program for loading and saving files. Simply type the
+     new path over the old one that is displayed in the colored
+     box, then press "Enter". If the new directory is valid, it
+     will be displayed when the main menu returns. Otherwise an
+     error message is displayed, and the old directory is
+     retained.
+     
+      5.5  Random Scenario
+     =====================
+     This option allows you to quickly generate random scenarios.
+     In doing this, you will be asked for the battle size
+     (ranging from a minor skirmish involving only a few units to
+     very large 'epic' battle with the maximum number of units).
+     You can also control the balance of the battle, from a
+     strong Union advantage (++ Union) to a strong Rebel
+     advantage (++ Rebel). The program will automatically create
+     the map, place the armies and the objective. The battle will
+     also be given a fictitious place name and date. If you like
+     how the battle looks, return to the Main Menu to save it
+     (the default name will be 'RANDOM.CIV'. Of course, you may
+     edit the map or army to modify the random scenario to suit
+     your taste.
+     
+      5.6  CIVILWAR 2.3 Game
+     =======================
+     Switches to the CIVILWAR BATTLE SET game without exiting to
+     DOS.
+     
+      5.7  Quit
+     ==========
+     Allows you to exit the program. Be sure you have saved all your
+     work first.
+

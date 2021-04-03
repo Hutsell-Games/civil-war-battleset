@@ -1,0 +1,127 @@
+Gettysburg July 3, 1863
+200,0,0,0,0,0
+"ษอออออออออออออออออออออออออออออออออออออออออออออออออออออป"
+"บ . + + * = . ^ ^ . * . . . . . þ þ . . . . . . = * . บ"
+"บ+ + * = ^ ^ ^ ^ * . . . . . . + + . . . . ^ ^ ^ = . .บ"
+"บ . . * ^ ^ ^ ^ . . * . . . . + . + ^ ^ . ^ ^ ^ ^ = . บ"
+"บ. . . ^ ^ ^ ^ . . . . . . . + ^ . + + . . # ^ ^ ^ = .บ"
+"บ . . ^ ^ ^ ^ ^ ^ . . . . + + ^ ^ + . + . . # ^ ^ ^ = บ"
+"บ* . . ^ ^ ^ ^ . . . . . + ^ ^ ^ ^ + ^ + . . # ^ ^ ^ =บ"
+"บ * . . . . ^ ^ . þ . . + . ^ ^ ^ ^ + . + ^ . ^ ^ . = บ"
+"บ. . . . . ^ . . . . + + . . ^ ^ ^ þ ^ ^ + ^ . . . . =บ"
+"บ * . . . * ^ . . . + . ^ . ^ ^ ้ ^ + ^ ^ + ^ . . . = บ"
+"บ* . . * * . . . . + ^ . . . ^ ^ . . + ^ ^ + . . . . =บ"
+"บ . . . . * . . . + þ ^ . . ^ . . . + * * ^ + + = = = บ"
+"บ* * . ^ . . . . + ^ . . . . * . . . + * * = ^ + þ . =บ"
+"บ * * . ^ ^ . . + . . . . . * . . . + ^ ^ * ^ ^ + . . บ"
+"บ* * . ^ . . + + . . . . . . . . . ^ + . . . . . + + +บ"
+"บ * * * . . + . . . . . . . . . . . + + + + + + + . . บ"
+"บ* * . . þ + * * . . . . . . . . . . + ^ . . . + . . .บ"
+"บ * ^ * . + * * . . þ . . . * . . * * + ^ ^ . + . . . บ"
+"บ^ * . . + . . . . . = . . * . . * * * + . . . + . . .บ"
+"บ ^ * * + . . . * * . = . * . . . . . + * . . + . . . บ"
+"บ* * * + þ . . * * . . = . . * ^ . . . + . . . + . . .บ"
+"ศอออออออออออออออออออออออออออออออออออออออออออออออออออออผ"
+""
+""
+1,"Walker","I",80,80,750,47,3,94,0,0
+2,"Daniels","I",80,80,480,49,5,94,0,-1
+3,"Johnson","G",80,80,200,54,4,46,20,0
+4,"Battery 2","A",80,80,100,17,13,43,32,0
+5,"Armistead","I",80,80,750,12,10,46,32,830
+6,"Doles","I",80,80,750,25,1,46,90,-1
+7,"Gordon","I",80,89,750,37,1,46,104,99
+8,"Ramseur","I",80,80,480,22,2,46,90,-1
+9,"Iverson","I",80,80,246,23,1,46,90,-1
+10,"Perrin","I",80,80,600,21,3,42,90,-1
+11,"Thomas","I",80,80,197,20,4,46,90,-1
+12,"Kershaw","I",80,80,750,7,17,42,74,0
+13,"Wofford","I",80,80,600,9,15,46,74,0
+14,"Battery 1","A",80,80,140,11,17,43,31,0
+15,"Kemper","I",80,80,600,12,12,46,32,830
+16,"Battery 3","N",80,80,146,12,16,43,31,0
+17,"AP Hill","G",80,80,200,7,7,46,150,0
+18,"Longstreet","G",80,80,200,9,13,94,155,0
+19,"Fry","I",80,80,600,10,8,46,35,830
+20,"Wilcox","I",80,80,750,15,13,46,50,1030
+21,"Battery 8","N",80,80,62,18,12,43,22,0
+22,"Lang","I",80,80,307,16,12,46,50,1030
+23,"Garnett","I",80,80,600,13,11,46,32,830
+24,"Battery 7","N",80,80,98,53,1,46,0,0
+25,"Jones","I",80,80,750,50,4,94,0,0
+26,"Steuart","I",80,80,750,51,5,94,0,0
+27,"Pickett","G",80,80,200,10,12,46,0,0
+28,"Marshall","I",80,80,461,11,7,46,41,0
+29,"Davis","I",80,80,246,12,6,94,38,0
+30,"Mayo","I",80,80,480,13,5,94,38,0
+31,"Battery 4","N",80,80,140,15,5,94,20,0
+32,"Battery 5","N",80,80,120,14,6,94,22,0
+33,"Battery 6","N",80,80,192,13,7,94,22,0
+34,"Mahone","I",80,80,750,14,4,94,86,0
+35,"Seales","I",80,80,480,10,6,94,34,0
+36,"Lane","I",80,80,750,11,5,94,76,0
+37,"Posey","I",80,80,750,12,4,94,96,0
+38,"Smith","I",80,80,750,50,6,94,0,0
+39,"Williams","I",80,80,750,48,4,94,0,0
+40,"ONeil","I",80,80,384,53,3,46,0,0
+41,"Geary","G",80,80,200,42,6,46,0,-1
+42,"Green","I",80,80,750,45,5,94,0,-1
+43,"Colgrove","I",80,80,750,46,6,94,0,-1
+44,"Battery F","A",80,80,192,41,5,94,0,-1
+45,"MEADE","G",80,80,200,36,8,43,0,-1
+46,"Meridith","I",80,80,480,42,4,46,0,-1
+47,"Kryzanowski","I",80,80,384,36,4,43,22,0
+48,"Battery A","A",80,80,100,32,14,46,32,0
+49,"Battery E","A",80,80,132,37,5,46,0,0
+50,"Willard","I",80,80,750,33,7,94,22,0
+51,"Battery B","A",80,80,100,33,9,94,33,0
+52,"Battery D","A",80,80,100,32,8,94,32,0
+53,"Battery C","A",80,80,100,32,6,94,32,0
+54,"Webb","I",80,80,750,31,9,94,22,0
+55,"McChandless","I",80,80,750,22,20,46,41,0
+56,"Nevens","I",80,80,750,29,19,46,44,0
+57,"Sweitzer","I",80,80,750,34,20,46,44,0
+58,"Caldwell's","I",80,80,992,33,15,46,52,0
+59,"Battery G","N",80,80,160,33,13,46,32,0
+60,"Harrow","I",80,80,600,32,10,94,32,0
+61,"Birney's","I",80,80,1034,35,17,42,42,0
+62,"Stannard","I",64,80,750,36,12,46,42,0
+63,"Humphrey's","I",80,80,1034,36,18,42,52,0
+64,"Battery H","A",80,80,123,46,12,94,0,0
+65,"Hall","I",80,80,600,31,11,46,32,0
+66,"Carrol","I",80,80,750,33,5,94,32,0
+67,"Ames","I",80,80,350,38,4,43,0,-1
+68,"McDougall","I",80,80,750,47,7,94,0,-1
+69,"Cutler","I",80,80,384,43,5,46,0,-1
+70,"Kane","I",80,80,600,44,6,43,30,-1
+71,"Gibbon","G",80,80,200,34,10,233,32,0
+72,"Smyth","I",80,80,750,34,6,94,22,0
+73,"Battery I","A",80,80,98,39,7,46,0,0
+74,"Hays","G",80,80,200,36,6,94,32,0
+75,"Smith","I",80,80,750,34,4,46,22,0
+76,"Coster","I",80,80,750,33,3,46,20,0
+77,"Candy","I",80,80,750,44,4,94,0,-1
+78,"Ruger","G",80,80,200,45,7,46,0,-1
+79,"Hancock","G",110,80,200,37,9,43,30,0
+80,"","",0,0,0,0,0,0,0,0
+    (Scenario courtesy of Grant Richards of Kingston, MA)
+    A variation of the third day of Gettysburg, where the Confederate
+"high tide" is reached. The focus of the battle has now moved to the
+center of George Meade's line on Cemetery Ridge.
+
+    Robert E. Lee is frustrated by the lack of success on the previous
+two days, and now resorts to bludgeoning tactics at Meade's strongest
+point.
+
+    A mighty Confederate cannonade is directed at Cemetery Ridge where
+the Union artillery waits, keeping return fire at a minimum to save
+their ammunition for the Rebel charge. Much of the Rebel fire is too
+high to hit its mark. The Confederate units are bolstered by George
+Pickett's fresh division, who will enter immortality with their famous
+charge. In this case, valor could not overcome the determined Union
+soldiers and their tremendous artillery assets.
+
+    The Union player will do well to imitate Meade's example, taking
+advantage of a strong defensive position. To have any chance, the
+Confederates must close quickly, to avoid being mowed down in the open
+space. Very challenging for the Confederates.
