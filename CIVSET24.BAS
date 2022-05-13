@@ -30,13 +30,16 @@ DIM SHARED Explo(60), Death(60), Boat(60), Pfield(60), tldr(15)
 '                       CIVILSET    v2.4 - EGA VERSION
 '============================================================================
 OPEN "I", 1, "prefer.cfg"
-FOR k = 1 TO 5: INPUT #1, quiet: NEXT k
+	FOR k = 1 TO 5
+		INPUT #1, quiet
+	NEXT k
 CLOSE #1
 '...........................................................................
 timelimit = 100: RANDOMIZE TIMER
 CLS
 CALL title
-SCREEN 9: CALL iconload
+SCREEN 9
+CALL iconload
 GOTO menu8
 menu7:
 SCREEN 0
@@ -76,10 +79,7 @@ SELECT CASE choose
 	FOR k = 1 TO most: strength(k) = 0: NEXT k
 	scenario$ = "BASE SCENARIO"
 	flag = 1: TICK 1
-'============================================================================
-'                 Look for "*.civ" files and List Them
-'============================================================================
-	CASE 2
+	CASE 2 '                 Look for "*.civ" files and List Them
 	ON ERROR GOTO caterr
 	CALL menufile(file$)
 	ON ERROR GOTO 0
@@ -96,11 +96,11 @@ SELECT CASE choose
 		a$ = MID$(sdtext$(k), 55, 1)
 			t1$ = MID$(sdtext$(k), 56, 1)
 			IF t1$ = " " THEN
-				IF k < 22 THEN t1$ = "º"
+				IF k < 22 THEN t1$ = "ï¿½"
 			ELSE
-				IF t1$ = "Í" THEN t1$ = "Ì"
-				IF k = 1 THEN t1$ = "Ë"
-				IF k = 22 THEN t1$ = "Ê"
+				IF t1$ = "ï¿½" THEN t1$ = "ï¿½"
+				IF k = 1 THEN t1$ = "ï¿½"
+				IF k = 22 THEN t1$ = "ï¿½"
 			END IF
 			t2$ = MID$(sdtext$(k), 57, 1)
 			l = LEN(sdtext$(k)) - 56: IF l > 0 THEN sdtext$(k) = LEFT$(sdtext$(k), 54) + t1$ + t2$ + MID$(sdtext$(k), 57, l)
@@ -118,7 +118,7 @@ short:
 	END IF
 	COLOR 5, 3: PRINT "Û°";
 
-	FOR k = 1 TO most: a = k MOD 2: IF a = 1 THEN PRINT "°";
+	FOR k = 1 TO most: a = k MOD 2: IF a = 1 THEN PRINT "ï¿½";
 	INPUT #1, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
 	      IF strength(k) > 0 THEN
 		terrain(k) = ASC(MID$(sdtext$(unity(k) + 1), unitx(k)))
@@ -136,7 +136,7 @@ strip:
 		GOTO strip
 	END IF
 	t$ = LEFT$(t$, 1)
-	IF INSTR("ABCEGHIèNL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
+	IF INSTR("ABCEGHIï¿½NL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
 	unit$(k) = u$ + t$
 	      ELSE
 	      END IF
@@ -156,17 +156,14 @@ tidy1:
 	TICK 2
 	flag = 1: ON ERROR GOTO 0
 	GOTO menu7
-'============================================================================
-'                            Save File
-'============================================================================
-	CASE 3
+	CASE 3 '                            Save File
 	IF flag = 0 THEN GOSUB dork: GOTO menu7
 	IF scenario$ = "" THEN GOSUB battle
 	CLS
 	GOSUB fname: IF t$ = "" GOTO menu7
 	LOCATE 22, 1: COLOR 14, 0: PRINT "SAVING "; file$
 	OPEN "O", 1, file$
-	PRINT #1, scenario$: PRINT "±";
+	PRINT #1, scenario$: PRINT "ï¿½";
 	WRITE #1, timelimit, possess, vp&(1), vp&(2), killed(1), killed(2)
 
 	IF altobj$ <> "" THEN
@@ -174,11 +171,11 @@ tidy1:
 		sdtext$(24) = LTRIM$(RTRIM$(STR$(alt(1)))) + "/" + LTRIM$(RTRIM$(STR$(alt(2)))) + "/" + LTRIM$(RTRIM$(STR$(alt(3)))) + "/" + a$
 	END IF
 	FOR k = 1 TO 24
-	WRITE #1, sdtext$(k): IF k MOD 10 = 0 THEN PRINT "±";
+	WRITE #1, sdtext$(k): IF k MOD 10 = 0 THEN PRINT "ï¿½";
 	NEXT k
 	FOR k = 1 TO most
 	WRITE #1, k, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
-	IF INT(.5 * k) * 2 = k THEN PRINT "±";
+	IF INT(.5 * k) * 2 = k THEN PRINT "ï¿½";
 	NEXT k
 
 	FOR k = 1 TO 22
@@ -188,27 +185,18 @@ tidy1:
 	CLOSE #1
 	COLOR 15, 0: PRINT "Successful Update"
 	TICK 9: GOTO menu7
-'============================================================================
-'                            Map Edit
-'============================================================================
-	CASE 4
+	CASE 4 '                            Map Edit
 	SCREEN 9, , 0, 0
 	IF flag = 0 THEN GOSUB dork: GOTO menu7
 	CALL drawmap
 	CLS
 	flag = 1
-'============================================================================
-'                            Army Edit
-'============================================================================
-	CASE 5
+	CASE 5 '                            Army Edit
 	IF flag = 0 THEN GOSUB dork: GOTO menu7
 	CALL placearmy
 	CLS
 	flag = 2
-'============================================================================
-'                           Scenario Description
-'============================================================================
-	CASE 6
+	CASE 6 '                           Scenario Description
 	GOSUB battle: GOTO menu7
 battle:
 	CLS
@@ -232,10 +220,7 @@ newtime:
 	IF a$ <> "" THEN x = VAL(a$)
 	IF x > 0 THEN timelimit = x ELSE IF timelimit = 0 THEN CALL clrlin(23): COLOR 15: PRINT "Time Limit Must Be More Than ZERO"; : TICK 2: GOTO newtime
 	CLS : GOTO menu7
-'============================================================================
-'                            Briefing
-'============================================================================
-	CASE 7
+	CASE 7 '                            Briefing
 	COLOR 0, 3: CLS
 	LOCATE 1, 1: PRINT "Briefing for "; : COLOR 4, 3: PRINT scenario$
 	LOCATE 24, 30: PRINT "esc to QUIT";
@@ -245,10 +230,7 @@ newtime:
 	IF LEN(stex$(k)) > 0 THEN IF ASC(stex$(k)) = 27 THEN stex$(k) = "": GOTO menu7
 	NEXT k
 	GOTO menu7
-'============================================================================
-'                            Convert Old Format
-'============================================================================
-	CASE 8
+	CASE 8 '                            Convert Old Format
 	IF LEN(DIR$("*.civ")) = 0 GOTO menu7
 	COLOR 7, 0: CLS : LOCATE 2, 1
 	FILES "*.civ"
@@ -294,10 +276,7 @@ newtime:
 	ON ERROR GOTO 0
 	CALL clrlin(23): COLOR 3, 4: PRINT "OLD FORMAT FILE "; file$; " LOADED"
 	flag = 1
-'============================================================================
-'                            Change Directory
-'============================================================================
-	CASE 9
+	CASE 9 '                            Change Directory
 	COLOR 7, 0: CLS
 	t$ = CURDIR$
 	tlx = 30
@@ -325,10 +304,7 @@ aint1:
 oldd:
 	CALL TICK(9)
 	GOTO menu7
-'============================================================================
-'                            Random Scenario
-'============================================================================
-	CASE 10
+	CASE 10 '                            Random Scenario
 	CLS : PRINT
 	COLOR 4, 3: PRINT " Random Scenario Generator "
 	COLOR 11, 0
@@ -372,17 +348,11 @@ mapp:
 		CALL randarm(allarm, choose)
 		flag = 1: choose = 23
 		file$ = "random.civ"
-'============================================================================
-'                            Run Game
-'============================================================================
-	CASE 11
+	CASE 11 '                            Run Game
 		GOSUB yorn
 		IF choose <> 2 THEN GOTO menu7
 		RUN "CW.EXE"
-'============================================================================
-'                            Quit Editor
-'============================================================================
-	CASE 12
+	CASE 12 '                            Quit Editor
 		GOSUB yorn
 		IF choose <> 2 THEN GOTO menu7
 		CLS : END
@@ -606,7 +576,7 @@ strip2:
 SELECT CASE t$
 	CASE "I"
 	PRINT "Infantry";
-	CASE "è"
+	CASE "ï¿½"
 	PRINT "CHARGING Infantry";
 	CASE "C"
 	PRINT "Cavalry";
@@ -816,7 +786,7 @@ rep1:
 '                              Set Objective
 '============================================================================
 keyo:
-FOR k = 1 TO 24: flag = INSTR(sdtext$(k), "é"): IF flag > 0 GOTO movec
+FOR k = 1 TO 24: flag = INSTR(sdtext$(k), "ï¿½"): IF flag > 0 GOTO movec
 NEXT k
 mtx$(0) = "Objective Control"
 mtx$(1) = "None"
@@ -947,11 +917,11 @@ SUB help
 SCREEN 9, , 1, 1
 CLS
 COLOR 11
-LOCATE 3, 9: PRINT "CURSOR MOVES": PRINT "	ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ"
+LOCATE 3, 9: PRINT "CURSOR MOVES": PRINT "	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 PRINT "	<arrow keys>       = move cursor"
 PRINT "	<shft>+<arrow keys>= jump moves (corners, top, bottom, center)"
 COLOR 10
-PRINT : PRINT "	TERRAIN FEATURES": PRINT "	ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ"
+PRINT : PRINT "	TERRAIN FEATURES": PRINT "	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 PRINT "	B  = bridge"; TAB(40); "R  = road"
 PRINT "	C  = clearing"; TAB(40); "S  = swamp"
 PRINT "	F  = fort"; TAB(40); "T  = trees"
@@ -2090,10 +2060,10 @@ SUB SHOWUNIT (index)
 END SUB
 
 SUB startmap
-	sdtext$(1) = "É" + STRING$(53, "Í") + "»"
-	sdtext$(2) = "º . . . . . . . . . . . . . . . . . . . . . . . . . . º"
-	sdtext$(3) = "º. . . . . . . . . . . . . . . . . . . . . . . . . . .º"
-	sdtext$(22) = "È" + STRING$(53, "Í") + "¼"
+	sdtext$(1) = "ï¿½" + STRING$(53, "ï¿½") + "ï¿½"
+	sdtext$(2) = "ï¿½ . . . . . . . . . . . . . . . . . . . . . . . . . . ï¿½"
+	sdtext$(3) = "ï¿½. . . . . . . . . . . . . . . . . . . . . . . . . . .ï¿½"
+	sdtext$(22) = "ï¿½" + STRING$(53, "ï¿½") + "ï¿½"
 	sdtext$(23) = ""
 	sdtext$(24) = ""
 	FOR k = 4 TO 20 STEP 2
@@ -2235,19 +2205,19 @@ END SUB
 
 SUB title
 COLOR 0, 5: CLS
-COLOR 15, 5: LOCATE 8, 12: PRINT "Û"; : COLOR 7, 0: PRINT STRING$(55, "Û"); : PRINT "  "
-FOR k = 9 TO 15: COLOR 15, 5: LOCATE k, 12: PRINT "Û"; : COLOR 7, 0: PRINT "Û  ": LOCATE k, 67: PRINT "Û  ": NEXT k
-COLOR 15, 5: LOCATE 16, 12: PRINT "Û"; : COLOR 7, 0: PRINT STRING$(55, "Û"); : PRINT "  "
+COLOR 15, 5: LOCATE 8, 12: PRINT "ï¿½"; : COLOR 7, 0: PRINT STRING$(55, "ï¿½"); : PRINT "  "
+FOR k = 9 TO 15: COLOR 15, 5: LOCATE k, 12: PRINT "ï¿½"; : COLOR 7, 0: PRINT "ï¿½  ": LOCATE k, 67: PRINT "ï¿½  ": NEXT k
+COLOR 15, 5: LOCATE 16, 12: PRINT "ï¿½"; : COLOR 7, 0: PRINT STRING$(55, "ï¿½"); : PRINT "  "
 
 COLOR 5, 0
 LOCATE 9, 15: PRINT STRING$(52, "  ")
 LOCATE 17, 13: PRINT STRING$(57, "  ")
 COLOR 15, 5
-LOCATE 7, 12: PRINT STRING$(56, "Ü")
-LOCATE 15, 16: PRINT STRING$(51, "Ü")
-FOR k = 10 TO 15: LOCATE k, 66: PRINT "Û": NEXT k
+LOCATE 7, 12: PRINT STRING$(56, "ï¿½")
+LOCATE 15, 16: PRINT STRING$(51, "ï¿½")
+FOR k = 10 TO 15: LOCATE k, 66: PRINT "ï¿½": NEXT k
 
-COLOR 15, 1: LOCATE 11, 27: PRINT "þ  the AMERICAN CIVIL WAR  þ": PRINT
+COLOR 15, 1: LOCATE 11, 27: PRINT "ï¿½  the AMERICAN CIVIL WAR  ï¿½": PRINT
 COLOR 15, 4: LOCATE 13, 30
 PRINT " Editor MODULE  v2.4"
 LOCATE 22, 60: PRINT "(c) 1995 W.R Hutsell";
