@@ -87,9 +87,9 @@ SELECT CASE choose
 	nplayer = nplayer + 2: IF nplayer > 2 THEN nplayer = 0: side = 1
 	END IF
 	GOTO menu7
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                 Look for "*.civ" files and List Them               บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                 Look for "*.civ" files and List Them               ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 2
 regfile:
 	IF fold$ <> "" THEN file$ = fold$
@@ -133,10 +133,10 @@ camp:
 			altobj$ = MID$(altobj$, x + 1)
 		NEXT k
 	END IF
-	LOCATE 25, 23: COLOR 4: PRINT "ฒฐ"; : dx = 25
+	LOCATE 25, 23: COLOR 4: PRINT "๏ฟฝ๏ฟฝ"; : dx = 25
 	flag = 4
 		dx = POS(0)
-	FOR k = 1 TO most: IF k MOD 2 = 1 THEN COLOR 9 + 5 * (k < m2): LOCATE 25, dx: PRINT "ฐ"; : dx = dx + 1
+	FOR k = 1 TO most: IF k MOD 2 = 1 THEN COLOR 9 + 5 * (k < m2): LOCATE 25, dx: PRINT "๏ฟฝ"; : dx = dx + 1
 IF pbm < 1 THEN
 		INPUT #1, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
 ELSE
@@ -168,7 +168,7 @@ strip:
 		GOTO strip
 	END IF
 	t$ = LEFT$(t$, 1)
-	IF INSTR("ABCEGHI่NL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
+	IF INSTR("ABCEGHI๏ฟฝNL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
 	unit$(k) = u$ + t$
 	IF strength(k) > 0 THEN terrain(k) = ASC(MID$(sdtext$(unity(k) + 1), unitx(k)))
 NEXT k
@@ -223,9 +223,9 @@ getmax:
 	closest = 32767
 	IF pbm <> 0 THEN pbm = 1
 	IF campane > 0 GOTO cont1
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                               Save File                            บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                               Save File                            ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 3
 	IF flag < 1 THEN BEEP: CLS : CALL clrbot: COLOR 4: PRINT "NO FILE TO SAVE": TICK 2: GOTO menu7
 	CLS
@@ -279,15 +279,15 @@ ritefile:
 	x = INSTR(file$, "."): IF x > 0 THEN a$ = MID$(file$, x - 1, 1)
 	choose = 21 + VAL(a$)
 	RETURN
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                             Run Scenario                           บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                             Run Scenario                           ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 4
 	IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
 	GOTO cont1
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                              Campaign Map                          บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                              Campaign Map                          ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 5
 	IF campane > 0 GOTO menu7
 pane:
@@ -306,12 +306,12 @@ fant1:
 	ON ERROR GOTO 0
 	file$ = "$ave1.civ"
 	GOTO camp
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                         PBM Game                                   บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                         PBM Game                                   ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 6
 	size = 1: mtx$(1) = "Begin NEW PBM Game"
-	IF LEN(DIR$("*.pbm")) > 0 THEN size = 2: mtx$(2) = "Continue PBM Game"
+	IF _FILEEXISTS("*.pbm") THEN size = 2: mtx$(2) = "Continue PBM Game"
 	CALL menu
 	SELECT CASE choose
 		CASE 1
@@ -326,17 +326,17 @@ fant1:
 			GOTO camp
 	END SELECT
 	GOTO menu7
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                         Configure Game Parameters                  บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                         Configure Game Parameters                  ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 7
 	IF pbm <> 0 GOTO menu7
 	CALL customize(x): IF x = 1 THEN GOSUB savecfg
 	IF automatic > 0 GOTO cont1
 	GOTO menu7
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                            Change Directory                        บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                            Change Directory                        ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 8
 	COLOR 7, 0: CLS
 	t$ = CURDIR$
@@ -365,14 +365,14 @@ aint1:
 oldd:
 	CALL TICK(9)
 	GOTO menu6
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                             Run Editor                             บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                             Run Editor                             ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 9
 	RUN "cs.exe"
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                             Quit                                   บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                             Quit                                   ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 	CASE 10
 	COLOR 11, 0: CLS
 	IF campane > 0 AND file$ <> "" THEN
@@ -395,9 +395,9 @@ oldd:
 	GOTO menu6
 END SELECT
 GOTO menu7
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ  ******************    BEGIN MAIN GAME LOOP    ******************  บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ  ******************    BEGIN MAIN GAME LOOP    ******************  ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 cont1:
 ON ERROR GOTO 0
 CALL mainmap
@@ -444,12 +444,12 @@ nother:
 	IF pbm <> 0 THEN IF timex - pbm > 8 GOTO endpbm
 
 IF LEN(file$) > 1 GOTO nother
-IF file$ = "๔" THEN
+IF file$ = "๏ฟฝ" THEN
     file$ = ""
     IF campane > 0 THEN file$ = fold$
     GOTO menu7
 END IF
-IF file$ = "๕" THEN
+IF file$ = "๏ฟฝ" THEN
 	IF pbm <> 0 GOTO endpbm
 	file$ = ""
 	IF automatic = 0 THEN flag = 0 ELSE automatic = 0: mdly! = mdsp + 1
@@ -509,9 +509,9 @@ IF file$ = "๕" THEN
 	GOTO menu7
 END IF
 GOTO nother
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ  ฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑ    END   MAIN GAME LOOP    ฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑ  บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ  ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ    END   MAIN GAME LOOP    ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ  ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 '                             GET FILE NAME
 '============================================================================
 fname:
@@ -537,9 +537,9 @@ fname:
 	file$ = UCASE$(t$)
 	IF INSTR(file$, ".") = 0 THEN file$ = file$ + ".civ"
 RETURN
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                    Load Configuration File                         บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                    Load Configuration File                         ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 lodecfg:
 	intense! = 1
 	RESTORE
@@ -567,9 +567,9 @@ scfg1:
 	GOSUB savecfg
 	ON ERROR GOTO 0
 	GOTO pref
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                    Write New Configuration File                    บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                    Write New Configuration File                    ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 savecfg:
 	OPEN "O", 1, "Prefer.cfg"
 	COLOR 14: LOCATE 23, 1: PRINT "Saving configuration .";
@@ -622,16 +622,16 @@ noicon:
 	LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
 	IF ERR = 53 THEN PRINT "BAD OR MISSING ICON FILES"
 	END
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                       Set Up 5 Save Game Files                     บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                       Set Up 5 Save Game Files                     ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 saveg:
-	IF LEN(DIR$("$ave1.civ")) > 0 THEN RETURN
+	IF _FILEEXISTS("$ave1.civ") THEN RETURN
 	LOCATE 22, 1: PRINT "Creating Save Game files...";
 	FOR k = 1 TO 5
 	a$ = LTRIM$(RTRIM$(STR$(k)))
 	a$ = "$ave" + a$ + ".civ"
-	IF LEN(DIR$(a$)) = 0 THEN OPEN "O", 1, a$: PRINT #1, "UNUSED": PRINT #1, "0": CLOSE #1
+	IF _FILEEXISTS(a$) = 0 THEN OPEN "O", 1, a$: PRINT #1, "UNUSED": PRINT #1, "0": CLOSE #1
 	NEXT k
 	RETURN
 nomax:
@@ -729,7 +729,7 @@ aimless:
 	IF RND > .9 THEN flag = flag + 3
 	IF d < 3.5 + plus THEN flag = flag * 2 + 10 * RND + 1: IF u$ = "N" THEN flag = flag + 5
 	t$ = LEFTY$(defend)
-	IF t$ = "่" THEN unit$(defend) = "I": flag = flag + 2
+	IF t$ = "๏ฟฝ" THEN unit$(defend) = "I": flag = flag + 2
 	flag = (flag + 5 * RND) * intense!
 	IF t$ = "L" THEN flag = flag + 2
 	IF t$ = "w" THEN unit$(defend) = RIGHT$(unit$(defend), LEN(unit$(defend)) - 1): CALL SHOWUNIT(defend)
@@ -840,7 +840,7 @@ LINE (1, 321)-(639, 336), 3, BF
 COLOR 11: LOCATE 24, 35: PRINT " press any key ";
 COLOR 15: LOCATE 1, 1
 PRINT "ICON  Unit Type"
-a$ = "I่CGANHBLEw": unitx(0) = 1: strength(0) = 1
+a$ = "I๏ฟฝCGANHBLEw": unitx(0) = 1: strength(0) = 1
 FOR k = 1 TO 11
 unity(0) = k: Visible(0) = 1
 unit$(0) = MID$(a$, k, 1): CALL SHOWUNIT(0)
@@ -904,10 +904,10 @@ LOCATE 5, 57: PRINT "2 	   0"  '.
 LOCATE 6, 57: PRINT "6 	  -5%" '=
 LOCATE 7, 57: PRINT "1 	   0"  '[
 LOCATE 8, 57: PRINT "4 	  +6%" '^
-LOCATE 9, 57: PRINT "X 	   X"  'ฐ
-LOCATE 10, 57: PRINT "2 	   0" '้
-LOCATE 11, 57: PRINT "6 	  +9%"'๏
-LOCATE 12, 57: PRINT "2 	  +3%" 'þ
+LOCATE 9, 57: PRINT "X 	   X"  '๏ฟฝ
+LOCATE 10, 57: PRINT "2 	   0" '๏ฟฝ
+LOCATE 11, 57: PRINT "6 	  +9%"'๏ฟฝ
+LOCATE 12, 57: PRINT "2 	  +3%" '๏ฟฝ
 LOCATE 13, 57: PRINT "3 	  +3%" ':
 COLOR 4: LOCATE 4, 70: PRINT "*": LOCATE 5, 70: PRINT "*"
 LOCATE 14, 45: PRINT "* Defend is -15% vs. Attack Cav"
@@ -1021,7 +1021,7 @@ SCREEN 9, 0, 1, 0
 '                         Side Identifier Icons
 '----------------------------------------------------------------------------
 sideicon = 0
-IF LEN(DIR$("yank.ega")) = 0 GOTO noside
+IF _FILEEXISTS("yank.ega") = 0 GOTO noside
 DEF SEG = VARSEG(Image(1))
 BLOAD "yank.ega", VARPTR(Image(1))
 DEF SEG
@@ -1111,7 +1111,7 @@ FOR k = 2 TO 21
 	FOR j = s TO 54 STEP 2
 	CALL Tara(j, k, 0)
 	NEXT j
-x = INSTR(sdtext$(k), "้"): IF x > 0 THEN objx = x: objy = k - 1: count = count + 1
+x = INSTR(sdtext$(k), "๏ฟฝ"): IF x > 0 THEN objx = x: objy = k - 1: count = count + 1
 NEXT k
 	CALL scrcol(0)
 	IF count = 1 GOTO dork2
@@ -1239,7 +1239,7 @@ IF roll! < .01 THEN roll! = .01                            'Minimum
 '============================================================================
 flag = 0
 IF (terrain(defend) = 43) OR (terrain(defend) = 46) AND LEFTY$(attack) = "C" THEN roll! = roll! + .15: bonus = bonus + .1 * leader(attack): flag = 1
-IF LEFTY$(attack) = "่" THEN roll! = roll! + .02: bonus = bonus + .05 * leader(attack)
+IF LEFTY$(attack) = "๏ฟฝ" THEN roll! = roll! + .02: bonus = bonus + .05 * leader(attack)
 
 index = 2: IF attack > m1 THEN index = 1
 
@@ -1360,7 +1360,7 @@ coffin:
 
 	IF morale(defend) > 80 THEN pct# = pct# + .02
 	IF flag = 1 THEN pct# = pct# - .05                      'cavalry charge
-	IF LEFTY$(attack) = "่" THEN pct# = pct# - .02
+	IF LEFTY$(attack) = "๏ฟฝ" THEN pct# = pct# - .02
 
 	IF uorder(defend) < 0 THEN pct# = pct# + .02
 	IF prd! >= .07 THEN uorder(defend) = 0
@@ -1369,7 +1369,7 @@ coffin:
 
 	IF rflag = 0 AND pra! < pct# - .01 AND INSTR("ANHL", u$) = 0 THEN CALL pursue(attack, x2, y2, 0)
 seeme:
-	IF LEFTY$(attack) = "่" THEN unit$(attack) = "I"
+	IF LEFTY$(attack) = "๏ฟฝ" THEN unit$(attack) = "I"
 	CALL SHOWUNIT(attack): CALL SHOWUNIT(defend)
 END SUB
 
@@ -1400,7 +1400,7 @@ SUB order
 			objy = alt(3)
 			terrain(Enemy) = ASC(altobj$)
 			altobj$ = ""
-			sdtext$(objy + 1) = LEFT$(sdtext$(objy + 1), objx - 1) + "้" + MID$(sdtext$(objy + 1), objx + 1)
+			sdtext$(objy + 1) = LEFT$(sdtext$(objy + 1), objx - 1) + "๏ฟฝ" + MID$(sdtext$(objy + 1), objx + 1)
 			possess = 0
 			CALL whois(objx, objy, Enemy, 0)
 			IF Enemy > 0 AND uorder(Enemy) <> 99 THEN
@@ -1438,14 +1438,14 @@ endgame:
 		ELSE
 			CALL expire
 		END IF
-		file$ = "๕"
+		file$ = "๏ฟฝ"
 		CLS
 		EXIT SUB
 	END IF
 playon:
 	CALL scrcol(2)
 
-	IF automatic = 1 THEN CALL minsec: IF PEEK(1052) > 30 THEN file$ = "๔": automatic = 0: EXIT SUB
+	IF automatic = 1 THEN CALL minsec: IF PEEK(1052) > 30 THEN file$ = "๏ฟฝ": automatic = 0: EXIT SUB
 	IF nplayer = 2 THEN
 		queue(1) = 0: queue(2) = 0
 		FOR k = 1 TO Bigg(2)
@@ -1519,13 +1519,13 @@ SELECT CASE z
 	CASE 67
 	  IF uorder(active) < 0 GOTO wait2
 	  IF LEFTY$(active) = "I" AND morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN
-		unit$(active) = "่"
+		unit$(active) = "๏ฟฝ"
 		toa(active) = timex + 1
 		CALL noise(1900, 1, "drums3")
 		GOTO asleep
 	  END IF
 	CASE 68
-		IF a = 2 AND pbm = 0 THEN CLS : file$ = "๔": EXIT SUB
+		IF a = 2 AND pbm = 0 THEN CLS : file$ = "๏ฟฝ": EXIT SUB
 	CASE 70
 	IF INSTR("AENHBL", t$) > 0 THEN dx = 1: GOTO fodder
 	CASE 71: IF a = 2 GOTO moven
@@ -1666,7 +1666,7 @@ IF strength(active) < 1 THEN RETURN
 queue(0) = queue(0) + 1
 '............................................................................
 a$ = LEFTY$(active)
-IF a$ = "I" THEN IF morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN unit$(active) = "่": CALL SHOWUNIT(active): toa(active) = timex + 1: RETURN
+IF a$ = "I" THEN IF morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN unit$(active) = "๏ฟฝ": CALL SHOWUNIT(active): toa(active) = timex + 1: RETURN
 '............................................................................
 IF INSTR("AEHNBL", a$) THEN
 	CALL Near2(active, Enemy, d)
@@ -1694,7 +1694,7 @@ IF INSTR("AEHNBL", a$) THEN
 	IF Enemy > 0 AND a$ = "L" THEN
 		x1 = .6 * seelimit: IF x1 < 6 THEN x1 = 6
 		u$ = LEFTY$(Enemy)
-		IF u$ = "C" OR u$ = "่" THEN x1 = seelimit
+		IF u$ = "C" OR u$ = "๏ฟฝ" THEN x1 = seelimit
 		IF INSTR("AEHNL", u$) > 0 THEN CALL limbo(active, 0): RETURN
 		CALL proximity(active, 0, 0, bonus)
 		IF bonus > 4 THEN x1 = .9 * seelimit
@@ -1791,9 +1791,9 @@ toa(active) = timex + 5
 CALL clrbot: COLOR 14: PRINT name$(active); "'s men will leave their entrenchments on turn "; timelimit - toa(active);
 TICK mdly!
 RETURN
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                             Late Arrivals                          บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                             Late Arrivals                          ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 canplace:
 	CALL whois(unitx(active), unity(active), id, active)
 	IF id > 0 THEN RETURN
@@ -1892,7 +1892,7 @@ SELECT CASE choose
 	CALL rest(active): GOTO asleep
 	CASE 4
 	IF t$ = "G" THEN GOSUB cancel: GOTO asleep
-	IF t$ = "I" AND morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN unit$(active) = "่": toa(active) = timex + 1: GOTO asleep
+	IF t$ = "I" AND morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN unit$(active) = "๏ฟฝ": toa(active) = timex + 1: GOTO asleep
 	IF INSTR("AENHB", t$) > 0 THEN dx = 1: GOTO fodder
 	CASE 5
 	dx = 4: GOTO fodder
@@ -2121,11 +2121,11 @@ notart:
 	uorder(index) = 0: dxs = SGN(unitx(index) - unitx(Enemy)): dxy = SGN(unity(index) - unity(Enemy)): xloc = unitx(index) + 2 * dxs: yloc = unity(index) + 2 * dys
 	GOTO ours
 fire1:
-	IF LEFTY$(Enemy) = "่" THEN unit$(Enemy) = "I"
+	IF LEFTY$(Enemy) = "๏ฟฝ" THEN unit$(Enemy) = "I"
 	GOTO rumble
 try2:
 	IF LEFTY$(index) = "I" AND morale(index) > 60 AND (terrain(index) = 43 OR terrain(index) = 46) THEN
-		unit$(index) = "่"
+		unit$(index) = "๏ฟฝ"
 		toa(index) = timex + 1
 		EXIT SUB
 	END IF
@@ -2185,7 +2185,7 @@ IF Visible(index) > 0 THEN CALL SHOWUNIT(index)
 	SELECT CASE u$
 	CASE "I"
 	plus = 2
-	CASE "่"
+	CASE "๏ฟฝ"
 	plus = 0
 	CASE "C"
 	plus = 0
@@ -2251,7 +2251,7 @@ IF Visible(index) > 0 THEN CALL SHOWUNIT(index)
 			IF RND < .05 * (difficult - 3) THEN toa(active) = timex + 1
 		END IF
 	END IF
-	IF LEFTY$(index) = "่" AND (RND > .97 OR (terrain(index) <> 43 AND terrain(index) <> 46)) THEN unit$(index) = "Infantry": toa(index) = timex + 2 + 3 * RND
+	IF LEFTY$(index) = "๏ฟฝ" AND (RND > .97 OR (terrain(index) <> 43 AND terrain(index) <> 46)) THEN unit$(index) = "Infantry": toa(index) = timex + 2 + 3 * RND
 
 IF unitx(index) = xloc AND unity(index) = yloc THEN EXIT SUB
 
@@ -2260,9 +2260,9 @@ unitx(index) = xloc: unity(index) = yloc
 CALL SHOWUNIT(index)
 IF terrain(index) = 233 THEN CALL victory(index)
 EXIT SUB
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                    Check Alternate Routes If Blocked               บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                    Check Alternate Routes If Blocked               ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 route:
 CALL YouorMe(index, F): IF F > 0 THEN uorder(index) = 1: RETURN
 a$ = "GIKMOQ": IF RND > .5 THEN a$ = "QOMKIG"
@@ -2289,9 +2289,9 @@ ELSE
 	IF z = 176 THEN blox = 1: RETURN
 END IF
 RETURN
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                    Special Cleanup -Contacted Units                บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                    Special Cleanup -Contacted Units                ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 special:
 GOSUB route
 	IF uorder(index) = 0 THEN
@@ -2310,9 +2310,9 @@ IF quiet = 1 THEN
 		END IF
 	END IF
 END IF
-'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-'บ                            Combine Units                           บ
-'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอป
+'๏ฟฝ                            Combine Units                           ๏ฟฝ
+'๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอผ
 CALL whois(xloc, yloc, Enemy, index)
 IF Enemy = 0 THEN EXIT SUB
 CALL YouorMe(Enemy, F)

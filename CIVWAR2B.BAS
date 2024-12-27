@@ -86,7 +86,7 @@ COLOR 7, 0: LOCATE 11 + y, 13: PRINT SPACE$(60)
 FOR k = 8 TO 10: LOCATE k + y, 70: PRINT "   ": NEXT k
 COLOR 4: IF s = 2 THEN COLOR 9
 FOR k = 7 TO 10
-LOCATE k + y, 10: PRINT STRING$(60, "°")
+LOCATE k + y, 10: PRINT STRING$(60, "ï¿½")
 NEXT k
 LOCATE 8 + y
 END SUB
@@ -97,7 +97,7 @@ CALL cmap: CALL area(0)
 IF campane > 0 GOTO cmp
 IF choose = 99 THEN choose = 1: GOTO cmp
 mtx$(0) = "CAMPAIGN"
-mtx$(1) = "Continue OLD": IF LEN(DIR$("regions.sav")) = 0 THEN choose = 2: GOTO cmp
+mtx$(1) = "Continue OLD": IF _FILEEXISTS("regions.sav") = 0 THEN choose = 2: GOTO cmp
 mtx$(2) = "Begin NEW"
 tlx = 60: tly = 18
 size = 2: CALL menu
@@ -112,7 +112,7 @@ LOCATE 21, 66: PRINT "Neutral  50%"
 LOCATE 22, 66: PRINT "Occupied"; x; "%";
 LOCATE 23, 66: PRINT "Capitals"; x + 5; "%"
 '...........................................................................
-t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF LEN(DIR$(a$)) > 0 THEN t$ = a$
+t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF _FILEEXISTS(a$) THEN t$ = a$
 CLOSE #1
 OPEN "I", 1, t$
 z = 0: y = 0
@@ -130,8 +130,8 @@ BLOAD "victory.scr", 0
 DEF SEG
 c = 4: s = 1: IF y > 9 THEN s = 2: c = 1
 COLOR 15, c: FOR k = 7 TO 12: LOCATE k, 20: PRINT SPACE$(40): NEXT k
-LOCATE 7, 21: PRINT STRING$(38, "Í")
-LOCATE 12, 21: PRINT STRING$(38, "Í")
+LOCATE 7, 21: PRINT STRING$(38, "ï¿½")
+LOCATE 12, 21: PRINT STRING$(38, "ï¿½")
 LOCATE 9: center (sname$(s) + " side has won the war !")
 COLOR 7, 0: LOCATE 13, 21: PRINT SPACE$(40)
 FOR k = 8 TO 12: LOCATE k, 60: PRINT " ": NEXT k
@@ -231,7 +231,7 @@ randfile:
 	a$ = ""
 	FOR k = 1 TO 25
 	t$ = "camp0" + LTRIM$(RTRIM$(STR$(INT(10 * RND)))) + ".civ"
-	IF LEN(DIR$(t$)) > 0 THEN a$ = t$: EXIT FOR
+	IF _FILEEXISTS(t$) THEN a$ = t$: EXIT FOR
 	NEXT k
 	IF LEN(a$) = 0 THEN a$ = "$ave1.civ"
 	file$ = a$
@@ -239,7 +239,7 @@ ELSE
     x = RND * x + .5
     file$ = mtx$(x)
     IF LEN(file$) < 4 OR UCASE$(RIGHT$(file$, 4)) <> ".CIV" GOTO randfile
-    IF LEN(DIR$(file$)) = 0 THEN GOTO randfile
+    IF _FILEEXISTS(file$) = 0 THEN GOTO randfile
 END IF
 CLOSE #1
 EXIT SUB
@@ -447,7 +447,7 @@ END IF
 IF quiet = 0 THEN TICK mdly!
 
 pct# = .25 * choose
-IF LEFTY$(Enemy) = "è" THEN unit$(Enemy) = "Infantry"
+IF LEFTY$(Enemy) = "ï¿½" THEN unit$(Enemy) = "Infantry"
 CALL musket(index, Enemy, pct#)
 GOTO cancel2
 
@@ -531,7 +531,7 @@ matched:
 		dy = dy + 1
 	END IF
 
-	COLOR 14: LOCATE 7, 1: PRINT STRING$(80, "Í")
+	COLOR 14: LOCATE 7, 1: PRINT STRING$(80, "ï¿½")
 	LINE (400, 120)-(610, 220), 4, BF
 	LINE (400, 120)-(610, 220), 15, B
 	LINE (410, 130)-(600, 168), 1, BF
@@ -785,7 +785,7 @@ mtx$(5) = "Display Speed :" + STR$(mdsp)
 mtx$(6) = "SOUND": IF quiet = 0 THEN mtx$(6) = "QUIET"
 mtx$(7) = "Scoring Factors"
 mtx$(8) = "Unit Reliability :" + STR$(rely)
-a$ = " ": IF automatic = 1 THEN a$ = "û"
+a$ = " ": IF automatic = 1 THEN a$ = "ï¿½"
 mtx$(9) = "Computer vs. Computer " + a$
 mtx$(10) = "Stack Limit :" + STR$(500 * (stakk - 1))
 a$ = "OFF": IF limber = 1 THEN a$ = "ON"
@@ -812,7 +812,7 @@ tly = 2: colour = 3: size = 18: CALL menu: COLOR 7, 0
 	choose = 21 + difficult: tly = 13
 	mtx$(0) = "Difficulty"
 	FOR k = 1 TO 5: mtx$(k) = adj2$(k): NEXT k
-	mtx$(difficult) = mtx$(difficult) + " û"
+	mtx$(difficult) = mtx$(difficult) + " ï¿½"
 	size = 5
 	CALL menu
 	IF choose = -1 XOR choose = 99 GOTO menup
@@ -831,12 +831,12 @@ tly = 2: colour = 3: size = 18: CALL menu: COLOR 7, 0
 		CASE 3
 	CLS
 	COLOR 14: PRINT "LINE OF SIGHT RANGE": COLOR 11: LOCATE 4, 1
-	PRINT "MIN.³...1º0...³...2º0...³...3º0...³...4º0...³...5º0"
+	PRINT "MIN.ï¿½...1ï¿½0...ï¿½...2ï¿½0...ï¿½...3ï¿½0...ï¿½...4ï¿½0...ï¿½...5ï¿½0"
 	COLOR 11: LOCATE 6, 1: PRINT "{right arrow} or {+} to increase"
 	PRINT "{left arrow} or {-} to decrease": PRINT "ENTER when done"
 sight:
 	COLOR 4: LOCATE 5, seelimit: PRINT SPACE$(51 - seelimit)
-	LOCATE 5, 1: FOR k = 1 TO seelimit: PRINT "Û"; : NEXT k: COLOR 14: LOCATE 5, 51: PRINT seelimit; " ";
+	LOCATE 5, 1: FOR k = 1 TO seelimit: PRINT "ï¿½"; : NEXT k: COLOR 14: LOCATE 5, 51: PRINT seelimit; " ";
 noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	IF ASC(a$) = 13 GOTO menup
 	IF LEN(a$) > 1 THEN a$ = RIGHT$(a$, 1)
@@ -854,7 +854,7 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	mtx$(0) = "Enemy Aggression"
 	FOR k = 1 TO 5: mtx$(k) = adj1$(k): NEXT k
 	colour = 5: size = 5
-	mtx$(bold) = mtx$(bold) + " û"
+	mtx$(bold) = mtx$(bold) + " ï¿½"
 	CALL menu: IF choose = -1 GOTO menup
 	bold = choose
 	GOTO menup
@@ -866,7 +866,7 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	choose = 21 + mdsp
 	FOR k = 1 TO 5: mtx$(k) = adj3$(k): NEXT k
 	colour = 5: size = 5
-	mtx$(mdsp) = mtx$(mdsp) + " û"
+	mtx$(mdsp) = mtx$(mdsp) + " ï¿½"
 	CALL menu: IF choose = -1 GOTO menup
 	mdsp = choose
 	mdly! = 2 * mdsp - 2: IF mdsp = 5 THEN mdly! = 15
@@ -903,7 +903,7 @@ dorko:
 	mtx$(3) = "Usually reliable"
 	mtx$(4) = "Sometimes unreliable"
 	mtx$(5) = "Very unreliable"
-	mtx$(rely) = mtx$(rely) + " û"
+	mtx$(rely) = mtx$(rely) + " ï¿½"
 	size = 5: CALL menu
 	IF choose > 0 THEN rely = choose
 	GOTO menup
@@ -919,7 +919,7 @@ dorko:
 	mtx$(0) = "Stack Limit"
 	FOR k = 1 TO 5: mtx$(k) = STR$(500 * (k - 1)): NEXT k
 	mtx$(1) = mtx$(1) + " (No Stacking)"
-	mtx$(stakk) = mtx$(stakk) + " û"
+	mtx$(stakk) = mtx$(stakk) + " ï¿½"
 	choose = 21 + stakk
 	size = 5: CALL menu
 	IF choose > 0 THEN stakk = choose
@@ -958,7 +958,7 @@ dorko:
 	mtx$(3) = "MODERATE"
 	mtx$(4) = "SLOW"
 	mtx$(5) = "Very SLOW"
-	mtx$(artdelay) = mtx$(artdelay) + " û"
+	mtx$(artdelay) = mtx$(artdelay) + " ï¿½"
 	choose = 21 + artdelay
 	size = 5: CALL menu
 	IF choose > 0 THEN artdelay = choose
@@ -984,7 +984,7 @@ dorko:
 	mtx$(2) = "Low"
 	mtx$(3) = "Very Low"
 	x = (1.2 - intense!) / .2
-	mtx$(x) = mtx$(x) + " û"
+	mtx$(x) = mtx$(x) + " ï¿½"
 	size = 3: CALL menu
 	IF choose < 0 GOTO menup
 	intense! = 1.2 - .2 * choose
@@ -1033,8 +1033,8 @@ strip2:
 SELECT CASE t$
 	CASE "I"
 	PRINT "Infantry";
-	CASE "è"
-	PRINT "ènfantry";
+	CASE "ï¿½"
+	PRINT "ï¿½nfantry";
 	CASE "C"
 	PRINT "Cavalry";
 	CASE "G"
@@ -1919,7 +1919,7 @@ SUB rest (k)
 		PRINT name$(k); " is resting and recovering...";
 		CALL TICK(.2 * mdly!)
 	END IF
-	IF LEFTY$(k) = "è" THEN unit$(k) = "I": SHOWUNIT (k)
+	IF LEFTY$(k) = "ï¿½" THEN unit$(k) = "I": SHOWUNIT (k)
 END SUB
 
 SUB retreat (index, defend)

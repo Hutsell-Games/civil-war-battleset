@@ -230,7 +230,7 @@ newtime:
 	NEXT k
 	GOTO menu7
 	CASE 8 ' Convert Old Format
-	IF LEN(DIR$("*.civ")) = 0 GOTO menu7
+	IF _FILEEXISTS("*.civ") = 0 GOTO menu7
 	COLOR 7, 0: CLS : LOCATE 2, 1
 	FILES "*.civ"
 	t$ = ""
@@ -242,7 +242,7 @@ newtime:
 	x = INSTR(t$, ".")
 	IF x > 0 THEN t$ = LEFT$(t$, x - 1)
 	t$ = t$ + ".civ"
-	IF LEN(DIR$(t$)) = 0 THEN COLOR 14, 4: LOCATE 1, 1: PRINT SPACE$(80): LOCATE 1, 1: PRINT "FILE NOT FOUND - "; t$: CALL TICK(9): GOTO menu7
+	IF _FILEEXISTS(t$) = 0 THEN COLOR 14, 4: LOCATE 1, 1: PRINT SPACE$(80): LOCATE 1, 1: PRINT "FILE NOT FOUND - "; t$: CALL TICK(9): GOTO menu7
 
 	OPEN "I", 1, t$
 	a$ = ""
@@ -369,7 +369,7 @@ yorn:
 		RETURN
 fname: ' File Name
 	COLOR 7, 0: CLS : LOCATE 3, 1: PRINT "CURRENT FILES"
-	IF LEN(DIR$("*.civ")) > 0 THEN FILES "*.civ"
+	IF _FILEEXISTS("*.civ") THEN FILES "*.civ"
 	tlx = 13
 	brx = 54
 	LOCATE 1, 1: COLOR 11, 1: PRINT SPACE$(80)
@@ -458,7 +458,7 @@ END SUB
 SUB autoname (index, who$)
 a$ = "Rebel.ldr": IF LEFT$(who$, 1) = "U" THEN a$ = "Union.ldr"
 name$(index) = ""
-IF LEN(DIR$(a$)) = 0 THEN who$ = "": EXIT SUB
+IF _FILEEXISTS(a$) = 0 THEN who$ = "": EXIT SUB
 OPEN "I", 1, a$
 FOR k = 1 TO 15: INPUT #1, mtx$(k), tldr(k): NEXT k
 mtx$(0) = who$
