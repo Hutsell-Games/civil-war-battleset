@@ -9,3 +9,5 @@
 9. Delete unnecessary files
 10. Move PBEM related files  into pbem folder.
 11. Add minimal-changes.md document.
+===
+12. Minor code formatting, comment edits.
