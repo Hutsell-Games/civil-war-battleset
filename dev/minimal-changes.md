@@ -11,3 +11,5 @@
 11. Add minimal-changes.md document.
 ===
 12. Minor code formatting, comment edits.
+13. Remove PIF file, was specific to DOS: https://en.wikipedia.org/wiki/Program_information_file
+14. Rename .DOC files that are actually .TXT files with appropriate extension and move docs into docs folder.
