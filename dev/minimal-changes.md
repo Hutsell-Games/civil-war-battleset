@@ -15,3 +15,6 @@
 14. Rename .DOC files that are actually .TXT files with appropriate extension and move docs into docs folder.
 ===
 15. Refactor `LEN(DIR$)` to use `_FILEEXISTS` for QB64 compatibility.
+===
+16. Clean up comments.
+17. Code reformatting, add .gitignore.

@@ -6,7 +6,8 @@ DECLARE SUB email ()
 DECLARE SUB noise (x%, y%, t$)
 DECLARE SUB vistarg (active%, flag%)
 REM $INCLUDE: 'civ20.bi'
-RANDOMIZE TIMER: CLS
+RANDOMIZE TIMER
+CLS
 
 DIM SHARED Image(1 TO 1564), Iunion(60), Cunion(60), Aunion(60), Gunion(60)
 DIM SHARED Ireb(60), Creb(60), Areb(60), Greb(60), Rmage(1 TO 1564)
@@ -22,301 +23,323 @@ IF COMMAND$ <> "" THEN sblast$ = UCASE$(RIGHT$(COMMAND$, 1))
 	GOSUB lodecfg
 	SCREEN 9, , 0, 0
 ON ERROR GOTO noicon
-	CALL iconload
+CALL iconload
 
-	LINE (70, 210)-(563, 286), 4, BF
-	LINE (71, 212)-(561, 284), 15, B
-	COLOR 15
-	LOCATE 17: CALL center("Please Note")
-	LOCATE 18: CALL center("This is your registered copy of the game.")
-	LOCATE 19: CALL center("It is NOT Shareware and should not be further distributed.")
+LINE (70, 210)-(563, 286), 4, BF
+LINE (71, 212)-(561, 284), 15, B
+COLOR 15
+LOCATE 17: CALL center("Please Note")
+LOCATE 18: CALL center("This is your registered copy of the game.")
+LOCATE 19: CALL center("It is NOT Shareware and should not be further distributed.")
 
-	IF sblast$ <> "" THEN
-	t$ = "dixie": IF side = 2 THEN t$ = "hymn"
-		CALL sndblst(t$)
-	END IF
+IF sblast$ <> "" THEN
+    t$ = "dixie"
+    IF side = 2 THEN t$ = "hymn"
+	CALL sndblst(t$)
+END IF
 
-	TICK 2
+TICK 2
 
 GOSUB testgen
 GOSUB saveg
 menu6:
-	ON ERROR GOTO 0
-	choose = 23
+ON ERROR GOTO 0
+choose = 23
 menu7:
-	IF quiet = 1 THEN
-		IF sblast$ = "" THEN
-		       SOUND 1900, 1: SOUND 2000, 1
-		ELSE
-			CALL sndblst("ready")
-		END IF
+IF quiet = 1 THEN
+	IF sblast$ = "" THEN
+	       SOUND 1900, 1: SOUND 2000, 1
+	ELSE
+		CALL sndblst("ready")
 	END IF
-	SCREEN 9
-	COLOR 7, 0: CLS
-	x = 8: IF side = 2 THEN x = 1
-	IF nplayer = 2 THEN x = 5
-	LINE (0, 0)-(639, 336), x, BF
-	LINE (0, 336)-(639, 349), 4, BF
-	LOCATE 25, 26: COLOR 15: PRINT " CIVILWAR BATTLESET "; .01 * version;
-	tly = 9: tlx = 30
-	choose = 23: IF flag = 1 THEN choose = 25
-	mtx$(0) = "MAIN MENU"
-	a$ = "Player :" + sname$(side): IF nplayer = 2 THEN a$ = "BOTH SIDES"
-	mtx$(1) = a$
-	mtx$(2) = "Load File": IF fold$ <> "" THEN mtx$(2) = fold$ + " LOADED"
-	mtx$(3) = "Save File"
-	mtx$(4) = "Fight"
-	mtx$(5) = "Campaign Game": IF campane > 0 THEN mtx$(5) = "*CAMPAIGN UNDERWAY*"
-	mtx$(6) = "PBM Game"
-	mtx$(7) = "Parameters": IF pbm <> 0 THEN mtx$(7) = ""
-	mtx$(8) = "Directory " + CURDIR$
-	mtx$(9) = "Scenario Editor"
-	mtx$(10) = "Quit"
-	size = 10
+END IF
+SCREEN 9
+COLOR 7, 0
+CLS
+x = 8
+IF side = 2 THEN x = 1
+IF nplayer = 2 THEN x = 5
+LINE (0, 0)-(639, 336), x, BF
+LINE (0, 336)-(639, 349), 4, BF
+LOCATE 25, 26: COLOR 15: PRINT " CIVILWAR BATTLESET "; .01 * version;
+tly = 9: tlx = 30
+choose = 23
+IF flag = 1 THEN choose = 25
+mtx$(0) = "MAIN MENU"
+a$ = "Player :" + sname$(side)
+IF nplayer = 2 THEN a$ = "BOTH SIDES"
+mtx$(1) = a$
+mtx$(2) = "Load File"
+IF fold$ <> "" THEN mtx$(2) = fold$ + " LOADED"
+mtx$(3) = "Save File"
+mtx$(4) = "Fight"
+mtx$(5) = "Campaign Game"
+IF campane > 0 THEN mtx$(5) = "*CAMPAIGN UNDERWAY*"
+mtx$(6) = "PBM Game"
+mtx$(7) = "Parameters"
+IF pbm <> 0 THEN mtx$(7) = ""
+mtx$(8) = "Directory " + CURDIR$
+mtx$(9) = "Scenario Editor"
+mtx$(10) = "Quit"
+size = 10
 hilite = 14
-colour = 9: IF side = 1 THEN colour = 7
+colour = 9
+IF side = 1 THEN colour = 7
 IF campane < 0 THEN choose = 25
 CALL menu
 
 SELECT CASE choose
 	CASE 1
-	IF nplayer = 0 THEN
-		side = side + 1
-		IF side > 2 THEN side = 1: nplayer = 2
-	 ELSE
-	nplayer = nplayer + 2: IF nplayer > 2 THEN nplayer = 0: side = 1
-	END IF
-	GOTO menu7
-
+        IF nplayer = 0 THEN
+            side = side + 1
+            IF side > 2 THEN side = 1: nplayer = 2
+        ELSE
+            nplayer = nplayer + 2
+            IF nplayer > 2 THEN nplayer = 0: side = 1
+        END IF
+        GOTO menu7
 	CASE 2 ' Look for "*.civ" files and List Them
-regfile:
-	IF fold$ <> "" THEN file$ = fold$
-	campane = 0
-	CALL menufile(t$)
-	file$ = t$
-	IF file$ = "" GOTO menu6
-	IF LEFT$(file$, 1) = "$" THEN
-		GOSUB ritefile
-		u$ = "LOAD"
-		GOSUB whichsave
-	END IF
-	IF file$ = "" GOTO menu7
-	flag = 1
-	ON ERROR GOTO filerr
-camp:
-	IF pbm > 0 THEN ON ERROR GOTO filerr
-	OPEN "I", 1, file$
-	LINE INPUT #1, SCENARIO$
-	IF SCENARIO$ = "UNUSED" THEN file$ = "": flag = 0: CALL clrbot: PRINT "UNUSED savegame file": CLOSE #1: TICK 2: GOTO menu7
-	flag = 2
-	INPUT #1, timelimit, possess, vp&(1), vp&(2), score&(1), score&(2)
-	flag = 3
-	IF pbm > 0 THEN
-		LINE (140, 100)-(480, 190), 15, B
-		CALL icon(180, 110, 1)
-		CALL icon(400, 110, 2)
-	END IF
-	FOR k = 1 TO 24
-	IF pbm > 0 THEN LOCATE 25, 3: COLOR 4: PRINT "Decoding PBM Game ...";
-	INPUT #1, sdtext$(k)
-	NEXT k
-	IF LEFT$(sdtext$(23), 1) = "|" THEN sdtext$(23) = ""
-	altobj$ = ""
-	x = INSTR(sdtext$(24), "/")
-	IF x > 0 THEN
-		altobj$ = sdtext$(24)
-		FOR k = 1 TO 3
-			x = INSTR(altobj$, "/")
-			alt(k) = VAL(LEFT$(altobj$, x - 1))
-			altobj$ = MID$(altobj$, x + 1)
-		NEXT k
-	END IF
-	LOCATE 25, 23: COLOR 4: PRINT "��"; : dx = 25
-	flag = 4
+        regfile:
+	    IF fold$ <> "" THEN file$ = fold$
+	    campane = 0
+	    CALL menufile(t$)
+	    file$ = t$
+	    IF file$ = "" GOTO menu6
+	    IF LEFT$(file$, 1) = "$" THEN
+		    GOSUB ritefile
+		    u$ = "LOAD"
+		    GOSUB whichsave
+	    END IF
+	    IF file$ = "" GOTO menu7
+	    flag = 1
+	    ON ERROR GOTO filerr
+        camp:
+	    IF pbm > 0 THEN ON ERROR GOTO filerr
+	    OPEN "I", 1, file$
+	    LINE INPUT #1, SCENARIO$
+	    IF SCENARIO$ = "UNUSED" THEN file$ = "": flag = 0: CALL clrbot: PRINT "UNUSED savegame file": CLOSE #1: TICK 2: GOTO menu7
+	    flag = 2
+	    INPUT #1, timelimit, possess, vp&(1), vp&(2), score&(1), score&(2)
+	    flag = 3
+	    IF pbm > 0 THEN
+		    LINE (140, 100)-(480, 190), 15, B
+		    CALL icon(180, 110, 1)
+		    CALL icon(400, 110, 2)
+	    END IF
+	    FOR k = 1 TO 24
+	        IF pbm > 0 THEN LOCATE 25, 3: COLOR 4: PRINT "Decoding PBM Game ...";
+	        INPUT #1, sdtext$(k)
+	    NEXT k
+	    IF LEFT$(sdtext$(23), 1) = "|" THEN sdtext$(23) = ""
+	    altobj$ = ""
+	    x = INSTR(sdtext$(24), "/")
+	    IF x > 0 THEN
+		    altobj$ = sdtext$(24)
+		    FOR k = 1 TO 3
+		    	x = INSTR(altobj$, "/")
+		    	alt(k) = VAL(LEFT$(altobj$, x - 1))
+	    		altobj$ = MID$(altobj$, x + 1)
+		    NEXT k
+	    END IF
+	    LOCATE 25, 23: COLOR 4: PRINT "��"; : dx = 25
+	    flag = 4
 		dx = POS(0)
-	FOR k = 1 TO most: IF k MOD 2 = 1 THEN COLOR 9 + 5 * (k < m2): LOCATE 25, dx: PRINT "�"; : dx = dx + 1
-IF pbm < 1 THEN
-		INPUT #1, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
-ELSE
-		LINE INPUT #1, a$
-		CALL codex(2, k, a$, t$)
-		OPEN "O", 2, "temp.&&&"
-		PRINT #2, t$
-		CLOSE #2
-		OPEN "I", 2, "temp.&&&"
-		INPUT #2, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
-		CLOSE #2
-		COLOR 14: LOCATE 16, 37: PRINT INT(k * 1.25); "%"
-END IF
-	IF unitx(k) > 54 THEN unitx(k) = 54
-	IF unitx(k) < 2 THEN unitx(k) = 2
-	IF unity(k) < 1 THEN unity(k) = 1
-	IF unity(k) > 20 THEN unity(k) = 20
-	IF (unitx(k) + unity(k)) MOD 2 <> 0 THEN
-		IF unitx(k) > 2 THEN unitx(k) = unitx(k) - 1 ELSE unitx(k) = unitx(k) + 1
-	END IF
+	    FOR k = 1 TO most
+	        IF k MOD 2 = 1 THEN COLOR 9 + 5 * (k < m2): LOCATE 25, dx: PRINT "�"; : dx = dx + 1
+            IF pbm < 1 THEN
+		        INPUT #1, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
+            ELSE
+		        LINE INPUT #1, a$
+		        CALL codex(2, k, a$, t$)
+		        OPEN "O", 2, "temp.&&&"
+		        PRINT #2, t$
+		        CLOSE #2
+		        OPEN "I", 2, "temp.&&&"
+		        INPUT #2, a, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
+	        	CLOSE #2
+		        COLOR 14: LOCATE 16, 37: PRINT INT(k * 1.25); "%"
+            END IF
+	    IF unitx(k) > 54 THEN unitx(k) = 54
+	    IF unitx(k) < 2 THEN unitx(k) = 2
+	    IF unity(k) < 1 THEN unity(k) = 1
+	    IF unity(k) > 20 THEN unity(k) = 20
+	    IF (unitx(k) + unity(k)) MOD 2 <> 0 THEN
+		    IF unitx(k) > 2 THEN unitx(k) = unitx(k) - 1 ELSE unitx(k) = unitx(k) + 1
+	    END IF
 
-	t$ = unit$(k)
-	u$ = ""
-strip:
-	a$ = LEFT$(t$, 1)
-	IF a$ = "w" OR a$ = "L" THEN
-		t$ = MID$(t$, 2)
-		IF a$ <> u$ THEN u$ = u$ + a$
-		GOTO strip
-	END IF
-	t$ = LEFT$(t$, 1)
-	IF INSTR("ABCEGHI�NL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
-	unit$(k) = u$ + t$
-	IF strength(k) > 0 THEN terrain(k) = ASC(MID$(sdtext$(unity(k) + 1), unitx(k)))
-NEXT k
-IF pbm > 0 THEN
-	KILL "temp.&&&"
-	INPUT #1, bold, seelimit, difficult, quiet, mdsp
-	FOR k = 1 TO 3: INPUT #1, factor(k): NEXT k
-	INPUT #1, rely, stakk, limber, lineofsight, artcap, artdelay, intense!
-	chksum& = chksum& + bold + seelimit + stakk + limber + lineofsight + artcap + artdelay
+	    t$ = unit$(k)
+	    u$ = ""
+        strip:
+	    a$ = LEFT$(t$, 1)
+	    IF a$ = "w" OR a$ = "L" THEN
+		    t$ = MID$(t$, 2)
+		    IF a$ <> u$ THEN u$ = u$ + a$
+		    GOTO strip
+	    END IF
+	    t$ = LEFT$(t$, 1)
+	    IF INSTR("ABCEGHI�NL", t$) = 0 THEN LOCATE 20, 1: PRINT "WARNING : UNIT"; k; unit$(k); " TYPE is UNKNOWN - CHECK FILE": BEEP: TICK 9
+	    unit$(k) = u$ + t$
+	    IF strength(k) > 0 THEN terrain(k) = ASC(MID$(sdtext$(unity(k) + 1), unitx(k)))
+    NEXT k
+    IF pbm > 0 THEN
+	    KILL "temp.&&&"
+	    INPUT #1, bold, seelimit, difficult, quiet, mdsp
+	    FOR k = 1 TO 3
+	        INPUT #1, factor(k)
+	    NEXT k
+    	INPUT #1, rely, stakk, limber, lineofsight, artcap, artdelay, intense!
+	    chksum& = chksum& + bold + seelimit + stakk + limber + lineofsight + artcap + artdelay
         ' checksum
 		INPUT #1, temp&, side
 		LOCATE 12
-	IF temp& - chksum& = 0 THEN
-		COLOR 15
-		CALL center("File Checksum is OK")
-		TICK 1
-	ELSE
-		COLOR 14
-		CALL center("WARNING - Possible File Problem : Checksum Does Not Match !")
-		TICK 4
-	END IF
-END IF
+    	IF temp& - chksum& = 0 THEN
+	    	COLOR 15
+    		CALL center("File Checksum is OK")
+	    	TICK 1
+    	ELSE
+	    	COLOR 14
+    		CALL center("WARNING - Possible File Problem : Checksum Does Not Match !")
+    		TICK 4
+    	END IF
+    END IF
 	IF LEFT$(file$, 1) <> "$" THEN sdtext$(23) = file$
-	FOR k = 1 TO 22: stex$(k) = "": NEXT k
+	FOR k = 1 TO 22
+	    stex$(k) = ""
+	NEXT k
 	k = 0
 	DO WHILE NOT EOF(1) AND k < 22
 	k = k + 1
 	LINE INPUT #1, stex$(k)
 	LOOP
-tidy1:
+    tidy1:
 	ON ERROR GOTO 0
 	CLOSE #1
 	CLOSE #2
 	fold$ = file$
-'...........................................................................
+
 	highscore(1) = 0: highscore(2) = 0
 	ON ERROR GOTO nomax
-getmax:
+    getmax:
 	CLOSE #1: OPEN "I", 1, "maxskors"
-	a$ = file$: IF LEFT$(file$, 1) = "$" THEN a$ = sdtext$(23)
+	a$ = file$
+	IF LEFT$(file$, 1) = "$" THEN a$ = sdtext$(23)
 	DO WHILE NOT EOF(1)
 	z = z + 1
 	INPUT #1, t$, x, y
 	IF t$ = a$ THEN highscore(1) = x: highscore(2) = y
 	LOOP
 	CLOSE #1
-'...........................................................................
+    
 	LOCATE 25, 1: PRINT SPACE$(79); : LOCATE 25, 1
 	COLOR 14: PRINT file$; " file loaded";
 	IF quiet = 1 AND sblast$ <> "" THEN LOCATE 1, 1: CALL sndblst("ding")
-	TICK 2: flag = 1
+	TICK 2
+	flag = 1
 	closest = 32767
 	IF pbm <> 0 THEN pbm = 1
 	IF campane > 0 GOTO cont1
-'��������������������������������������������������������������������ͻ
-'�                               Save File                            �
-'��������������������������������������������������������������������ͼ
-	CASE 3
-	IF flag < 1 THEN BEEP: CLS : CALL clrbot: COLOR 4: PRINT "NO FILE TO SAVE": TICK 2: GOTO menu7
-	CLS
-	u$ = "SAVE": GOSUB whichsave
-	IF file$ = "" GOTO menu7
-	IF sdtext$(23) = "" OR LEFT$(sdtext$(23), 1) = "$" THEN sdtext$(23) = "UNKNOWN"
-	CLS : CALL clrbot: COLOR 11: PRINT "Saving file "; file$; " ";
-	OPEN "O", 1, file$
-	x = INSTR(SCENARIO$, "|"): IF x > 0 THEN SCENARIO$ = LEFT$(SCENARIO$, x - 1)
-	a$ = SCENARIO$ + " | " + DATE$ + " " + LEFT$(TIME$, LEN(TIME$) - 3)
-	PRINT #1, a$
-	WRITE #1, timelimit, possess, vp&(1), vp&(2), score&(1), score&(2)
-	IF altobj$ <> "" THEN
-		a$ = RIGHT$(altobj$, 1)
-		sdtext$(24) = LTRIM$(RTRIM$(STR$(alt(1)))) + "/" + LTRIM$(RTRIM$(STR$(alt(2)))) + "/" + LTRIM$(RTRIM$(STR$(alt(3)))) + "/" + a$
-	END IF
-	FOR k = 1 TO 24: WRITE #1, sdtext$(k): PRINT "."; : NEXT k
-	FOR k = 1 TO most
-	WRITE #1, k, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
-	NEXT k
-	FOR k = 1 TO 22: PRINT #1, stex$(k): NEXT k
-	CLOSE #1
-	CALL clrbot: COLOR 2: PRINT "SUCCESSFUL SAVE": TICK 2
-	GOTO menu7
+	CASE 3 ' Save File
+    	IF flag < 1 THEN BEEP: CLS : CALL clrbot: COLOR 4: PRINT "NO FILE TO SAVE": TICK 2: GOTO menu7
+    	CLS
+    	u$ = "SAVE"
+    	GOSUB whichsave
+    	IF file$ = "" GOTO menu7
+    	IF sdtext$(23) = "" OR LEFT$(sdtext$(23), 1) = "$" THEN sdtext$(23) = "UNKNOWN"
+	    CLS
+	    CALL clrbot
+	    COLOR 11: PRINT "Saving file "; file$; " ";
+	    OPEN "O", 1, file$
+	    x = INSTR(SCENARIO$, "|")
+	    IF x > 0 THEN SCENARIO$ = LEFT$(SCENARIO$, x - 1)
+	    a$ = SCENARIO$ + " | " + DATE$ + " " + LEFT$(TIME$, LEN(TIME$) - 3)
+	    PRINT #1, a$
+	    WRITE #1, timelimit, possess, vp&(1), vp&(2), score&(1), score&(2)
+	    IF altobj$ <> "" THEN
+		    a$ = RIGHT$(altobj$, 1)
+		    sdtext$(24) = LTRIM$(RTRIM$(STR$(alt(1)))) + "/" + LTRIM$(RTRIM$(STR$(alt(2)))) + "/" + LTRIM$(RTRIM$(STR$(alt(3)))) + "/" + a$
+	    END IF
+	    FOR k = 1 TO 24
+	        WRITE #1, sdtext$(k): PRINT ".";
+	    NEXT k
+	    FOR k = 1 TO most
+	        WRITE #1, k, name$(k), unit$(k), morale(k), leader(k), strength(k), unitx(k), unity(k), terrain(k), toa(k), uorder(k)
+	    NEXT k
+	    FOR k = 1 TO 22
+	        PRINT #1, stex$(k)
+	    NEXT k
+	    CLOSE #1
+	    CALL clrbot
+	    COLOR 2: PRINT "SUCCESSFUL SAVE": TICK 2
+	    GOTO menu7
 
-whichsave: ' choose save file
-	CLS
-	mtx$(0) = "SAVEGAME FILE TO " + u$
-	FOR k = 1 TO 5
-	a$ = LTRIM$(RTRIM$(STR$(k)))
-	mtx$(k) = "$ave" + a$ + ".civ"
-	CLOSE #1
-	OPEN "I", 1, mtx$(k)
-	LINE INPUT #1, t$
-	x = INSTR(t$, "|"): IF x > 0 THEN a$ = MID$(t$, x - 1) ELSE a$ = ""
-	IF LEN(t$) > 20 THEN t$ = LEFT$(t$, 20)
-	IF LEN(t$) < 20 THEN t$ = t$ + SPACE$(20 - LEN(t$))
-	mtx$(k) = mtx$(k) + " " + t$ + a$
-	NEXT k
-	CLOSE #1
-	size = 5: tlx = 0
-	hilite = 14
-	colour = 3
-	CALL menu
-	file$ = "$ave" + LTRIM$(RTRIM$(STR$(choose))) + ".civ"
-	IF choose < 1 OR choose > 5 THEN file$ = ""
-RETURN
-ritefile:
-	x = INSTR(file$, "."): IF x > 0 THEN a$ = MID$(file$, x - 1, 1)
-	choose = 21 + VAL(a$)
-	RETURN
-
+        whichsave: ' choose save file
+        CLS
+        mtx$(0) = "SAVEGAME FILE TO " + u$
+        FOR k = 1 TO 5
+            a$ = LTRIM$(RTRIM$(STR$(k)))
+            mtx$(k) = "$ave" + a$ + ".civ"
+            CLOSE #1
+            OPEN "I", 1, mtx$(k)
+            LINE INPUT #1, t$
+            x = INSTR(t$, "|")
+            IF x > 0 THEN a$ = MID$(t$, x - 1) ELSE a$ = ""
+            IF LEN(t$) > 20 THEN t$ = LEFT$(t$, 20)
+            IF LEN(t$) < 20 THEN t$ = t$ + SPACE$(20 - LEN(t$))
+            mtx$(k) = mtx$(k) + " " + t$ + a$
+        NEXT k
+        CLOSE #1
+        size = 5
+        tlx = 0
+        hilite = 14
+        colour = 3
+        CALL menu
+        file$ = "$ave" + LTRIM$(RTRIM$(STR$(choose))) + ".civ"
+        IF choose < 1 OR choose > 5 THEN file$ = ""
+        RETURN
+        ritefile:
+        x = INSTR(file$, ".")
+        IF x > 0 THEN a$ = MID$(file$, x - 1, 1)
+        choose = 21 + VAL(a$)
+        RETURN
 	CASE 4 ' Run Scenario
-	IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
-	GOTO cont1
-
+        IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
+        GOTO cont1
 	CASE 5 ' Campaign Map
-	IF campane > 0 GOTO menu7
-pane:
-	CALL campaign
-	vf = 1
-	IF campane = 0 GOTO menu7
-	CALL camess(camwin, y)
-	COLOR 15: CALL center("Setting up battle in " + region$(campane) + " Region")
-	LOCATE y + 9: CALL center("Score needed for " + sname$(camwin) + " Victory : " + STR$(cscore) + "%")
-	CALL campy(campane, 0)
-	ON ERROR GOTO fant
-	GOTO camp
-fant:
-	RESUME fant1
-fant1:
-	ON ERROR GOTO 0
-	file$ = "$ave1.civ"
-	GOTO camp
-
+        IF campane > 0 GOTO menu7
+        pane:
+        CALL campaign
+        vf = 1
+        IF campane = 0 GOTO menu7
+        CALL camess(camwin, y)
+        COLOR 15: CALL center("Setting up battle in " + region$(campane) + " Region")
+        LOCATE y + 9: CALL center("Score needed for " + sname$(camwin) + " Victory : " + STR$(cscore) + "%")
+        CALL campy(campane, 0)
+        ON ERROR GOTO fant
+        GOTO camp
+        fant:
+	    RESUME fant1
+        fant1:
+	    ON ERROR GOTO 0
+	    file$ = "$ave1.civ"
+	    GOTO camp
 	CASE 6 ' PBM Game
-	size = 1: mtx$(1) = "Begin NEW PBM Game"
-	IF _FILEEXISTS("*.pbm") THEN size = 2: mtx$(2) = "Continue PBM Game"
-	CALL menu
-	SELECT CASE choose
-		CASE 1
-			pbm = -1
-			nplayer = 1
-			GOTO regfile
-		CASE 2
-			file$ = "savegame.pbm"
-			pbm = 1
-			nplayer = 1
-			chksum& = 0
-			GOTO camp
-	END SELECT
-	GOTO menu7
-
+	    size = 1
+	    mtx$(1) = "Begin NEW PBM Game"
+	    IF _FILEEXISTS("*.pbm") THEN size = 2: mtx$(2) = "Continue PBM Game"
+        CALL menu
+        SELECT CASE choose
+            CASE 1
+                pbm = -1
+                nplayer = 1
+                GOTO regfile
+            CASE 2
+                file$ = "savegame.pbm"
+                pbm = 1
+                nplayer = 1
+                chksum& = 0
+                GOTO camp
+        END SELECT
+	    GOTO menu7
 	CASE 7 ' Configure Game Parameters
 	IF pbm <> 0 GOTO menu7
 	CALL customize(x): IF x = 1 THEN GOSUB savecfg
