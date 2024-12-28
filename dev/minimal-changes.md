@@ -19,3 +19,6 @@
 16. Clean up comments.
 17. Code reformatting, add .gitignore.
 18. Additional code reformatting.
+===
+19. Remove unnecessary registration box.
+20. Code reformatting.

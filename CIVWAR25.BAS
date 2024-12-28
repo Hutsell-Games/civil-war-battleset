@@ -25,13 +25,6 @@ IF COMMAND$ <> "" THEN sblast$ = UCASE$(RIGHT$(COMMAND$, 1))
 ON ERROR GOTO noicon
 CALL iconload
 
-LINE (70, 210)-(563, 286), 4, BF
-LINE (71, 212)-(561, 284), 15, B
-COLOR 15
-LOCATE 17: CALL center("Please Note")
-LOCATE 18: CALL center("This is your registered copy of the game.")
-LOCATE 19: CALL center("It is NOT Shareware and should not be further distributed.")
-
 IF sblast$ <> "" THEN
     t$ = "dixie"
     IF side = 2 THEN t$ = "hymn"
