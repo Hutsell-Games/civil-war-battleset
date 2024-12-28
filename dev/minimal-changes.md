@@ -19,3 +19,5 @@
 16. Clean up comments.
 17. Code reformatting, add .gitignore.
 18. Additional code reformatting.
+19. Remove unused line labels (CIVSET24): wait1, march, lim1, dirt
+20. Remove unused line labels (CIVWAR25): tidy1, sunk, regular, dork1, safe, notime, dudd, dirt

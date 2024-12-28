@@ -8,241 +8,246 @@ DECLARE SUB rank (k%, dx%, t$)
 REM $INCLUDE: 'civ20.bi'
 
 SUB area (F%)
-IF F = 0 THEN F = 19
-SCREEN 9
-CLOSE #1
-OPEN "I", 1, "campaign.ini"
-FOR k = 1 TO F
-INPUT #1, a
-	FOR j = 1 TO 6
-	INPUT #1, matrix(k, j)
-	NEXT j
-INPUT #1, ry(k), rx(k), region$(k)
-'...........................................................................
-	c = 8
-	IF region(k) > 0 THEN
-		c = 4
-		IF region(k) = 2 THEN c = 9
-		PAINT (rx(k) * 8, ry(k) * 14), c, 10
-	END IF
-	COLOR c
-	LOCATE ry(k), rx(k): PRINT region$(k);
-	IF k = 2 OR k = 6 THEN PRINT "*"
-'...........................................................................
-INPUT #1, x
-mtx$(0) = STR$(x)
-	IF x > 0 THEN
-		IF x > 6 THEN PRINT "ERROR IN CAMPAIGN.INI-" + region$(k) + " has more than the maximum 6 battle scenarios": END
-		FOR j = 1 TO x
-		INPUT #1, mtx$(j)
-		NEXT j
-	END IF
-NEXT k
-CLOSE #1
+    IF F = 0 THEN F = 19
+    SCREEN 9
+    CLOSE #1
+    OPEN "I", 1, "campaign.ini"
+    FOR k = 1 TO F
+        INPUT #1, a
+            FOR j = 1 TO 6
+            INPUT #1, matrix(k, j)
+            NEXT j
+        INPUT #1, ry(k), rx(k), region$(k)
+        
+        c = 8
+        IF region(k) > 0 THEN
+            c = 4
+            IF region(k) = 2 THEN c = 9
+            PAINT (rx(k) * 8, ry(k) * 14), c, 10
+        END IF
+        COLOR c
+        LOCATE ry(k), rx(k): PRINT region$(k);
+        IF k = 2 OR k = 6 THEN PRINT "*"
+        
+        INPUT #1, x
+        mtx$(0) = STR$(x)
+        IF x > 0 THEN
+             IF x > 6 THEN PRINT "ERROR IN CAMPAIGN.INI-" + region$(k) + " has more than the maximum 6 battle scenarios": END
+             FOR j = 1 TO x
+                INPUT #1, mtx$(j)
+             NEXT j
+        END IF
+    NEXT k
+    CLOSE #1
 END SUB
 
 SUB ATTENTION (index, c)
-IF (recon = 0 AND Visible(index) = 0) OR uorder(index) = 99 THEN EXIT SUB
-y = 14 * unity(index): x = 8 * unitx(index)
-LINE (x, y)-(x + 15, y + 13), c, BF: TICK .1
-CALL SHOWUNIT(index): TICK .05
+    IF (recon = 0 AND Visible(index) = 0) OR uorder(index) = 99 THEN EXIT SUB
+    y = 14 * unity(index)
+    x = 8 * unitx(index)
+    LINE (x, y)-(x + 15, y + 13), c, BF: TICK .1
+    CALL SHOWUNIT(index)
+    TICK .05
 END SUB
 
 SUB Bubble (limit)
-DO
-	swaps% = FALSE
-	FOR i = 1 TO limit - 1
-	IF mtx$(i) > mtx$(i + 1) THEN
-		SWAP mtx$(i), mtx$(i + 1)
-		SWAP array(i), array(i + 1)
-		swaps% = i
-	END IF
-	NEXT i
-LOOP WHILE swaps%
+    DO
+        swaps% = FALSE
+        FOR i = 1 TO limit - 1
+        IF mtx$(i) > mtx$(i + 1) THEN
+            SWAP mtx$(i), mtx$(i + 1)
+            SWAP array(i), array(i + 1)
+            swaps% = i
+        END IF
+        NEXT i
+    LOOP WHILE swaps%
 END SUB
 
 SUB BuffClear
-DEF SEG = 0
-POKE 1050, 30: POKE 1052, 30
+    DEF SEG = 0
+    POKE 1050, 30: POKE 1052, 30
 END SUB
 
 SUB BUTTON (x, y, c, a$, z)
-xc = 8 * (x - 1) - 4: yc = 14 * (y - 1) - 2
-LINE (xc, yc)-(xc + 16, yc + 18), c, B
-COLOR c: LOCATE y, x: PRINT a$
-PAINT (xc + 4, yc + 2), 7, c
-dx = 15: dy = 0: IF z > 0 THEN dx = 0: dy = 15
-FOR k = 0 TO 2
-LINE (xc - k, yc - k)-(xc + 16 + k, yc - k), dx
-LINE (xc - k, yc - k)-(xc - k, yc + k + 18), dx
-LINE (xc - k, yc + k + 18)-(xc + 16 + k, yc + k + 18), dy
-LINE (xc + k + 16, yc - k)-(xc + k + 16, yc + k + 18), dy
-NEXT k
+    xc = 8 * (x - 1) - 4
+    yc = 14 * (y - 1) - 2
+    LINE (xc, yc)-(xc + 16, yc + 18), c, B
+    COLOR c: LOCATE y, x: PRINT a$
+    PAINT (xc + 4, yc + 2), 7, c
+    dx = 15
+    dy = 0
+    IF z > 0 THEN dx = 0: dy = 15
+    FOR k = 0 TO 2
+        LINE (xc - k, yc - k)-(xc + 16 + k, yc - k), dx
+        LINE (xc - k, yc - k)-(xc - k, yc + k + 18), dx
+        LINE (xc - k, yc + k + 18)-(xc + 16 + k, yc + k + 18), dy
+        LINE (xc + k + 16, yc - k)-(xc + k + 16, yc + k + 18), dy
+    NEXT k
 END SUB
 
 SUB camess (s, y)
-y = 0: IF campane < 13 THEN y = 12
-COLOR 7, 0: LOCATE 11 + y, 13: PRINT SPACE$(60)
-FOR k = 8 TO 10: LOCATE k + y, 70: PRINT "   ": NEXT k
-COLOR 4: IF s = 2 THEN COLOR 9
-FOR k = 7 TO 10
-LOCATE k + y, 10: PRINT STRING$(60, "�")
-NEXT k
-LOCATE 8 + y
+    y = 0: IF campane < 13 THEN y = 12
+    COLOR 7, 0: LOCATE 11 + y, 13: PRINT SPACE$(60)
+    FOR k = 8 TO 10: LOCATE k + y, 70: PRINT "   ": NEXT k
+    COLOR 4: IF s = 2 THEN COLOR 9
+    FOR k = 7 TO 10
+    LOCATE k + y, 10: PRINT STRING$(60, "�")
+    NEXT k
+    LOCATE 8 + y
 END SUB
 
 SUB campaign
-COLOR 7: IF camwin = 2 THEN COLOR 9
-CALL cmap: CALL area(0)
-IF campane > 0 GOTO cmp
-IF choose = 99 THEN choose = 1: GOTO cmp
-mtx$(0) = "CAMPAIGN"
-mtx$(1) = "Continue OLD": IF _FILEEXISTS("regions.sav") = 0 THEN choose = 2: GOTO cmp
-mtx$(2) = "Begin NEW"
-tlx = 60: tly = 18
-size = 2: CALL menu
-IF choose < 0 THEN EXIT SUB
-cmp:
-x = 44 + 3 * difficult
-LINE (515, 265)-(635, 325), 0, BF
-LINE (515, 265)-(635, 325), 5, B
-COLOR 11
-LOCATE 20, 66: PRINT "VICTORY SCORES"
-LOCATE 21, 66: PRINT "Neutral  50%"
-LOCATE 22, 66: PRINT "Occupied"; x; "%";
-LOCATE 23, 66: PRINT "Capitals"; x + 5; "%"
-'...........................................................................
-t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF _FILEEXISTS(a$) THEN t$ = a$
-CLOSE #1
-OPEN "I", 1, t$
-z = 0: y = 0
-INPUT #1, camwin
-FOR k = 1 TO 19
-INPUT #1, region(k)
-IF region(k) = 1 THEN z = z + 1
-IF region(k) = 2 THEN y = y + 1
-NEXT k
-CLOSE #1
-IF z > 9 OR y > 9 THEN
-SCREEN 0
-DEF SEG = &HB800
-BLOAD "victory.scr", 0
-DEF SEG
-c = 4: s = 1: IF y > 9 THEN s = 2: c = 1
-COLOR 15, c: FOR k = 7 TO 12: LOCATE k, 20: PRINT SPACE$(40): NEXT k
-LOCATE 7, 21: PRINT STRING$(38, "�")
-LOCATE 12, 21: PRINT STRING$(38, "�")
-LOCATE 9: center (sname$(s) + " side has won the war !")
-COLOR 7, 0: LOCATE 13, 21: PRINT SPACE$(40)
-FOR k = 8 TO 12: LOCATE k, 60: PRINT " ": NEXT k
-campane = 0
-IF quiet > 0 THEN
-	IF sblast$ = "" THEN
-		PLAY "T140O3L8C;FCFG;A4GMLA16mnB-16;O4CO3FL16MLAMNGMLFMNEL8;F4.C"
-		PLAY "FCFG;A4GMLA16MNB-16;O4CO3FMLA16MNG16MLF16MNE16;F4P8MLA16MNB-16"
-		PLAY "O4C.D16CO3B-;MLA.MNB-16O4CO3F;O4D.D16MLC16MNO3B-16MLA16MNG16;MLF4MNEC16C16"
-		PLAY "FCFG;A4GMLA16MNB-16;O4CO3FMLA16MNG16MLF16MNE16;F4P2"
-	ELSE
-		CALL trumpet(1 + m1 * (s - 1))
-	END IF
-END IF
-TICK 999
-KILL "regions.sav"
-SCREEN 9
-EXIT SUB
-END IF
-'...........................................................................
-CALL area(0)
-COLOR 4: IF side = 2 THEN COLOR 9
-x = INT(52.632 * z + .5) * .1
-
-LINE (518, 206)-(628, 260), 0, BF
-LINE (518, 206)-(628, 260), 15, B
-COLOR 15
-a = z: IF camwin = 2 THEN a = y
-LOCATE 16, 69: PRINT "CONTROL"
-LOCATE 17, 66: PRINT a; "Regions"
-LOCATE 18, 69: PRINT "("; x; "%)"
-'...........................................................................
-batreg:
-IF difficult > 3 THEN camwin = 0
-IF camwin = 0 THEN camwin = 1: IF RND > .5 THEN camwin = 2
-CALL icon(70, 10, camwin)
-
-tlx = 2: tly = 1: size = 0
-FOR k = 1 TO 19
-	IF region(k) <> camwin THEN
-		FOR j = 1 TO 6
-		ndx = matrix(k, j)
-		IF ndx > 0 THEN
-			IF region(ndx) = camwin THEN
-				FOR i = 1 TO size
-				IF mtx$(i) = region$(k) GOTO dupe
-				NEXT i
-			size = size + 1
-			mtx$(size) = region$(k)
-			array(size) = k
-			END IF
-		END IF
-dupe:
-		NEXT j
-	END IF
-NEXT k
-mtx$(0) = sname$(camwin) + " Move"
-'............................................................................
-'                               computer move
-'............................................................................
-IF nplayer = 0 AND camwin <> side THEN
-rhett:
-	choose = 1 + INT(RND * size)
-	IF region(array(choose)) = 3 - side GOTO rhett
-	CALL camess(camwin, y)
-	COLOR 15
-
-	campane = array(choose)
-	CALL center("COMPUTER " + sname$(camwin) + " forces are moving into " + region$(array(choose)))
-	TICK 99
-	CALL cmap
-	GOTO horses
-END IF
-'............................................................................
-'                               human move
-'............................................................................
-CALL Bubble(size)
-colour = 7: IF camwin = 2 THEN colour = 9
-CALL icon(585, 140, camwin)
-TICK 3
-CALL menu
-IF choose < 1 THEN campane = 0: EXIT SUB
-horses:
-	campane = array(choose)
-	IF campane < 1 OR campane > 19 GOTO batreg
-	IF region(campane) = 0 THEN
-		cscore = 50
-	ELSE
-		x = 0: IF (campane = 2 AND region(campane) = 2) OR (campane = 6 AND region(campane) = 1) THEN x = 5
-		cscore = 44 + 3 * difficult + x
-	END IF
-
-CALL area(campane)
-x = VAL(mtx$(0))
-IF x = 0 OR RND > .95 THEN
-randfile:
-	a$ = ""
-	FOR k = 1 TO 25
-	t$ = "camp0" + LTRIM$(RTRIM$(STR$(INT(10 * RND)))) + ".civ"
-	IF _FILEEXISTS(t$) THEN a$ = t$: EXIT FOR
-	NEXT k
-	IF LEN(a$) = 0 THEN a$ = "$ave1.civ"
-	file$ = a$
-ELSE
-    x = RND * x + .5
-    file$ = mtx$(x)
-    IF LEN(file$) < 4 OR UCASE$(RIGHT$(file$, 4)) <> ".CIV" GOTO randfile
-    IF _FILEEXISTS(file$) = 0 THEN GOTO randfile
-END IF
-CLOSE #1
-EXIT SUB
+    COLOR 7: IF camwin = 2 THEN COLOR 9
+    CALL cmap: CALL area(0)
+    IF campane > 0 GOTO cmp
+    IF choose = 99 THEN choose = 1: GOTO cmp
+    mtx$(0) = "CAMPAIGN"
+    mtx$(1) = "Continue OLD": IF _FILEEXISTS("regions.sav") = 0 THEN choose = 2: GOTO cmp
+    mtx$(2) = "Begin NEW"
+    tlx = 60: tly = 18
+    size = 2: CALL menu
+    IF choose < 0 THEN EXIT SUB
+    cmp:
+    x = 44 + 3 * difficult
+    LINE (515, 265)-(635, 325), 0, BF
+    LINE (515, 265)-(635, 325), 5, B
+    COLOR 11
+    LOCATE 20, 66: PRINT "VICTORY SCORES"
+    LOCATE 21, 66: PRINT "Neutral  50%"
+    LOCATE 22, 66: PRINT "Occupied"; x; "%";
+    LOCATE 23, 66: PRINT "Capitals"; x + 5; "%"
+    '...........................................................................
+    t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF _FILEEXISTS(a$) THEN t$ = a$
+    CLOSE #1
+    OPEN "I", 1, t$
+    z = 0: y = 0
+    INPUT #1, camwin
+    FOR k = 1 TO 19
+    INPUT #1, region(k)
+    IF region(k) = 1 THEN z = z + 1
+    IF region(k) = 2 THEN y = y + 1
+    NEXT k
+    CLOSE #1
+    IF z > 9 OR y > 9 THEN
+    SCREEN 0
+    DEF SEG = &HB800
+    BLOAD "victory.scr", 0
+    DEF SEG
+    c = 4: s = 1: IF y > 9 THEN s = 2: c = 1
+    COLOR 15, c: FOR k = 7 TO 12: LOCATE k, 20: PRINT SPACE$(40): NEXT k
+    LOCATE 7, 21: PRINT STRING$(38, "�")
+    LOCATE 12, 21: PRINT STRING$(38, "�")
+    LOCATE 9: center (sname$(s) + " side has won the war !")
+    COLOR 7, 0: LOCATE 13, 21: PRINT SPACE$(40)
+    FOR k = 8 TO 12: LOCATE k, 60: PRINT " ": NEXT k
+    campane = 0
+    IF quiet > 0 THEN
+        IF sblast$ = "" THEN
+            PLAY "T140O3L8C;FCFG;A4GMLA16mnB-16;O4CO3FL16MLAMNGMLFMNEL8;F4.C"
+            PLAY "FCFG;A4GMLA16MNB-16;O4CO3FMLA16MNG16MLF16MNE16;F4P8MLA16MNB-16"
+            PLAY "O4C.D16CO3B-;MLA.MNB-16O4CO3F;O4D.D16MLC16MNO3B-16MLA16MNG16;MLF4MNEC16C16"
+            PLAY "FCFG;A4GMLA16MNB-16;O4CO3FMLA16MNG16MLF16MNE16;F4P2"
+        ELSE
+            CALL trumpet(1 + m1 * (s - 1))
+        END IF
+    END IF
+    TICK 999
+    KILL "regions.sav"
+    SCREEN 9
+    EXIT SUB
+    END IF
+    '...........................................................................
+    CALL area(0)
+    COLOR 4: IF side = 2 THEN COLOR 9
+    x = INT(52.632 * z + .5) * .1
+    
+    LINE (518, 206)-(628, 260), 0, BF
+    LINE (518, 206)-(628, 260), 15, B
+    COLOR 15
+    a = z: IF camwin = 2 THEN a = y
+    LOCATE 16, 69: PRINT "CONTROL"
+    LOCATE 17, 66: PRINT a; "Regions"
+    LOCATE 18, 69: PRINT "("; x; "%)"
+    '...........................................................................
+    batreg:
+    IF difficult > 3 THEN camwin = 0
+    IF camwin = 0 THEN camwin = 1: IF RND > .5 THEN camwin = 2
+    CALL icon(70, 10, camwin)
+    
+    tlx = 2: tly = 1: size = 0
+    FOR k = 1 TO 19
+        IF region(k) <> camwin THEN
+            FOR j = 1 TO 6
+            ndx = matrix(k, j)
+            IF ndx > 0 THEN
+                IF region(ndx) = camwin THEN
+                    FOR i = 1 TO size
+                    IF mtx$(i) = region$(k) GOTO dupe
+                    NEXT i
+                size = size + 1
+                mtx$(size) = region$(k)
+                array(size) = k
+                END IF
+            END IF
+    dupe:
+            NEXT j
+        END IF
+    NEXT k
+    mtx$(0) = sname$(camwin) + " Move"
+    '............................................................................
+    '                               computer move
+    '............................................................................
+    IF nplayer = 0 AND camwin <> side THEN
+    rhett:
+        choose = 1 + INT(RND * size)
+        IF region(array(choose)) = 3 - side GOTO rhett
+        CALL camess(camwin, y)
+        COLOR 15
+    
+        campane = array(choose)
+        CALL center("COMPUTER " + sname$(camwin) + " forces are moving into " + region$(array(choose)))
+        TICK 99
+        CALL cmap
+        GOTO horses
+    END IF
+    '............................................................................
+    '                               human move
+    '............................................................................
+    CALL Bubble(size)
+    colour = 7: IF camwin = 2 THEN colour = 9
+    CALL icon(585, 140, camwin)
+    TICK 3
+    CALL menu
+    IF choose < 1 THEN campane = 0: EXIT SUB
+    horses:
+        campane = array(choose)
+        IF campane < 1 OR campane > 19 GOTO batreg
+        IF region(campane) = 0 THEN
+            cscore = 50
+        ELSE
+            x = 0: IF (campane = 2 AND region(campane) = 2) OR (campane = 6 AND region(campane) = 1) THEN x = 5
+            cscore = 44 + 3 * difficult + x
+        END IF
+    
+    CALL area(campane)
+    x = VAL(mtx$(0))
+    IF x = 0 OR RND > .95 THEN
+    randfile:
+        a$ = ""
+        FOR k = 1 TO 25
+        t$ = "camp0" + LTRIM$(RTRIM$(STR$(INT(10 * RND)))) + ".civ"
+        IF _FILEEXISTS(t$) THEN a$ = t$: EXIT FOR
+        NEXT k
+        IF LEN(a$) = 0 THEN a$ = "$ave1.civ"
+        file$ = a$
+    ELSE
+        x = RND * x + .5
+        file$ = mtx$(x)
+        IF LEN(file$) < 4 OR UCASE$(RIGHT$(file$, 4)) <> ".CIV" GOTO randfile
+        IF _FILEEXISTS(file$) = 0 THEN GOTO randfile
+    END IF
+    CLOSE #1
+    EXIT SUB
 END SUB
 
 SUB campy (campane, flag)
@@ -255,12 +260,12 @@ SUB campy (campane, flag)
 END SUB
 
 SUB center (a$)
-x = 40 - .5 * LEN(a$)
-LOCATE , x: PRINT a$
+    x = 40 - .5 * LEN(a$)
+    LOCATE , x: PRINT a$
 END SUB
 
 SUB clrbot
-LOCATE 23, 1: PRINT SPACE$(80); : LOCATE 23, 1
+    LOCATE 23, 1: PRINT SPACE$(80); : LOCATE 23, 1
 END SUB
 
 SUB cmap
@@ -311,149 +316,148 @@ SUB cmap
 END SUB
 
 SUB codex (flag, index, a$, t$)
-SELECT CASE flag
-CASE 1                  '....... encode
-	t$ = ""
-FOR k = 1 TO LEN(a$)
-	x = ASC(MID$(a$, k, 1))
-	x = x + timelimit MOD 7 + k + index MOD 9
-	IF x > 255 THEN x = x - 255
-	chksum& = chksum& + x
-	t$ = t$ + CHR$(x)
-NEXT k
-
-CASE 2                  '........ decode
-	t$ = ""
-FOR k = 1 TO LEN(a$)
-	x = ASC(MID$(a$, k, 1))
-	chksum& = chksum& + x
-	x = x - timelimit MOD 7 - k - index MOD 9
-	IF x < 0 THEN x = x + 255
-	t$ = t$ + CHR$(x)
-NEXT k
-END SELECT
-
+    SELECT CASE flag
+    CASE 1                  '....... encode
+        t$ = ""
+    FOR k = 1 TO LEN(a$)
+        x = ASC(MID$(a$, k, 1))
+        x = x + timelimit MOD 7 + k + index MOD 9
+        IF x > 255 THEN x = x - 255
+        chksum& = chksum& + x
+        t$ = t$ + CHR$(x)
+    NEXT k
+    
+    CASE 2                  '........ decode
+        t$ = ""
+    FOR k = 1 TO LEN(a$)
+        x = ASC(MID$(a$, k, 1))
+        chksum& = chksum& + x
+        x = x - timelimit MOD 7 - k - index MOD 9
+        IF x < 0 THEN x = x + 255
+        t$ = t$ + CHR$(x)
+    NEXT k
+    END SELECT
 END SUB
 
 SUB combat (index, Enemy)
-IF Enemy = 0 OR uorder(index) = 99 OR index = Enemy THEN GOTO cancel2
-tlx = 60: tly = 3: colour = 12
-mtx$(0) = "COMBAT MENU"
-mtx$(1) = "Light Skirmish"
-mtx$(2) = "Medium Fight"
-mtx$(3) = "Heavy Attack"
-mtx$(4) = "All-out Assault"
-a$ = LEFTY$(index)
-
-IF Visible(index) < 1 THEN Visible(index) = 1: SHOWUNIT (index)
-CALL YouorMe(index, flag): IF flag > 0 AND automatic = 0 GOTO manual
-
-roll! = mdly!
-pct# = strength(index) / strength(Enemy) + .1 * bold - .3
-IF terrain(Enemy) = 94 THEN pct# = .6 * pct#
-IF terrain(Enemy) = 239 THEN pct# = .4 * pct#
-IF terrain(Enemy) = 61 THEN pct# = 1.2 * pct#
-IF terrain(Enemy) = 42 THEN pct# = .8 * pct#
-IF terrain(Enemy) = 254 THEN pct# = .8 * pct#
-IF terrain(Enemy) = 35 OR terrain(index) = 35 THEN pct# = .5 * pct#
-IF terrain(Enemy) = 233 THEN pct# = 2 * pct#
-CALL valid(Enemy)
-pct# = pct# * (morale(index) / morale(Enemy)) * (leader(index) / leader(Enemy))
-d = 2 * ABS(unity(index) - objy) + ABS(unitx(index) - objx)
-IF possess <> 3 - side AND d < seelimit THEN IF pct# < 1 THEN pct# = pct# + .3
-CALL proximity(attack, 0, 0, bonus): IF bonus > 5 THEN pct# = pct# + .1
-
-SELECT CASE pct#
-	CASE IS > 2
-	choose = 4
-	CASE IS > 1.5
-	choose = 3
-	CASE IS > 1
-	choose = 2
-	CASE IS > .4
-	choose = 1
-	CASE ELSE
-	dxs = SGN(unitx(index) - unitx(Enemy)): dys = SGN(unity(index) - unity(Enemy))
-	uorder(index) = 100 * (unity(index) + dys) + unitx(index) + dxs
-	GOTO cancel2
-END SELECT
-
-IF terrain(Enemy) = 233 THEN choose = choose + 1: IF timelimit - timex < 10 THEN choose = 4
-IF leader(index) < 60 THEN choose = 3 - INT(2 * RND)
-IF morale(index) < 60 THEN choose = choose - 1
-IF RND > .9 THEN choose = choose - 1: IF RND < .5 THEN choose = choose + 2
-IF bold > 3 AND RND > .7 THEN choose = choose + 1: IF bold = 5 AND RND > .5 THEN choose = 4
-IF bold < 3 AND RND > .5 THEN choose = choose - 1: IF bold = 1 AND RND > .5 THEN choose = 1
-IF a$ = "G" THEN choose = choose - 1
-IF INSTR("AEHNB", a$) THEN CALL cannon(index, Enemy): GOTO cancel2
-IF d < .3 * seelimit THEN choose = choose + 1
-IF timelimit - timex < 20 AND possess <> 3 - side THEN choose = choose + 1
-
-IF choose > 4 THEN choose = 4
-IF choose < 1 THEN GOTO cancel2
-CALL inspect(Enemy)
-CALL sndblst("drums3")
-GOTO tally
-
-manual:
-IF automatic = 1 GOTO tally
-LITEUP 8 * unitx(index), 14 * unity(index), 14
-LITEUP 8 * unitx(Enemy), 14 * unity(Enemy), 12
-
-roll! = .1
-
-x = INT(strength(Enemy) / 100) - 1 + 2 * RND
-x = x * 100: IF x < 100 THEN x = 50
-r! = strength(index) / x
-COLOR 11: CALL clrbot: PRINT name$(index); " vs."; name$(Enemy); "  Str:"; x;
-COLOR 10: IF r! < 1 THEN COLOR 12
-SELECT CASE r!
-	CASE IS < .67: x = 1: y = 1 / r!
-	CASE IS < .8: x = 2: y = 3
-	CASE IS < .9: x = 4: y = 5
-	CASE IS < 1.3: x = 1: y = 1
-	CASE IS < 1.6: x = 3: y = 2
-	CASE ELSE: x = r!: y = 1
-END SELECT
-PRINT "  Ratio ="; x; ":"; y; " ";
-COLOR 11: PRINT "  Terrain ="; : x = POS(0)
-CALL Tara(x, 23, terrain(Enemy))
-size = 4
-CALL menu
-CALL scrcol(1)
-CALL inspect(index)
-
-tally:
-IF choose = -1 XOR choose = 99 THEN GOTO cancel2
-LITEUP 8 * unitx(index), 14 * unity(index), 14
-LITEUP 8 * unitx(Enemy), 14 * unity(Enemy), 12
-
-s = 1: IF index > m1 THEN s = 2
-
-CALL clrbot: COLOR 12
-IF LEFTY$(index) = "C" AND (terrain(index) = 46 OR terrain(index) = 43) AND (terrain(Enemy) = 46 OR terrain(Enemy) = 43) THEN
-	COLOR 14
-	PRINT sname$(s); " "; name$(index); " CALVARY CHARGE vs. "; name$(Enemy)
-	IF quiet > 0 THEN
-		IF sblast$ = "" THEN
-		PLAY "MBMST170o3c16.c16c16.c16c16.c16g16.e16g16.e16g16.e16c1MN"
-		ELSE
-		CALL sndblst("charge")
-		END IF
-	END IF
-ELSE
-  PRINT sname$(s); " Unit : "; name$(index); " => "; RTRIM$(mtx$(choose)); " vs. "; name$(Enemy);
-END IF
-IF quiet = 0 THEN TICK mdly!
-
-pct# = .25 * choose
-IF LEFTY$(Enemy) = "�" THEN unit$(Enemy) = "Infantry"
-CALL musket(index, Enemy, pct#)
-GOTO cancel2
-
-cancel2:
-CALL SHOWUNIT(Enemy)
-IF RND > .05 + .15 * difficult THEN uorder(index) = 0
+    IF Enemy = 0 OR uorder(index) = 99 OR index = Enemy THEN GOTO cancel2
+    tlx = 60: tly = 3: colour = 12
+    mtx$(0) = "COMBAT MENU"
+    mtx$(1) = "Light Skirmish"
+    mtx$(2) = "Medium Fight"
+    mtx$(3) = "Heavy Attack"
+    mtx$(4) = "All-out Assault"
+    a$ = LEFTY$(index)
+    
+    IF Visible(index) < 1 THEN Visible(index) = 1: SHOWUNIT (index)
+    CALL YouorMe(index, flag): IF flag > 0 AND automatic = 0 GOTO manual
+    
+    roll! = mdly!
+    pct# = strength(index) / strength(Enemy) + .1 * bold - .3
+    IF terrain(Enemy) = 94 THEN pct# = .6 * pct#
+    IF terrain(Enemy) = 239 THEN pct# = .4 * pct#
+    IF terrain(Enemy) = 61 THEN pct# = 1.2 * pct#
+    IF terrain(Enemy) = 42 THEN pct# = .8 * pct#
+    IF terrain(Enemy) = 254 THEN pct# = .8 * pct#
+    IF terrain(Enemy) = 35 OR terrain(index) = 35 THEN pct# = .5 * pct#
+    IF terrain(Enemy) = 233 THEN pct# = 2 * pct#
+    CALL valid(Enemy)
+    pct# = pct# * (morale(index) / morale(Enemy)) * (leader(index) / leader(Enemy))
+    d = 2 * ABS(unity(index) - objy) + ABS(unitx(index) - objx)
+    IF possess <> 3 - side AND d < seelimit THEN IF pct# < 1 THEN pct# = pct# + .3
+    CALL proximity(attack, 0, 0, bonus): IF bonus > 5 THEN pct# = pct# + .1
+    
+    SELECT CASE pct#
+        CASE IS > 2
+        choose = 4
+        CASE IS > 1.5
+        choose = 3
+        CASE IS > 1
+        choose = 2
+        CASE IS > .4
+        choose = 1
+        CASE ELSE
+        dxs = SGN(unitx(index) - unitx(Enemy)): dys = SGN(unity(index) - unity(Enemy))
+        uorder(index) = 100 * (unity(index) + dys) + unitx(index) + dxs
+        GOTO cancel2
+    END SELECT
+    
+    IF terrain(Enemy) = 233 THEN choose = choose + 1: IF timelimit - timex < 10 THEN choose = 4
+    IF leader(index) < 60 THEN choose = 3 - INT(2 * RND)
+    IF morale(index) < 60 THEN choose = choose - 1
+    IF RND > .9 THEN choose = choose - 1: IF RND < .5 THEN choose = choose + 2
+    IF bold > 3 AND RND > .7 THEN choose = choose + 1: IF bold = 5 AND RND > .5 THEN choose = 4
+    IF bold < 3 AND RND > .5 THEN choose = choose - 1: IF bold = 1 AND RND > .5 THEN choose = 1
+    IF a$ = "G" THEN choose = choose - 1
+    IF INSTR("AEHNB", a$) THEN CALL cannon(index, Enemy): GOTO cancel2
+    IF d < .3 * seelimit THEN choose = choose + 1
+    IF timelimit - timex < 20 AND possess <> 3 - side THEN choose = choose + 1
+    
+    IF choose > 4 THEN choose = 4
+    IF choose < 1 THEN GOTO cancel2
+    CALL inspect(Enemy)
+    CALL sndblst("drums3")
+    GOTO tally
+    
+    manual:
+    IF automatic = 1 GOTO tally
+    LITEUP 8 * unitx(index), 14 * unity(index), 14
+    LITEUP 8 * unitx(Enemy), 14 * unity(Enemy), 12
+    
+    roll! = .1
+    
+    x = INT(strength(Enemy) / 100) - 1 + 2 * RND
+    x = x * 100: IF x < 100 THEN x = 50
+    r! = strength(index) / x
+    COLOR 11: CALL clrbot: PRINT name$(index); " vs."; name$(Enemy); "  Str:"; x;
+    COLOR 10: IF r! < 1 THEN COLOR 12
+    SELECT CASE r!
+        CASE IS < .67: x = 1: y = 1 / r!
+        CASE IS < .8: x = 2: y = 3
+        CASE IS < .9: x = 4: y = 5
+        CASE IS < 1.3: x = 1: y = 1
+        CASE IS < 1.6: x = 3: y = 2
+        CASE ELSE: x = r!: y = 1
+    END SELECT
+    PRINT "  Ratio ="; x; ":"; y; " ";
+    COLOR 11: PRINT "  Terrain ="; : x = POS(0)
+    CALL Tara(x, 23, terrain(Enemy))
+    size = 4
+    CALL menu
+    CALL scrcol(1)
+    CALL inspect(index)
+    
+    tally:
+    IF choose = -1 XOR choose = 99 THEN GOTO cancel2
+    LITEUP 8 * unitx(index), 14 * unity(index), 14
+    LITEUP 8 * unitx(Enemy), 14 * unity(Enemy), 12
+    
+    s = 1: IF index > m1 THEN s = 2
+    
+    CALL clrbot: COLOR 12
+    IF LEFTY$(index) = "C" AND (terrain(index) = 46 OR terrain(index) = 43) AND (terrain(Enemy) = 46 OR terrain(Enemy) = 43) THEN
+        COLOR 14
+        PRINT sname$(s); " "; name$(index); " CALVARY CHARGE vs. "; name$(Enemy)
+        IF quiet > 0 THEN
+            IF sblast$ = "" THEN
+            PLAY "MBMST170o3c16.c16c16.c16c16.c16g16.e16g16.e16g16.e16c1MN"
+            ELSE
+            CALL sndblst("charge")
+            END IF
+        END IF
+    ELSE
+      PRINT sname$(s); " Unit : "; name$(index); " => "; RTRIM$(mtx$(choose)); " vs. "; name$(Enemy);
+    END IF
+    IF quiet = 0 THEN TICK mdly!
+    
+    pct# = .25 * choose
+    IF LEFTY$(Enemy) = "�" THEN unit$(Enemy) = "Infantry"
+    CALL musket(index, Enemy, pct#)
+    GOTO cancel2
+    
+    cancel2:
+    CALL SHOWUNIT(Enemy)
+    IF RND > .05 + .15 * difficult THEN uorder(index) = 0
 END SUB
 
 SUB commander (x)
@@ -494,17 +498,20 @@ SUB commander (x)
 		t$ = LTRIM$(LEFT$((RTRIM$(UCASE$(mtx$(choose)))), a - 1))
 		GOTO bingo
 	END IF
-idhim:
+	
+    idhim:
 	COLOR 11: LOCATE 3, 1: PRINT "Your name >"
 	t$ = ""
-validid:
+
+    validid:
 	COLOR 14
 	CALL Enput(t$, 12, 3, 30, "")
 	COLOR 11, 1: LOCATE 5, 1
 	t$ = LTRIM$(RTRIM$(UCASE$(t$)))
 	IF t$ = "" GOTO validid
 	CLOSE #1
-bingo:
+
+    bingo:
 	OPEN "I", 1, "generalz"
 	LINE INPUT #1, u$
 	DO WHILE NOT EOF(1)
@@ -514,7 +521,8 @@ bingo:
 	a$ = t$
 	PRINT "Welcome New General "; a$; " to the CWBS Hall of Fame !"
 	dx = 0: dy = 0: x1 = 0: z = 0: flag = 1
-matched:
+
+    matched:
 	CLOSE #1
 
 	IF side = 1 THEN
@@ -581,30 +589,33 @@ matched:
 END SUB
 
 SUB Compact (flag)
-s = 1: F = m1: IF flag = 2 THEN s = m2: F = most
+    s = 1
+    F = m1
+    IF flag = 2 THEN s = m2: F = most
 	FOR k = s TO F - 1
-IF strength(k) > 0 GOTO occupy
-	FOR j = k + 1 TO F
-	IF strength(j) = 0 GOTO slider
-	name$(k) = name$(j)
-	unit$(k) = unit$(j)
-	morale(k) = morale(j)
-	leader(k) = leader(j)
-	strength(k) = strength(j)
-	unitx(k) = unitx(j)
-	unity(k) = unity(j)
-	terrain(k) = terrain(j)
-	toa(k) = toa(j)
-	uorder(k) = uorder(j)
-	Visible(k) = Visible(j)
-	strength(j) = 0: GOTO occupy
-slider:
-	NEXT j
-occupy:
+        IF strength(k) > 0 GOTO occupy
+        FOR j = k + 1 TO F
+            IF strength(j) = 0 GOTO slider
+            name$(k) = name$(j)
+            unit$(k) = unit$(j)
+            morale(k) = morale(j)
+            leader(k) = leader(j)
+            strength(k) = strength(j)
+            unitx(k) = unitx(j)
+            unity(k) = unity(j)
+            terrain(k) = terrain(j)
+            toa(k) = toa(j)
+            uorder(k) = uorder(j)
+            Visible(k) = Visible(j)
+            strength(j) = 0: GOTO occupy
+        slider:
+        NEXT j
+    occupy:
 	NEXT k
-FOR k = s TO F: IF strength(k) = 0 THEN Bigg(flag) = k - 1: EXIT SUB
-NEXT k
-Bigg(flag) = F
+    FOR k = s TO F
+        IF strength(k) = 0 THEN Bigg(flag) = k - 1: EXIT SUB
+    NEXT k
+    Bigg(flag) = F
 END SUB
 
 SUB cupdate (index)
@@ -659,7 +670,7 @@ method2:
 	a$ = "OQ"
 	CASE ELSE
 END SELECT
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 blox = -1
 dx = LEN(a$)
 FOR k = 1 TO dx
@@ -670,7 +681,7 @@ NEXT k
 IF blox > 0 THEN xnew = tlx: ynew = tly: GOTO slide
 uorder(index) = 0
 EXIT SUB
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 isblox:
 IF xnew < 1 XOR xnew > 55 THEN RETURN
 IF ynew < 1 XOR ynew > 20 THEN RETURN
@@ -699,74 +710,78 @@ CALL whois(xnew, ynew, Enemy, index)
 	IF bonus > 0 THEN bonus = bonus + 3 * RND
 	IF bonus > blox THEN blox = bonus: tlx = xnew: tly = ynew
 RETURN
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 slide:
 	IF t$ = "G" THEN CALL proximity(index, xnew, ynew, plus): IF plus > 0 THEN uorder(index) = 0: EXIT SUB
 	CALL placeunit(xnew, ynew, index)
 END SUB
 
 SUB curser (a$, xloc, yloc)
-SELECT CASE a$
-	CASE "G"
-gee:
-	IF yloc = 1 THEN EXIT SUB
-	xloc = xloc - 1
-	yloc = yloc - 1
-	CASE "H"
-	IF RND > .5 GOTO gee ELSE GOTO eye
-	CASE "I"
-eye:
-	IF yloc = 1 THEN EXIT SUB
-	xloc = xloc + 1
-	yloc = yloc - 1
-	CASE "K"
-	xloc = xloc - 2
-	yloc = yloc
-	CASE "M"
-	xloc = xloc + 2
-	yloc = yloc
-	CASE "O"
-oh:
-	IF yloc = 20 THEN EXIT SUB
-	xloc = xloc - 1
-	yloc = yloc + 1
-	CASE "P"
-	IF RND > .5 GOTO oh ELSE GOTO que
-	CASE "Q"
-que:
-	IF yloc = 20 THEN EXIT SUB
-	yloc = yloc + 1
-	xloc = xloc + 1
-
-	CASE "1"
-	yloc = 20: xloc = 2
-	CASE "2"
-	yloc = 20
-	CASE "3"
-	yloc = 20: xloc = 54
-	CASE "4"
-	xloc = 2
-	CASE "5"
-	yloc = 10: xloc = 28
-	CASE "6"
-	xloc = 54
-	CASE "7"
-	yloc = 1: xloc = 1
-	CASE "8"
-	yloc = 1
-	CASE "9"
-	yloc = 1: xloc = 54
-	CASE ";"
-	CALL regorders
-	CASE ELSE
-END SELECT
-IF xloc > 53 THEN xloc = 54
-IF xloc < 2 THEN xloc = 2
-IF yloc < 1 THEN yloc = 1
-IF yloc > 20 THEN yloc = 20
-z = INT(.5 * (xloc + yloc)) * 2 - xloc - yloc
-IF z <> 0 AND xloc < 41 THEN xloc = xloc + 1
-IF z <> 0 AND xloc > 40 THEN xloc = xloc - 1
+    SELECT CASE a$
+        CASE "G"
+            gee:
+            IF yloc = 1 THEN EXIT SUB
+            xloc = xloc - 1
+            yloc = yloc - 1
+        CASE "H"
+            IF RND > .5 GOTO gee ELSE GOTO eye
+        CASE "I"
+            eye:
+            IF yloc = 1 THEN EXIT SUB
+            xloc = xloc + 1
+            yloc = yloc - 1
+        CASE "K"
+            xloc = xloc - 2
+            yloc = yloc
+        CASE "M"
+            xloc = xloc + 2
+            yloc = yloc
+        CASE "O"
+            oh:
+            IF yloc = 20 THEN EXIT SUB
+            xloc = xloc - 1
+            yloc = yloc + 1
+        CASE "P"
+            IF RND > .5 GOTO oh ELSE GOTO que
+        CASE "Q"
+            que:
+            IF yloc = 20 THEN EXIT SUB
+            yloc = yloc + 1
+            xloc = xloc + 1
+        CASE "1"
+            yloc = 20
+            xloc = 2
+        CASE "2"
+            yloc = 20
+        CASE "3"
+            yloc = 20
+            xloc = 54
+        CASE "4"
+            xloc = 2
+        CASE "5"
+            yloc = 10
+            xloc = 28
+        CASE "6"
+            xloc = 54
+        CASE "7"
+            yloc = 1
+            xloc = 1
+        CASE "8"
+            yloc = 1
+        CASE "9"
+            yloc = 1
+            xloc = 54
+        CASE ";"
+            CALL regorders
+        CASE ELSE
+    END SELECT
+    IF xloc > 53 THEN xloc = 54
+    IF xloc < 2 THEN xloc = 2
+    IF yloc < 1 THEN yloc = 1
+    IF yloc > 20 THEN yloc = 20
+    z = INT(.5 * (xloc + yloc)) * 2 - xloc - yloc
+    IF z <> 0 AND xloc < 41 THEN xloc = xloc + 1
+    IF z <> 0 AND xloc > 40 THEN xloc = xloc - 1
 END SUB
 
 SUB customize (flag)
@@ -1127,104 +1142,90 @@ RETURN
 END SUB
 
 SUB Enput (t$, tlx, tly, brx, mask$)
-'===========================================================================
-'                               Initialize
-'===========================================================================
+  ' Initialize
   x1 = 1
   text$ = t$ + SPACE$(brx - tlx + 1 - LEN(t$))
   LOCATE tly, tlx: PRINT text$;
 
-'===========================================================================
-'                               MAIN LOOP
-'===========================================================================
-DO
-'...........................................................................
-  DO
-     LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 15, B
-     LOCATE tly, tlx + x1 - 1, 1
-'===========================================================================
-'                               Get Key
-'===========================================================================
-	Ky$ = ""
-	DO WHILE Ky$ = "": Ky$ = INKEY$: LOOP
-     LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 0, B
+    ' Main Game Loop
+    DO
+    DO
+        LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 15, B
+        LOCATE tly, tlx + x1 - 1, 1
 
-	IF LEN(Ky$) > 1 THEN
-		choose = -1 * ASC(RIGHT$(Ky$, 1))
-	ELSE
-		choose = ASC(Ky$)
-	END IF
-'===========================================================================
-'                               Key Actions
-'===========================================================================
-SELECT CASE choose
-	CASE -83                          'delete key
-	 MID$(text$, x1) = MID$(text$, x1 + 1) + " "
-	 LOCATE , , 0
-	 PRINT MID$(text$, x1);
+        ' Get Key
+    	Ky$ = ""
+    	DO WHILE Ky$ = ""
+    	    Ky$ = INKEY$
+    	LOOP
+        LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 0, B
 
-	CASE -82                         'Insert
-	 Insrt = 1 - Insrt
-	 IF Insrt = 0 THEN
-		LOCATE , , , 6, 7
-	 ELSE
-		LOCATE , , , 1, 6
-	 END IF
+    	IF LEN(Ky$) > 1 THEN
+	    	choose = -1 * ASC(RIGHT$(Ky$, 1))
+    	ELSE
+		    choose = ASC(Ky$)
+	    END IF
 
-	CASE -79                         'end key
-	 a$ = RTRIM$(text$): x1 = LEN(a$) + 1
-	 IF x1 > LEN(text$) THEN x1 = LEN(text$)
-
-
-	CASE -77                         'right arrow
-	 IF tlx + x1 < brx + 1 THEN x1 = x1 + 1
-
-	CASE -75                         'left arrow
-	 IF x1 > 1 THEN x1 = x1 - 1
-
-	CASE -71                         'home key
-	 x1 = 1
-
-	CASE 8                           'backspace
-	 IF x1 > 1 THEN x1 = x1 - 1
-	 LOCATE , tlx + x1 - 1, 0
-	 IF x1 > 0 THEN
-		IF Insrt THEN
-		MID$(text$, x1) = MID$(text$, x1 + 1) + " "
-	   ELSE
-		MID$(text$, x1) = " "
-	   END IF
-		PRINT MID$(text$, x1);
-	 END IF
-
-	CASE 13                          'enter
-	 EXIT DO
-
-	CASE 27                          'escape : blanks the text
-	 text$ = "": EXIT DO
-
-	CASE 32 TO 122                   'other keys : check vs. mask
-	 IF LEN(mask$) > 0 THEN IF INSTR(mask$, CHR$(choose)) = 0 GOTO illegalk
-	 IF x1 > brx - tlx + 1 GOTO illegalk
-	 LOCATE , , 0
-	 IF Insrt THEN
-	   MID$(text$, x1) = Ky$ + MID$(text$, x1)
-	   PRINT MID$(text$, x1);
-	 ELSE
-	   MID$(text$, x1) = Ky$
-	   PRINT Ky$;
-	 END IF
-	 IF x1 <= brx - tlx + 1 THEN x1 = x1 + 1
-
+    ' Key Actions
+    SELECT CASE choose
+	    CASE -83 ' delete key
+	        MID$(text$, x1) = MID$(text$, x1 + 1) + " "
+	        LOCATE , , 0
+	        PRINT MID$(text$, x1);
+    	CASE -82 ' Insert
+	        Insrt = 1 - Insrt
+	        IF Insrt = 0 THEN
+		        LOCATE , , , 6, 7
+	        ELSE
+		        LOCATE , , , 1, 6
+	        END IF
+    	CASE -79 ' end key
+	        a$ = RTRIM$(text$)
+	        x1 = LEN(a$) + 1
+	        IF x1 > LEN(text$) THEN x1 = LEN(text$)
+    	CASE -77 ' right arrow
+	        IF tlx + x1 < brx + 1 THEN x1 = x1 + 1
+    	CASE -75 ' left arrow
+        	 IF x1 > 1 THEN x1 = x1 - 1
+	CASE -71 ' home key
+	        x1 = 1
+	CASE 8 ' backspace
+	    IF x1 > 1 THEN x1 = x1 - 1
+	    LOCATE , tlx + x1 - 1, 0
+	    IF x1 > 0 THEN
+		    IF Insrt THEN
+		        MID$(text$, x1) = MID$(text$, x1 + 1) + " "
+	        ELSE
+		        MID$(text$, x1) = " "
+	        END IF
+		    PRINT MID$(text$, x1);
+	    END IF
+	CASE 13 ' enter
+	    EXIT DO
+    CASE 27 ' escape : blanks the text
+	    text$ = CHR$(27)
+	    EXIT DO
+	CASE 32 TO 122 ' other keys : check vs. mask
+	    IF LEN(mask$) > 0 THEN IF INSTR(mask$, CHR$(choose)) = 0 GOTO illegalk
+	    IF x1 > brx - tlx + 1 GOTO illegalk
+	    LOCATE , , 0
+	    IF Insrt THEN
+	        MID$(text$, x1) = Ky$ + MID$(text$, x1)
+	        PRINT MID$(text$, x1);
+	    ELSE
+	        MID$(text$, x1) = Ky$
+	        PRINT Ky$;
+	    END IF
+	    IF x1 <= brx - tlx + 1 THEN x1 = x1 + 1
 	CASE ELSE
-illegalk:
-	 SOUND 200, .3
-	 EXIT DO
-END SELECT
+        illegalk:
+	    SOUND 200, .3
+	    EXIT DO
+    END SELECT
 
-  LOOP UNTIL x1 < 1 OR x1 > LEN(text$)
-  t$ = RTRIM$(text$)
-LOOP UNTIL choose = 13 OR choose = 27
+    LOOP UNTIL x1 < 1 OR x1 > LEN(text$)
+    t$ = RTRIM$(text$)
+    LOOP UNTIL choose = 13 OR choose = 27
 END SUB
 
 SUB expire
