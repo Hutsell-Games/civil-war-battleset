@@ -341,106 +341,117 @@ SELECT CASE choose
         END SELECT
 	    GOTO menu7
 	CASE 7 ' Configure Game Parameters
-	IF pbm <> 0 GOTO menu7
-	CALL customize(x): IF x = 1 THEN GOSUB savecfg
-	IF automatic > 0 GOTO cont1
-	GOTO menu7
-	CASE 8 ' Change Directory
-	COLOR 7, 0: CLS
-	t$ = CURDIR$
-	tlx = 30
-	brx = 54
-	COLOR 11: LOCATE 1, 1: PRINT SPACE$(80)
-	LOCATE 2, 1: PRINT SPACE$(80)
-	LOCATE 2, 1: PRINT "Current Directory "; CURDIR$
-	COLOR 14: LOCATE 1, 1: PRINT "New Directory >";
-	CALL Enput(t$, 17, 1, 80, "")
-	IF t$ = "" GOTO menu7
-	ON ERROR GOTO aint1
-	a$ = LEFT$(t$, 1)
-	IF a$ <> LEFT$(CURDIR$, 1) THEN CHDRIVE a$: IF LEN(t$) < 3 GOTO menu7
-	CHDIR t$
-	ON ERROR GOTO 0
-	GOTO menu7
-aint1:
-	COLOR 0, 4: CLS : COLOR 14: LOCATE 22, 20
-	PRINT "Error "; ERR;
-	IF ERR = 76 THEN
-		PRINT "PATH '"; t$; "' NOT FOUND"
-		ELSE PRINT "- CHECK DRIVE & DIRECTORY"
-	END IF
-	RESUME oldd
-oldd:
-	CALL TICK(9)
-	GOTO menu6
-	CASE 9 ' Run Editor
-	RUN "cs.exe"
-	CASE 10 ' Quit
-	COLOR 11, 0: CLS
-	IF campane > 0 AND file$ <> "" THEN
-		COLOR 15
-		LINE (130, 20)-(490, 110), 4, BF
-		LINE (135, 25)-(485, 105), 15, B
-		LOCATE 4, 33: PRINT "W A R N I N G"
-		LOCATE 5, 21: PRINT "Campaign Game: Battle in progress"
-		LOCATE 6, 21: PRINT "must be completed or it will be lost"
-	END IF
-	mtx$(0) = "Quit CIVILWAR ?"
-	mtx$(1) = "Not Yet"
-	mtx$(2) = "Yes"
-	size = 2: colour = 4
-	CALL menu
-	IF choose = 2 THEN CLS : END
-	GOTO menu7
+        IF pbm <> 0 GOTO menu7
+        CALL customize(x)
+        IF x = 1 THEN GOSUB savecfg
+        IF automatic > 0 GOTO cont1
+        GOTO menu7
+        CASE 8 ' Change Directory
+        COLOR 7, 0
+        CLS
+        t$ = CURDIR$
+        tlx = 30
+        brx = 54
+        COLOR 11: LOCATE 1, 1: PRINT SPACE$(80)
+        LOCATE 2, 1: PRINT SPACE$(80)
+        LOCATE 2, 1: PRINT "Current Directory "; CURDIR$
+        COLOR 14: LOCATE 1, 1: PRINT "New Directory >";
+        CALL Enput(t$, 17, 1, 80, "")
+        IF t$ = "" GOTO menu7
+        ON ERROR GOTO aint1
+        a$ = LEFT$(t$, 1)
+        IF a$ <> LEFT$(CURDIR$, 1) THEN CHDRIVE a$: IF LEN(t$) < 3 GOTO menu7
+        CHDIR t$
+        ON ERROR GOTO 0
+        GOTO menu7
+        aint1:
+        COLOR 0, 4: CLS : COLOR 14: LOCATE 22, 20
+        PRINT "Error "; ERR;
+        IF ERR = 76 THEN
+            PRINT "PATH '"; t$; "' NOT FOUND"
+            ELSE PRINT "- CHECK DRIVE & DIRECTORY"
+        END IF
+        RESUME oldd
+        oldd:
+        CALL TICK(9)
+        GOTO menu6
+    CASE 9 ' Run Editor
+        RUN "cs.exe"
+    CASE 10 ' Quit
+        COLOR 11, 0: CLS
+        IF campane > 0 AND file$ <> "" THEN
+            COLOR 15
+            LINE (130, 20)-(490, 110), 4, BF
+            LINE (135, 25)-(485, 105), 15, B
+            LOCATE 4, 33: PRINT "W A R N I N G"
+            LOCATE 5, 21: PRINT "Campaign Game: Battle in progress"
+            LOCATE 6, 21: PRINT "must be completed or it will be lost"
+        END IF
+        mtx$(0) = "Quit CIVILWAR ?"
+        mtx$(1) = "Not Yet"
+        mtx$(2) = "Yes"
+        size = 2
+        colour = 4
+        CALL menu
+        IF choose = 2 THEN CLS : END
+        GOTO menu7
 	CASE ELSE
-	CLS
-	GOTO menu6
+	    CLS
+	    GOTO menu6
 END SELECT
 GOTO menu7
 cont1: ' Begin Main Game Loop
 ON ERROR GOTO 0
 CALL mainmap
-	CALL clrbot: COLOR 4: PRINT "Initializing";
-	FOR i = 1 TO 2
-		s = 1: IF i = 2 THEN s = m1
-		CALL Compact(i)
-		IF campane > 0 AND vf = 1 THEN
-		bonus = 0: vf = 0
-		FOR k = 1 TO 19
-			z = 0
-			IF region(k) = i THEN
-				bonus = bonus + 1
-				IF bonus > 1 THEN
-muscle:
-					x = s + RND * m1: z = z + 1
-					IF strength(x) < 1 AND z < 9 GOTO muscle
-					strength(x) = 1.5 * strength(x): IF strength(x) > 3000 THEN strength(x) = 3000
-					IF RND > .5 THEN morale(x) = 110
-					IF RND > .5 THEN leader(x) = 110
-					IF toa(x) > 0 AND RND > .5 THEN toa(x) = 0
-				END IF
-			END IF
-		NEXT k
-		IF LEN(file$) > 3 THEN IF UCASE$(LEFT$(file$, 4)) = "CAMP" THEN CALL variety
-		END IF
-	NEXT i
-	CALL lowtime
-	IF pbm <> 0 AND timex <> 0 THEN pbm = timex
-	FOR k = 1 TO Bigg(2): Visible(k) = 0
-	IF strength(k) > 0 AND uorder(k) <> 99 AND terrain(k) = 233 THEN CALL victory(k)
-	NEXT k
+CALL clrbot
+COLOR 4: PRINT "Initializing";
+FOR i = 1 TO 2
+	s = 1
+	IF i = 2 THEN s = m1
+	CALL Compact(i)
+	IF campane > 0 AND vf = 1 THEN
+        bonus = 0
+        vf = 0
+        FOR k = 1 TO 19
+            z = 0
+            IF region(k) = i THEN
+                bonus = bonus + 1
+                IF bonus > 1 THEN
+                    muscle:
+                    x = s + RND * m1: z = z + 1
+                    IF strength(x) < 1 AND z < 9 GOTO muscle
+                    strength(x) = 1.5 * strength(x)
+                    IF strength(x) > 3000 THEN strength(x) = 3000
+                    IF RND > .5 THEN morale(x) = 110
+                    IF RND > .5 THEN leader(x) = 110
+                    IF toa(x) > 0 AND RND > .5 THEN toa(x) = 0
+                END IF
+            END IF
+        NEXT k
+        IF LEN(file$) > 3 THEN IF UCASE$(LEFT$(file$, 4)) = "CAMP" THEN CALL variety
+    END IF
+NEXT i
+CALL lowtime
+IF pbm <> 0 AND timex <> 0 THEN pbm = timex
+FOR k = 1 TO Bigg(2)
+    Visible(k) = 0
+    IF strength(k) > 0 AND uorder(k) <> 99 AND terrain(k) = 233 THEN CALL victory(k)
+NEXT k
 
-	s = 1: F = Bigg(side): IF side = 2 THEN s = m2
-	IF nplayer = 2 THEN s = 1: F = Bigg(2): recon = 1: side = 1
-	FOR active = s TO F: IF strength(active) > 0 AND uorder(active) <> 99 THEN Visible(active) = 1: CALL see(active)
-	NEXT active
+s = 1
+F = Bigg(side)
+IF side = 2 THEN s = m2
+IF nplayer = 2 THEN s = 1: F = Bigg(2): recon = 1: side = 1
+FOR active = s TO F
+    IF strength(active) > 0 AND uorder(active) <> 99 THEN Visible(active) = 1: CALL see(active)
+NEXT active
 
-	startit! = TIMER
+startit! = TIMER
 IF file$ = "ERROR" GOTO menu7
 CALL refresh
 nother:
-	CALL order
-	IF pbm <> 0 THEN IF timex - pbm > 8 GOTO endpbm
+CALL order
+IF pbm <> 0 THEN IF timex - pbm > 8 GOTO endpbm
 
 IF LEN(file$) > 1 GOTO nother
 IF file$ = "�" THEN
@@ -453,22 +464,23 @@ IF file$ = "�" THEN
 	file$ = ""
 	IF automatic = 0 THEN flag = 0 ELSE automatic = 0: mdly! = mdsp + 1
 	IF campane > 0 THEN
-			t$ = sname$(camwin)
-			R! = CINT(10 * skor#) / 10
-			CALL cmap
-			CALL area(0)
-			IF camwin <> side THEN R! = 100 - R!: R! = CINT(10 * R!) / 10
+		t$ = sname$(camwin)
+		R! = CINT(10 * skor#) / 10
+		CALL cmap
+		CALL area(0)
+		IF camwin <> side THEN R! = 100 - R!: R! = CINT(10 * R!) / 10
 
-			IF R! < cscore THEN
-				camwin = 3 - camwin
-			END IF
+		IF R! < cscore THEN
+			camwin = 3 - camwin
+		END IF
 
-			CALL camess(camwin, y)
-			COLOR 15
-			a$ = "now": IF region(campane) = camwin THEN a$ = "STILL"
-			CALL center(sname$(camwin) + " forces " + a$ + " control the " + region$(campane) + " Region")
-			LOCATE y + 9: CALL center(t$ + " Score :" + STR$(R!) + "%" + "  Needed Score :" + STR$(cscore) + "%")
-			CALL campy(campane, 1)
+		CALL camess(camwin, y)
+		COLOR 15
+		a$ = "now"
+		IF region(campane) = camwin THEN a$ = "STILL"
+		CALL center(sname$(camwin) + " forces " + a$ + " control the " + region$(campane) + " Region")
+		LOCATE y + 9: CALL center(t$ + " Score :" + STR$(R!) + "%" + "  Needed Score :" + STR$(cscore) + "%")
+		CALL campy(campane, 1)
 
 		IF camwin = side AND quiet > 0 THEN
 			IF sblast$ <> "" THEN
@@ -481,29 +493,32 @@ IF file$ = "�" THEN
 				END IF
 			END IF
 		END IF
-			region(campane) = camwin
-			campane = -1
-			CLOSE #1
-			file$ = "regions.sav"
-			OPEN "O", 1, file$
-			WRITE #1, camwin
-			FOR k = 1 TO 19: WRITE #1, region(k): NEXT k
-			CLOSE #1
-			TICK 99
-			tly = 10
-			colour = 7: IF side = 2 THEN colour = 9
-			mtx$(0) = "Options"
-			mtx$(1) = "Continue Campaign"
-			mtx$(2) = "Main Menu"
-			size = 2
-			CALL menu
-			IF choose = 1 THEN
-				choose = 99
-				GOTO pane
-			ELSE
-				campane = 0
-				file$ = ""
-			END IF
+		region(campane) = camwin
+		campane = -1
+		CLOSE #1
+		file$ = "regions.sav"
+		OPEN "O", 1, file$
+		WRITE #1, camwin
+		FOR k = 1 TO 19
+		    WRITE #1, region(k)
+		NEXT k
+		CLOSE #1
+		TICK 99
+		tly = 10
+		colour = 7
+		IF side = 2 THEN colour = 9
+		mtx$(0) = "Options"
+		mtx$(1) = "Continue Campaign"
+		mtx$(2) = "Main Menu"
+		size = 2
+		CALL menu
+		IF choose = 1 THEN
+			choose = 99
+			GOTO pane
+		ELSE
+			campane = 0
+			file$ = ""
+		END IF
 	END IF
 	GOTO menu7
 END IF
@@ -511,66 +526,84 @@ GOTO nother
 ' End Main Game Loop
 
 fname: ' Get File Name
-	COLOR 7, 0: CLS : LOCATE 3, 1: PRINT "CURRENT FILES"
-	FILES "*.civ"
-	tlx = 13
-	brx = 54
-	LOCATE 1, 1: COLOR 11, 1: PRINT SPACE$(80)
-	t$ = file$
-	COLOR 11: LOCATE 2, 1: PRINT SPACE$(80)
-	COLOR 14: LOCATE 2, 1: PRINT "Description :"; SCENARIO$
-	LOCATE 1, 1: PRINT "File Name >";
-	CALL Enput(t$, 14, 1, 25, "")
-	IF LEN(t$) = 0 THEN
-		IF file$ = "" THEN
-			GOTO fname
-			ELSE t$ = file$
-		END IF
+COLOR 7, 0: CLS : LOCATE 3, 1: PRINT "CURRENT FILES"
+FILES "*.civ"
+tlx = 13
+brx = 54
+LOCATE 1, 1: COLOR 11, 1: PRINT SPACE$(80)
+t$ = file$
+COLOR 11: LOCATE 2, 1: PRINT SPACE$(80)
+COLOR 14: LOCATE 2, 1: PRINT "Description :"; SCENARIO$
+LOCATE 1, 1: PRINT "File Name >";
+CALL Enput(t$, 14, 1, 25, "")
+IF LEN(t$) = 0 THEN
+	IF file$ = "" THEN
+		GOTO fname
+	ELSE 
+	    t$ = file$
 	END IF
-	IF LEN(t$) < 1 GOTO fname
-	x = INSTR(t$, "."): IF x > 0 THEN t$ = LEFT$(t$, x - 1)
-	IF LEN(t$) > 8 THEN t$ = LEFT$(t$, 8)
-	file$ = UCASE$(t$)
-	IF INSTR(file$, ".") = 0 THEN file$ = file$ + ".civ"
+END IF
+IF LEN(t$) < 1 GOTO fname
+x = INSTR(t$, ".")
+IF x > 0 THEN t$ = LEFT$(t$, x - 1)
+IF LEN(t$) > 8 THEN t$ = LEFT$(t$, 8)
+file$ = UCASE$(t$)
+IF INSTR(file$, ".") = 0 THEN file$ = file$ + ".civ"
 RETURN
 
 lodecfg: ' Load Configuration File
-	intense! = 1
-	RESTORE
-	FOR k = 1 TO 5: READ adj1$(k): NEXT k
-	FOR k = 1 TO 5: READ adj2$(k): NEXT k
-	FOR k = 1 TO 5: READ adj3$(k): NEXT k
-	FOR k = 1 TO 2: READ sname$(k): NEXT k
-	ON ERROR GOTO nocfg
+intense! = 1
+RESTORE
+FOR k = 1 TO 5: READ adj1$(k): NEXT k
+FOR k = 1 TO 5: READ adj2$(k): NEXT k
+FOR k = 1 TO 5: READ adj3$(k): NEXT k
+FOR k = 1 TO 2: READ sname$(k): NEXT k
+ON ERROR GOTO nocfg
 pref:
-	OPEN "I", 1, "Prefer.cfg"
-	INPUT #1, side, bold, seelimit, difficult, quiet, mdsp
-	FOR k = 1 TO 3: INPUT #1, factor(k): NEXT k
-	INPUT #1, rely, stakk, limber, lineofsight, artcap, history, artdelay, intense!
-	CLOSE #1
+OPEN "I", 1, "Prefer.cfg"
+INPUT #1, side, bold, seelimit, difficult, quiet, mdsp
+FOR k = 1 TO 3: INPUT #1, factor(k): NEXT k
+INPUT #1, rely, stakk, limber, lineofsight, artcap, history, artdelay, intense!
+CLOSE #1
 
-	mdly! = 2 * mdsp - 2: IF mdsp = 5 THEN mdly! = 15
-	ON ERROR GOTO 0
-	RETURN
+mdly! = 2 * mdsp - 2
+IF mdsp = 5 THEN mdly! = 15
+ON ERROR GOTO 0
+RETURN
 nocfg:
-	CLOSE #1: RESUME scfg1
+CLOSE #1
+RESUME scfg1
 scfg1:
-	bold = 3: seelimit = 18: difficult = 3: side = 1: quiet = 1: mdsp = 3
-	factor(1) = 5: factor(2) = 10: factor(3) = 100: limber = 1
-	rely = 3: stakk = 2: lineofsight = 1: artcap = 1: history = 1: artdelay = 3
-	GOSUB savecfg
-	ON ERROR GOTO 0
-	GOTO pref
+bold = 3
+seelimit = 18
+difficult = 3
+side = 1
+quiet = 1
+mdsp = 3
+factor(1) = 5
+factor(2) = 10
+factor(3) = 100
+limber = 1
+rely = 3
+stakk = 2
+lineofsight = 1
+artcap = 1
+history = 1
+artdelay = 3
+GOSUB savecfg
+ON ERROR GOTO 0
+GOTO pref
 
 savecfg: ' Write New Configuration File
-	OPEN "O", 1, "Prefer.cfg"
-	COLOR 14: LOCATE 23, 1: PRINT "Saving configuration .";
-	WRITE #1, side, bold, seelimit, difficult, quiet, mdsp: PRINT ".";
-	WRITE #1, factor(1), factor(2), factor(3)
-	WRITE #1, rely, stakk, limber, lineofsight, artcap, history, artdelay, intense!
-	CLOSE #1
-	PRINT " DONE": TICK 2
-	RETURN
+OPEN "O", 1, "Prefer.cfg"
+COLOR 14: LOCATE 23, 1: PRINT "Saving configuration .";
+WRITE #1, side, bold, seelimit, difficult, quiet, mdsp: PRINT ".";
+WRITE #1, factor(1), factor(2), factor(3)
+WRITE #1, rely, stakk, limber, lineofsight, artcap, history, artdelay, intense!
+CLOSE #1
+PRINT " DONE"
+TICK 2
+RETURN
 
 DATA Timid,Cautious,Normal,Bold,Reckless
 DATA Very Easy,Easy,Normal,Hard,Very Hard
@@ -578,78 +611,80 @@ DATA VERY Fast,Fast,Normal,Slow,VERY Slow
 DATA Confederate,Union
 
 filerr:
-	PRINT : PRINT "ERROR: "; ERR; " - ";
-	IF ERR = 62 THEN
-		PRINT "Input past end of file "; file$
-		IF pbm > 0 THEN
-			 COLOR 15: PRINT "PBM file may have extra carriage return /line feed characters": PRINT "Try running PBMFIX first"
-		END IF
-		GOTO softend
+PRINT : PRINT "ERROR: "; ERR; " - ";
+IF ERR = 62 THEN
+	PRINT "Input past end of file "; file$
+	IF pbm > 0 THEN
+		 COLOR 15: PRINT "PBM file may have extra carriage return /line feed characters": PRINT "Try running PBMFIX first"
 	END IF
-	IF ERR = 53 THEN PRINT file$; " file not found": GOTO softend
-	PRINT "ERROR :"; ERR; "Input File "; file$; " has something wrong with it"
-	SELECT CASE flag
-		CASE 1
+	GOTO softend
+END IF
+IF ERR = 53 THEN PRINT file$; " file not found": GOTO softend
+PRINT "ERROR :"; ERR; "Input File "; file$; " has something wrong with it"
+SELECT CASE flag
+	CASE 1
 		PRINT "Check the scenario description line"
-		CASE 2
+	CASE 2
 		PRINT "Check the timelimit and score line"
-		CASE 3
+	CASE 3
 		PRINT "Map has an error at line "; k
 		PRINT sdtext$(k - 1)
 		PRINT sdtext$(k)
-		CASE 4
+	CASE 4
 		PRINT "Unit "; k; " named '"; name$(k); "' has an error"
-		CASE ELSE
-	END SELECT
+	CASE ELSE
+END SELECT
 softend:
-		DO WHILE INKEY$ = "": LOOP
-		END
+DO WHILE INKEY$ = "": LOOP
+END
 caterr:
-	LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
-	IF ERR = 53 THEN PRINT "No *.civ files found": BEEP: RESUME retry
-	END
+LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
+IF ERR = 53 THEN PRINT "No *.civ files found": BEEP: RESUME retry
+END
 retry:
-	GOTO menu6
+GOTO menu6
 noicon:
-	LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
-	IF ERR = 53 THEN PRINT "BAD OR MISSING ICON FILES"
-	END
+LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
+IF ERR = 53 THEN PRINT "BAD OR MISSING ICON FILES"
+END
 
 saveg: ' Set Up 5 Save Game Files
-	IF _FILEEXISTS("$ave1.civ") THEN RETURN
-	LOCATE 22, 1: PRINT "Creating Save Game files...";
-	FOR k = 1 TO 5
+IF _FILEEXISTS("$ave1.civ") THEN RETURN
+LOCATE 22, 1: PRINT "Creating Save Game files...";
+FOR k = 1 TO 5
 	a$ = LTRIM$(RTRIM$(STR$(k)))
 	a$ = "$ave" + a$ + ".civ"
 	IF _FILEEXISTS(a$) = 0 THEN OPEN "O", 1, a$: PRINT #1, "UNUSED": PRINT #1, "0": CLOSE #1
-	NEXT k
-	RETURN
+NEXT k
+RETURN
 nomax:
-	RESUME savemax1
+RESUME savemax1
 savemax1:
-	ON ERROR GOTO 0
-	CLOSE #1: OPEN "O", 1, "maxskors"
-	WRITE #1, "PREVIOUS BEST SCORE FILE", 0, 0
-	GOTO getmax
+ON ERROR GOTO 0
+CLOSE #1: OPEN "O", 1, "maxskors"
+WRITE #1, "PREVIOUS BEST SCORE FILE", 0, 0
+GOTO getmax
 
 testgen:
-	ON ERROR GOTO nogen
-	CLOSE #1: OPEN "I", 1, "generalz"
+ON ERROR GOTO nogen
+CLOSE #1: OPEN "I", 1, "generalz"
 getgen:
-	CLOSE #1
-	RETURN
+CLOSE #1
+RETURN
 nogen:
-	RESUME savegen1
+RESUME savegen1
 savegen1:
-	ON ERROR GOTO 0
-	CLOSE #1: OPEN "O", 1, "generalz"
-	WRITE #1, "HALL OF FAME"
-	CLOSE #1
-	GOTO getgen
+ON ERROR GOTO 0
+CLOSE #1: OPEN "O", 1, "generalz"
+WRITE #1, "HALL OF FAME"
+CLOSE #1
+GOTO getgen
 endpbm:
-	CALL email
-	file$ = "": fold$ = "": flag = 0
-	GOTO menu6
+CALL email
+file$ = ""
+fold$ = ""
+flag = 0
+GOTO menu6
 
 SUB cannon (attack, defend)
 	IF toa(attack) > timex THEN EXIT SUB

@@ -18,3 +18,4 @@
 ===
 16. Clean up comments.
 17. Code reformatting, add .gitignore.
+18. Additional code reformatting.
