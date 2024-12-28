@@ -26,13 +26,13 @@ DIM SHARED Cterr(60), Hterr(60), Sterr(60), Fterr(60)
 DIM SHARED Tterr(60), Mterr(60), Oterr(60), Rterr(60)
 DIM SHARED Wterr(60), Vterr(60), bridge(60), Xhair(60)
 DIM SHARED Explo(60), Death(60), Boat(60), Pfield(60), tldr(15)
-'============================================================================
+
 '                       CIVILSET    v2.4 - EGA VERSION
-'============================================================================
+
 OPEN "I", 1, "prefer.cfg"
 FOR k = 1 TO 5: INPUT #1, quiet: NEXT k
 CLOSE #1
-'...........................................................................
+
 timelimit = 100
 RANDOMIZE TIMER
 CLS
@@ -367,7 +367,7 @@ yorn:
 		size = 2
 		CALL menu
 		RETURN
-fname: ' File Name
+fname: ' Get File Name
 	COLOR 7, 0: CLS : LOCATE 3, 1: PRINT "CURRENT FILES"
 	IF _FILEEXISTS("*.civ") THEN FILES "*.civ"
 	tlx = 13
@@ -698,10 +698,8 @@ com2:
 	PUT (8 * xloc, 14 * yloc), Xhair, XOR
 	IF repeat > 0 THEN CALL replace(yloc, xloc, repeat): GOTO movec
 	GOTO movec
-'============================================================================
-'                           Keyboard Commands
-'============================================================================
-wait4:
+
+wait4: ' Keyboard Commands
 	DO: commnd$ = INKEY$: LOOP UNTIL commnd$ <> ""
 wait1:
 	a = ASC(LEFT$(commnd$, 1))
@@ -710,17 +708,13 @@ wait1:
 
 	IF commnd$ = "/" THEN RETURN
 	RETURN
-'============================================================================
-'                         Show Underneath Terrain
-'============================================================================
-showt:
+
+showt: ' Show Underneath Terrain
 	z = ASC(MID$(sdtext$(y + 1), x, 1))
 	CALL Tara(74, 19, z)
 	RETURN
-'============================================================================
-'                              Redraw Map
-'============================================================================
-freshmap:
+
+freshmap: ' Redraw Map
 CALL mainmap
 LINE (453, 10)-(627, 33), 0, BF
 LINE (453, 10)-(627, 33), 15, B
@@ -757,7 +751,7 @@ NEXT k
 CALL BUTTON(68, 10, 14, "D", repeat)
 PAINT (540, 130), 7, 14      'PAINT (68 * 8 - 4, 10 * 14 - 10), 7, 14
 RETURN
-'============================================================================
+
 rep1:
 	IF repeat > 0 THEN
 		repeat = 0
@@ -775,10 +769,8 @@ rep1:
 	COLOR 12: LOCATE 8, 62: PRINT "DUPLICATE ": CALL Tara(72, 8, z)
 		  IF quiet > 0 THEN SOUND 3100, .7
 	RETURN
-'============================================================================
-'                              Set Objective
-'============================================================================
-keyo:
+
+keyo: ' Set Objective
 FOR k = 1 TO 24: flag = INSTR(sdtext$(k), "�"): IF flag > 0 GOTO movec
 NEXT k
 mtx$(0) = "Objective Control"
@@ -793,10 +785,8 @@ SELECT CASE choose
 	possess = 0
 END SELECT
 z = 233: CALL replace(yloc, xloc, z): GOTO movec
-'============================================================================
-'                              Clear Terrain
-'============================================================================
-allterr:
+
+allterr: ' Clear Terrain
 FOR k = 1 TO most
 IF strength(k) > 0 THEN CALL Tara(unitx(k), unity(k) + 1, 0)
 NEXT k
@@ -806,24 +796,18 @@ march:
 END SUB
 
 SUB Enput (t$, tlx, tly, brx, mask$)
-'===========================================================================
-'                               Initialize
-'===========================================================================
+  ' Initialize
   x1 = 1
   text$ = t$ + SPACE$(brx - tlx + 1 - LEN(t$))
   LOCATE tly, tlx: PRINT text$;
 
-'===========================================================================
-'                               MAIN LOOP
-'===========================================================================
+' Main Game Loop
 DO
-'...........................................................................
   DO
      LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 15, B
      LOCATE tly, tlx + x1 - 1, 1
-'===========================================================================
-'                               Get Key
-'===========================================================================
+
+    ' Get Key
 	Ky$ = ""
 	DO WHILE Ky$ = "": Ky$ = INKEY$: LOOP
      LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 0, B
@@ -833,9 +817,8 @@ DO
 	ELSE
 		choose = ASC(Ky$)
 	END IF
-'===========================================================================
-'                               Key Actions
-'===========================================================================
+
+' Key Actions
 SELECT CASE choose
 	CASE -83                          'delete key
 	 MID$(text$, x1) = MID$(text$, x1 + 1) + " "
@@ -876,10 +859,10 @@ SELECT CASE choose
 		PRINT MID$(text$, x1);
 	 END IF
 
-	CASE 13                          'enter
+	CASE 13 ' enter
 	 EXIT DO
 
-	CASE 27                          'escape : blanks the text
+	CASE 27 ' escape : blanks the text
 	 text$ = CHR$(27): EXIT DO
 
 	CASE 32 TO 122                   'other keys : check vs. mask
@@ -967,9 +950,8 @@ END SUB
 SUB iconload
 SCREEN 9
 LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
-'----------------------------------------------------------------------------
-'                            UNIT Icons
-'----------------------------------------------------------------------------
+
+    ' Unit Icons
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "stdicon.ega", VARPTR(Image(1))
 	DEF SEG
@@ -985,9 +967,7 @@ LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
 	GET (117, 129)-(132, 142), Areb
 	GET (117, 143)-(132, 156), Greb
 
-'----------------------------------------------------------------------------
-'                            Terrain Icons
-'----------------------------------------------------------------------------
+    ' Terrain Icons
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "terrain.ega", VARPTR(Image(1))
 	DEF SEG
@@ -1000,9 +980,8 @@ LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
 	GET (217, 115)-(232, 128), Mterr
 	GET (217, 129)-(232, 142), Oterr
 	GET (217, 143)-(232, 156), Rterr
-'----------------------------------------------------------------------------
-'                         Miscellaneous Icons
-'----------------------------------------------------------------------------
+
+    ' Miscellaneous Icons
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "misc.ega", VARPTR(Image(1))
 	DEF SEG
@@ -1121,10 +1100,8 @@ SUB placearmy
 	stax = 0
 	PUT (8 * xloc, 14 * yloc), Xhair, XOR
 	GOSUB sequence
-'============================================================================
-'                            ARMY PLACEMENT
-'============================================================================
-movea:
+
+movea: ' Army Placement
 	y = yloc: x = xloc
 	GOSUB wait8
 	a = ASC(commnd$)
@@ -1144,15 +1121,13 @@ movea:
 	GOSUB statlin
 
 	GOTO movea
-'============================================================================
+
 attn:
 	CALL whois(xloc, yloc, index, 0)
 	IF index > 0 THEN who$ = "Rebel (CSA)": IF index > .5 * most THEN who$ = "Union (USA)"
 	GOSUB side: RETURN
-'============================================================================
-'                           Keyboard Commands
-'============================================================================
-wait8:
+
+wait8: ' Keyboard Commands
 	commnd$ = INKEY$: IF commnd$ = "" GOTO wait8
 	IF commnd$ = CHR$(0) + "D" THEN IF stax = 0 THEN EXIT SUB ELSE CALL clrlin(23): COLOR 12: PRINT "MUST PLACE UNIT BEFORE RETURNING TO MAIN MENU": BEEP: GOTO wait8
 
@@ -1247,10 +1222,8 @@ wait8:
 	END SELECT
 
 	GOTO wait8
-'============================================================================
-'                              Redraw Entire Map
-'============================================================================
-fresh:
+
+fresh: ' Redraw Entire Map
 	CALL mainmap
 frash:
 	FOR k = 1 TO most
@@ -1266,10 +1239,8 @@ frosh:
 	LOCATE 2, 60: PRINT "F3:Redraw F10:Menu"
 	GOSUB side
 RETURN
-'============================================================================
-'                              Which Side is Being Edited
-'============================================================================
-side:
+
+side: ' Which Side is Being Edited
 	c = 7: dx = 0: IF LEFT$(who$, 1) = "U" THEN dx = 1: c = 9
 	CALL BUTTON(65, 6, 9, "U", dx)
 	CALL BUTTON(70, 6, 4, "R", 1 - dx): PAINT (556, 74), 7, 4   'PAINT (70 * 8 - 4, 6 * 14 - 10), 7, 4
@@ -1277,10 +1248,8 @@ side:
 	LINE (460, 95)-(620, 115), c, B
 	COLOR c: LOCATE 8, 63: PRINT who$
 	RETURN
-'============================================================================
-'                              Army Status Line
-'============================================================================
-statlin:
+
+statlin: ' Army Status Line
 CALL whois(xloc, yloc, index, 0)
 IF index = 0 OR stackflag > 0 THEN
 	GOSUB butt1: LOCATE 24, 1: PRINT SPACE$(40);
@@ -1321,10 +1290,8 @@ zapline:
 IF strength(zapflag) > 0 THEN zapflag = 0
 IF zapflag > 0 THEN COLOR 12: LOCATE 10, 76: PRINT "!"
 RETURN
-'============================================================================
-'                             Menu
-'============================================================================
-soldier:
+
+soldier: ' Menu
 GOSUB side
 tlx = 59: tly = 7
 CALL whois(xloc, yloc, index, 0): IF index > 0 GOTO adjust1
@@ -1354,7 +1321,7 @@ IF choose = -1 THEN RETURN
 morale(index) = 80: leader(index) = 80
 
 SELECT CASE choose
-CASE 1           ' toggle to other side
+CASE 1 ' toggle to other side
 	IF LEFT$(who$, 1) = "R" THEN who$ = "Union (USA)": GOSUB sequence: GOTO soldier
 	IF LEFT$(who$, 1) = "U" THEN who$ = "Rebel (CSA)": GOSUB sequence: GOTO soldier
 CASE 2
@@ -1406,10 +1373,8 @@ CASE 10
 CASE ELSE
 END SELECT
 RETURN
-'============================================================================
-'                             Show Unit Just Placed
-'============================================================================
-set1:
+
+set1: ' Show Unit Just Placed
 z = ASC(MID$(sdtext$(yloc + 1), xloc, 1))
 unity(index) = y: unitx(index) = x: terrain(index) = z
 morale(index) = 80: leader(index) = 80
@@ -1433,10 +1398,7 @@ CALL clrlin(23)
 GOSUB frosh
 RETURN
 
-'============================================================================
-'                             Get Index Sequence
-'============================================================================
-sequence:
+sequence: ' Get Index Sequence
 s = 1: F = .5 * most: IF LEFT$(who$, 1) = "U" THEN s = .5 * most + 1: F = most
 
 FOR index = s TO F
@@ -1460,10 +1422,8 @@ CALL clrlin(23): BEEP: flag = 1
 COLOR 12: PRINT "Cannot Stack Units";
 TICK 99: CALL clrlin(23)
 RETURN
-'============================================================================
-'                             Edit Unit
-'============================================================================
-adjust1:
+
+adjust1: ' Edit Unit
 CALL whois(xloc, yloc, index, 0): IF index = 0 GOTO err5
 GOSUB statlin
 tlx = 59
@@ -1592,10 +1552,8 @@ RETURN
 maxa:
 IF strength(index) > 1000 THEN strength(index) = 1000
 RETURN
-'============================================================================
-'                            Move Unit Selected
-'============================================================================
-iconx:
+
+iconx: ' Move Unit Selected
 		y1 = y: x1 = x
 		y = 14 * yloc: x = 8 * xloc
 		a = ASC(LEFT$(unit$(stax), 1))
@@ -2045,7 +2003,7 @@ SUB SHOWUNIT (index)
 		LINE (x, y)-(x + 15, y + 13), 0, BF
 		LINE (x, y)-(x + 15, y + 13), 2, B
 		LINE (x + 3, y + 3)-(x + 11, y + 10), c, BF
-		CASE 232   'Charge Infantry
+		CASE 232   ' Charge Infantry
 		IF index > 40 THEN PUT (x, y), Iunion, PSET: c = 15:                          ELSE PUT (x, y), Ireb, PSET: c = 4
 		CIRCLE (x + 6, y + 6), 4, c
 		CASE ELSE

@@ -23,21 +23,21 @@ IF COMMAND$ <> "" THEN sblast$ = UCASE$(RIGHT$(COMMAND$, 1))
 	SCREEN 9, , 0, 0
 ON ERROR GOTO noicon
 	CALL iconload
-'............................................................................
+
 	LINE (70, 210)-(563, 286), 4, BF
 	LINE (71, 212)-(561, 284), 15, B
 	COLOR 15
 	LOCATE 17: CALL center("Please Note")
 	LOCATE 18: CALL center("This is your registered copy of the game.")
 	LOCATE 19: CALL center("It is NOT Shareware and should not be further distributed.")
-':::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 	IF sblast$ <> "" THEN
 	t$ = "dixie": IF side = 2 THEN t$ = "hymn"
 		CALL sndblst(t$)
 	END IF
-':::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 	TICK 2
-'............................................................................
+
 GOSUB testgen
 GOSUB saveg
 menu6:
@@ -87,10 +87,8 @@ SELECT CASE choose
 	nplayer = nplayer + 2: IF nplayer > 2 THEN nplayer = 0: side = 1
 	END IF
 	GOTO menu7
-'��������������������������������������������������������������������ͻ
-'�                 Look for "*.civ" files and List Them               �
-'��������������������������������������������������������������������ͼ
-	CASE 2
+
+	CASE 2 ' Look for "*.civ" files and List Them
 regfile:
 	IF fold$ <> "" THEN file$ = fold$
 	campane = 0
@@ -178,7 +176,7 @@ IF pbm > 0 THEN
 	FOR k = 1 TO 3: INPUT #1, factor(k): NEXT k
 	INPUT #1, rely, stakk, limber, lineofsight, artcap, artdelay, intense!
 	chksum& = chksum& + bold + seelimit + stakk + limber + lineofsight + artcap + artdelay
-'................................ checksum .................................
+        ' checksum
 		INPUT #1, temp&, side
 		LOCATE 12
 	IF temp& - chksum& = 0 THEN
@@ -250,10 +248,8 @@ getmax:
 	CLOSE #1
 	CALL clrbot: COLOR 2: PRINT "SUCCESSFUL SAVE": TICK 2
 	GOTO menu7
-'...........................................................................
-'                            choose save file
-'...........................................................................
-whichsave:
+
+whichsave: ' choose save file
 	CLS
 	mtx$(0) = "SAVEGAME FILE TO " + u$
 	FOR k = 1 TO 5
@@ -279,16 +275,12 @@ ritefile:
 	x = INSTR(file$, "."): IF x > 0 THEN a$ = MID$(file$, x - 1, 1)
 	choose = 21 + VAL(a$)
 	RETURN
-'��������������������������������������������������������������������ͻ
-'�                             Run Scenario                           �
-'��������������������������������������������������������������������ͼ
-	CASE 4
+
+	CASE 4 ' Run Scenario
 	IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
 	GOTO cont1
-'��������������������������������������������������������������������ͻ
-'�                              Campaign Map                          �
-'��������������������������������������������������������������������ͼ
-	CASE 5
+
+	CASE 5 ' Campaign Map
 	IF campane > 0 GOTO menu7
 pane:
 	CALL campaign
@@ -306,10 +298,8 @@ fant1:
 	ON ERROR GOTO 0
 	file$ = "$ave1.civ"
 	GOTO camp
-'��������������������������������������������������������������������ͻ
-'�                         PBM Game                                   �
-'��������������������������������������������������������������������ͼ
-	CASE 6
+
+	CASE 6 ' PBM Game
 	size = 1: mtx$(1) = "Begin NEW PBM Game"
 	IF _FILEEXISTS("*.pbm") THEN size = 2: mtx$(2) = "Continue PBM Game"
 	CALL menu
@@ -326,18 +316,13 @@ fant1:
 			GOTO camp
 	END SELECT
 	GOTO menu7
-'��������������������������������������������������������������������ͻ
-'�                         Configure Game Parameters                  �
-'��������������������������������������������������������������������ͼ
-	CASE 7
+
+	CASE 7 ' Configure Game Parameters
 	IF pbm <> 0 GOTO menu7
 	CALL customize(x): IF x = 1 THEN GOSUB savecfg
 	IF automatic > 0 GOTO cont1
 	GOTO menu7
-'��������������������������������������������������������������������ͻ
-'�                            Change Directory                        �
-'��������������������������������������������������������������������ͼ
-	CASE 8
+	CASE 8 ' Change Directory
 	COLOR 7, 0: CLS
 	t$ = CURDIR$
 	tlx = 30
@@ -365,15 +350,9 @@ aint1:
 oldd:
 	CALL TICK(9)
 	GOTO menu6
-'��������������������������������������������������������������������ͻ
-'�                             Run Editor                             �
-'��������������������������������������������������������������������ͼ
-	CASE 9
+	CASE 9 ' Run Editor
 	RUN "cs.exe"
-'��������������������������������������������������������������������ͻ
-'�                             Quit                                   �
-'��������������������������������������������������������������������ͼ
-	CASE 10
+	CASE 10 ' Quit
 	COLOR 11, 0: CLS
 	IF campane > 0 AND file$ <> "" THEN
 		COLOR 15
@@ -395,10 +374,7 @@ oldd:
 	GOTO menu6
 END SELECT
 GOTO menu7
-'��������������������������������������������������������������������ͻ
-'�  ******************    BEGIN MAIN GAME LOOP    ******************  �
-'��������������������������������������������������������������������ͼ
-cont1:
+cont1: ' Begin Main Game Loop
 ON ERROR GOTO 0
 CALL mainmap
 	CALL clrbot: COLOR 4: PRINT "Initializing";
@@ -509,12 +485,9 @@ IF file$ = "�" THEN
 	GOTO menu7
 END IF
 GOTO nother
-'��������������������������������������������������������������������ͻ
-'�  ������������������    END   MAIN GAME LOOP    ������������������  �
-'��������������������������������������������������������������������ͼ
-'                             GET FILE NAME
-'============================================================================
-fname:
+' End Main Game Loop
+
+fname: ' Get File Name
 	COLOR 7, 0: CLS : LOCATE 3, 1: PRINT "CURRENT FILES"
 	FILES "*.civ"
 	tlx = 13
@@ -537,10 +510,8 @@ fname:
 	file$ = UCASE$(t$)
 	IF INSTR(file$, ".") = 0 THEN file$ = file$ + ".civ"
 RETURN
-'��������������������������������������������������������������������ͻ
-'�                    Load Configuration File                         �
-'��������������������������������������������������������������������ͼ
-lodecfg:
+
+lodecfg: ' Load Configuration File
 	intense! = 1
 	RESTORE
 	FOR k = 1 TO 5: READ adj1$(k): NEXT k
@@ -567,10 +538,8 @@ scfg1:
 	GOSUB savecfg
 	ON ERROR GOTO 0
 	GOTO pref
-'��������������������������������������������������������������������ͻ
-'�                    Write New Configuration File                    �
-'��������������������������������������������������������������������ͼ
-savecfg:
+
+savecfg: ' Write New Configuration File
 	OPEN "O", 1, "Prefer.cfg"
 	COLOR 14: LOCATE 23, 1: PRINT "Saving configuration .";
 	WRITE #1, side, bold, seelimit, difficult, quiet, mdsp: PRINT ".";
@@ -622,10 +591,8 @@ noicon:
 	LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
 	IF ERR = 53 THEN PRINT "BAD OR MISSING ICON FILES"
 	END
-'��������������������������������������������������������������������ͻ
-'�                       Set Up 5 Save Game Files                     �
-'��������������������������������������������������������������������ͼ
-saveg:
+
+saveg: ' Set Up 5 Save Game Files
 	IF _FILEEXISTS("$ave1.civ") THEN RETURN
 	LOCATE 22, 1: PRINT "Creating Save Game files...";
 	FOR k = 1 TO 5
@@ -953,9 +920,8 @@ SUB iconload
 LINE (0, 0)-(639, 349), 5, BF
 LOCATE 24, 1: COLOR 11: PRINT "Loading Icons...";
 SCREEN 9, 0, 1, 0
-'----------------------------------------------------------------------------
-'                            UNIT Icons..... STDICON
-'----------------------------------------------------------------------------
+
+    ' Unit Icons - STDICON
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "stdicon.ega", VARPTR(Image(1))
 	DEF SEG
@@ -970,9 +936,8 @@ SCREEN 9, 0, 1, 0
 	GET (117, 115)-(132, 128), Creb
 	GET (117, 129)-(132, 142), Areb
 	GET (117, 143)-(132, 156), Greb
-'----------------------------------------------------------------------------
-'                            UNIT Icons..... ALTICON
-'----------------------------------------------------------------------------
+
+    ' Unit Icons - ALTICON
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "alticon.ega", VARPTR(Image(1))
 	DEF SEG
@@ -985,9 +950,8 @@ SCREEN 9, 0, 1, 0
 	GET (117, 101)-(132, 114), LAreb
 	GET (117, 115)-(132, 128), EGreb
 	GET (117, 129)-(132, 142), HAreb
-'----------------------------------------------------------------------------
-'                            Terrain Icons
-'----------------------------------------------------------------------------
+
+    ' Terrain Icons
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "terrain.ega", VARPTR(Image(1))
 	DEF SEG
@@ -1001,9 +965,8 @@ SCREEN 9, 0, 1, 0
 	GET (217, 115)-(232, 128), Mterr
 	GET (217, 129)-(232, 142), Oterr
 	GET (217, 143)-(232, 156), Rterr
-'----------------------------------------------------------------------------
-'                         Miscellaneous Icons
-'----------------------------------------------------------------------------
+
+    ' Miscellaneous Icons
 	DEF SEG = VARSEG(Image(1))
 	BLOAD "misc.ega", VARPTR(Image(1))
 	DEF SEG
@@ -1017,9 +980,8 @@ SCREEN 9, 0, 1, 0
 	GET (317, 115)-(332, 128), Death
 	GET (317, 129)-(332, 142), Boat
 	GET (317, 143)-(332, 156), Pfield
-'----------------------------------------------------------------------------
-'                         Side Identifier Icons
-'----------------------------------------------------------------------------
+
+' Side Identifier Icons
 sideicon = 0
 IF _FILEEXISTS("yank.ega") = 0 GOTO noside
 DEF SEG = VARSEG(Image(1))
@@ -1200,9 +1162,7 @@ COLOR 11, 0
 END SUB
 
 SUB musket (attack, defend, pct#)
-'============================================================================
-'                                Attacker fires first
-'============================================================================
+' Attacker fires first
 CALL YouorMe(attack, F)
 PUT (8 * unitx(defend), 14 * unity(defend)), Explo, PSET
 IF F = 0 THEN
@@ -1234,9 +1194,8 @@ IF u$ = "L" THEN roll! = .2 * roll!   'Limbered
 roll! = intense! * roll!
 IF pct# < .8 THEN roll! = .5 * roll!                       'scale down light attacks
 IF roll! < .01 THEN roll! = .01                            'Minimum
-'============================================================================
-'                      Bonus for Cavalry Charge & Charging Infantry
-'============================================================================
+
+' Bonus for Cavalry Charge & Charging Infantry
 flag = 0
 IF (terrain(defend) = 43) OR (terrain(defend) = 46) AND LEFTY$(attack) = "C" THEN roll! = roll! + .15: bonus = bonus + .1 * leader(attack): flag = 1
 IF LEFTY$(attack) = "�" THEN roll! = roll! + .02: bonus = bonus + .05 * leader(attack)
@@ -1258,9 +1217,8 @@ CALL scrcol(2)
 CALL SHOWUNIT(defend)
 
 IF RND > .99 THEN CALL deadlead(defend)
-'============================================================================
-'                                Defender returns fire
-'============================================================================
+
+' Defender Returns Fire
 CALL YouorMe(defend, F)
 IF F = 0 THEN
 	roll! = .053 * difficult: IF difficult > 3 THEN roll! = roll! + .02 * difficult
@@ -1377,9 +1335,8 @@ SUB order
 	flag = 0
 	CALL BuffClear
 	IF nplayer = 2 THEN GOSUB aque
-'============================================================================
-'                      Find Time of Next Action
-'============================================================================
+
+    ' Find Time of Next Action
 	told = timex
 	CALL lowtime
 	IF possess > 0 THEN vp&(possess) = vp&(possess) + factor(2) * (timex - told)
@@ -1469,16 +1426,16 @@ playon:
       
 	IF automatic = 1 THEN GOSUB otherside: GOTO asleep
 	CALL YouorMe(active, F): IF F = 0 THEN GOSUB otherside: IF recon = 0 GOTO sleep2 ELSE GOTO asleep
-'============================================================================
+
 human:
 	y0 = 14 * unity(active): x0 = 8 * unitx(active)
 	IF rely = 1 OR INSTR("ANH", t$) > 0 THEN IF uorder(active) > 99 THEN uorder(active) = 0
 
 	clrbot
 	IF uorder(active) > 0 THEN CALL cupdate(active): GOTO asleep
-'............................................................................
+
 IF lineofsight = 2 THEN CALL vistarg(active, 0)
-'............................................................................
+
 	CALL inspect(active)
 	ATTENTION active, 14
 
@@ -1493,10 +1450,8 @@ wait2:
 	LITEUP x0, y0, 14
 	clrbot
 	GOSUB cline
-'============================================================================
-'                     Get Keyboard Command
-'============================================================================
-wait3:
+
+wait3: ' Get Keyboard Command
 	commnd$ = INKEY$: IF commnd$ = "" GOTO wait3
 	IF ASC(commnd$) = 2 GOTO noboss
 	a = LEN(commnd$): commnd$ = RIGHT$(commnd$, 1)
@@ -1601,12 +1556,10 @@ cartog:
 		IF a < 2 THEN clrbot: COLOR 11: PRINT "Cannot execute that command"; : CALL TICK(mdly!): clrbot: BuffClear
 END SELECT
 GOTO wait2
-'============================================================================
+
 ' orders:   <0=dug in   0=none   1=blocked  99=hidden  >99=moveto destination
-'============================================================================
-'                     Move Unit & Check for Sighting
-'============================================================================
-moven:
+
+moven: ' Move Unit & Check for Sighting
 IF uorder(active) < 0 AND leader(active) < 70 THEN dx = 2: GOTO fodder
 IF t$ = "E" THEN COLOR 12: clrbot: PRINT "Emplaced Gun -- Cannot Move"; : CALL noise(400, 1, "bump"): CALL TICK(1): GOTO wait2
 	IF limber = 1 AND INSTR("ANH", t$) > 0 THEN
@@ -1632,10 +1585,8 @@ snore:
 	IF timex = timelimit GOTO endgame
 NEXT active
 EXIT SUB
-'============================================================================
-'                               Enemy Update Logic
-'============================================================================
-otherside:
+
+otherside: ' Enemy Update Logic
 IF nplayer = 2 THEN
 	IF queue(3 - side) = 0 THEN EXIT SUB
 	c = 7: IF side = 1 THEN c = 1
@@ -1664,10 +1615,10 @@ IF flag = 0 THEN GOSUB sidechange: IF quiet > 0 AND sblast$ <> "" THEN CALL sndb
 COLOR 11: CALL clrbot: LOCATE 23, 50: PRINT name$(active); "'s TURN";
 IF strength(active) < 1 THEN RETURN
 queue(0) = queue(0) + 1
-'............................................................................
+
 a$ = LEFTY$(active)
 IF a$ = "I" THEN IF morale(active) > 60 AND (terrain(active) = 43 OR terrain(active) = 46) THEN unit$(active) = "�": CALL SHOWUNIT(active): toa(active) = timex + 1: RETURN
-'............................................................................
+
 IF INSTR("AEHNBL", a$) THEN
 	CALL Near2(active, Enemy, d)
 	IF a$ = "B" AND Enemy > 0 AND d < .8 * seelimit THEN CALL cannon(active, Enemy): RETURN
@@ -1702,11 +1653,11 @@ IF INSTR("AEHNBL", a$) THEN
 		IF INSTR("AEHNL", u$) = 0 AND RND > .2 THEN uorder(active) = 100 * unity(Enemy) + unitx(Enemy)
 	END IF
 END IF
-'............................................................................
+
 IF possess = side AND uorder(active) = 100 * objy + objx THEN CALL cupdate(active): RETURN
 CALL Near2(active, Enemy, d)
 IF d < 4 AND a$ <> "G" THEN uorder(active) = 100 * unity(Enemy) + unitx(Enemy): CALL cupdate(active): RETURN
-'............................................................................
+
 IF a$ = "G" THEN
 	CALL proximity(active, (unitx(active)), (unity(active)), plus)
 	IF plus > 0 THEN CALL flee(active, index)
@@ -1726,7 +1677,7 @@ IF a$ = "G" THEN
 	CALL general(active)
 	IF uorder(active) > 0 THEN CALL cupdate(active): RETURN
 END IF
-'............................................................................
+
 d = 2 * ABS(unity(active) - objy) + ABS(unitx(active) - objx)
 IF d < seelimit AND possess <> 3 - side THEN
 	IF d < closest THEN
@@ -1742,7 +1693,7 @@ CALL general(active)
 CALL valid(active)
 CALL cupdate(active)
 RETURN
-'............................................................................
+
 sidechange:
 CALL kleer: flag = 1
 
@@ -1751,15 +1702,13 @@ CALL icon(470, 190, 3 - side)
 COLOR 7: IF side = 1 THEN COLOR 9
 LOCATE 13, 58: PRINT sname$(3 - side); " Turn"
 RETURN
-'============================================================================
-'                               Stats on Unit Under Cursor
-'============================================================================
-stats:
+
+stats: '  Stats on Unit Under Cursor
 CALL inspect(id)
 CALL YouorMe(id, F)
 IF F > 0 THEN IF uorder(id) > 99 AND dx <> 4 THEN CALL target(id): GOSUB inlin
 RETURN
-'============================================================================
+
 cline:
 	clrbot
 	a$ = "[ " + sname$(side) + " COMMANDS ]"
@@ -1776,10 +1725,8 @@ wait5:
 	IF dys < 2 GOTO wait5
 	commnd$ = RIGHT$(commnd$, 1)
 	RETURN
-'============================================================================
-'                            Leave Entrenchments
-'============================================================================
-earth:
+
+earth: ' Leave Entrenchments
 CALL clrbot: COLOR 15: PRINT name$(active); " is entrenched"
 mtx$(0) = "Leave Trench"
 CALL YesNo(a$)
@@ -1791,10 +1738,8 @@ toa(active) = timex + 5
 CALL clrbot: COLOR 14: PRINT name$(active); "'s men will leave their entrenchments on turn "; timelimit - toa(active);
 TICK mdly!
 RETURN
-'��������������������������������������������������������������������ͻ
-'�                             Late Arrivals                          �
-'��������������������������������������������������������������������ͼ
-canplace:
+
+canplace: ' Late Arrivals
 	CALL whois(unitx(active), unity(active), id, active)
 	IF id > 0 THEN RETURN
 	s = 1: IF active > m1 THEN s = 2
@@ -1824,10 +1769,8 @@ canplace:
 	IF INSTR("ANHB", t$) THEN CALL cannon(active, Enemy): RETURN
 	uorder(active) = 100 * unity(Enemy) + unitx(Enemy)
 	RETURN
-'============================================================================
-'                               cancel orders
-'============================================================================
-cancel:
+
+cancel: ' Cancel orders
 CALL clrbot: PRINT " General "; name$(active); " cancelling orders : ";
 x = 0: y = 0: s = 1: F = Bigg(side): IF side = 2 THEN s = m2
 FOR i = s TO F: IF strength(i) = 0 OR uorder(i) < 1 OR uorder(i) = 99 GOTO corpse
@@ -1862,10 +1805,8 @@ ahead:
 	CALL expire
 	CALL mainmap: CALL refresh: CALL inspect(active)
 	RETURN
-'============================================================================
-'                               Command Menu
-'============================================================================
-Options:
+
+Options: ' Command Menu
 tlx = 60: tly = 3: colour = 9
 mtx$(0) = "UNIT COMMAND"
 mtx$(1) = "Move to location"
@@ -1900,10 +1841,8 @@ SELECT CASE choose
 	GOTO wait2
 END SELECT
 GOTO wait2
-'============================================================================
-'                                  Move order
-'============================================================================
-here:
+
+here: ' Move Order
 	COLOR 14: CALL clrbot
 	IF dx = 5 THEN PRINT unit$(active); " "; name$(active); " has given orders to move to ("; xloc; ","; yloc; ") and";
 	uorder(active) = 100 * yloc + xloc
@@ -1925,10 +1864,8 @@ here:
 	TICK mdly!
 	clrbot
 	GOTO asleep
-'============================================================================
-'           Cursor Controlled Movements  1=cannon  2=move  3=spy
-'============================================================================
-fodder:
+
+fodder: ' Cursor Controlled Movements  1=cannon  2=move  3=spy
 SELECT CASE dx
       CASE 1  'cannon
 	IF limber = 1 AND LEFTY$(active) = "L" THEN CALL limbo(active, 2): IF LEFTY$(active) = "L" GOTO wait2 ELSE GOTO asleep
@@ -2006,7 +1943,7 @@ END SELECT
 	CASE ELSE
 	END SELECT
 	GOTO movex
-'...........................................................................
+
 here2:
 	IF dx = 2 OR dx = 5 GOTO here
 	IF dx = 3 THEN PUT (8 * xloc, 14 * yloc), Xhair, XOR: GOTO wait2
@@ -2037,7 +1974,7 @@ here2:
 dudd:
 	CALL refresh
 	GOTO asleep
-'============================================================================
+
 newcurs:
 	CALL whois(x, y, Enemy, active)
 	IF Enemy <> 0 THEN RETURN
@@ -2060,7 +1997,7 @@ noboss:
 	DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
 	IF ASC(commnd$) <> 2 GOTO noboss
 	GOTO cartog
-'...........................................................................
+
 allterr:
 FOR k = 1 TO Bigg(2)
 IF strength(k) > 0 AND uorder(k) <> 99 THEN CALL Tara(unitx(k), unity(k) + 1, 0)
@@ -2084,9 +2021,8 @@ IF possess <> 3 - side AND uorder(index) = 100 * objy + objx GOTO ours
 IF uorder(index) > -1 AND morale(index) < 80 THEN
 	IF 100 * RND > morale(index) + leader(index) THEN uorder(index) = 0: CALL rest(index): EXIT SUB
 END IF
-'============================================================================
-'                    Enemy Checks for Proximity of Our Units
-'============================================================================
+
+    ' Enemy Checks for Proximity of Our Units
 	s = 1: F = Bigg(1): IF index < m2 THEN s = m2: F = Bigg(2)
 	CALL Near2(index, Enemy, near)
 	IF Enemy = 0 GOTO ours
@@ -2130,43 +2066,37 @@ try2:
 		EXIT SUB
 	END IF
 	IF morale(index) < 70 THEN CALL rest(index)
-'============================================================================
-'                    Continue with Move Orders
-'============================================================================
-ours:
+
+ours: ' Continue with Move Orders
 told = terrain(index)
 IF xloc > 55 THEN xloc = 55: EXIT SUB
 IF xloc < 2 THEN xloc = 2: EXIT SUB
 IF yloc > 20 THEN yloc = 20: EXIT SUB
 IF yloc < 1 THEN yloc = 1: EXIT SUB
 z = ASC(MID$(sdtext$(yloc + 1), xloc, 1))
-'============================================================================
-'                    Check for presence of Invisible Units
-'============================================================================
+
+' Check for presence of Invisible Units
 CALL whois(xloc, yloc, Enemy, index)
 IF Enemy = 0 GOTO rechex
 IF index < m2 AND Enemy < m2 GOTO special
 IF index > m1 AND Enemy > m1 GOTO special
 IF Enemy > 0 THEN CALL SHOWUNIT(Enemy): GOTO rumble
 GOTO rechex
-'============================================================================
-'                            Engage if enemy is present
-'============================================================================
-rumble:
+
+rumble: ' Engage enemy if present
 COLOR 14
 IF side = 1 AND index > m1 THEN COLOR 15
 IF side = 2 AND index < m2 THEN COLOR 14
 IF LEFTY$(index) = "B" AND LEFTY$(Enemy) <> "B" THEN uorder(index) = 1: EXIT SUB
 IF LEFTY$(index) <> "B" AND LEFTY$(Enemy) = "B" THEN uorder(index) = 1: EXIT SUB
-'============================================================================
-'                              Engage in Combat
-'============================================================================
+
+' Engage in Combat
 CALL YouorMe(index, F): IF F > 0 THEN CALL inspect(index)
 CALL combat(index, Enemy)
 IF F > 0 THEN CALL inspect(index)
 CALL SHOWUNIT(index)
 IF toa(index) < timex + 2 THEN toa(index) = timex + 2
-'============================================================================
+
 IF F > 0 OR difficult < 4 THEN EXIT SUB
 toa(index) = toa(index) - 2
 IF toa(index) <= timex THEN toa(index) = timex + 1
@@ -2178,9 +2108,8 @@ IF LEFTY$(index) <> "B" THEN IF z = 176 THEN GOSUB route: IF uorder(index) > 0 T
 terrain(index) = z
 IF recon = 1 THEN Visible(index) = 1
 IF Visible(index) > 0 THEN CALL SHOWUNIT(index)
-'============================================================================
-'       calculate time of action penalty from unittype
-'============================================================================
+
+    ' calculate time of action penalty from unittype
 	u$ = LEFTY$(index)
 	SELECT CASE u$
 	CASE "I"
@@ -2200,9 +2129,8 @@ IF Visible(index) > 0 THEN CALL SHOWUNIT(index)
 	CASE ELSE
 	plus = 1
 	END SELECT
-'============================================================================
-'       calculate time of action penalty from terrain
-'============================================================================
+
+    ' calculate time of action penalty from terrain
 	dx = 2 * limber
 	SELECT CASE terrain(index)
 	CASE 35  'fort
@@ -2236,14 +2164,12 @@ IF Visible(index) > 0 THEN CALL SHOWUNIT(index)
 	CASE ELSE
 	Pnlty = 2
 	END SELECT
-'============================================================================
-'           modify time of action penalty based on unit morale & leader
-'============================================================================
+
+    ' modify time of action penalty based on unit morale & leader
 	IF morale(index) < 60 THEN Pnlty = Pnlty + 1
 	IF leader(index) < 70 THEN Pnlty = Pnlty + 1: IF leader(index) < 50 THEN Pnlty = Pnlty + 1
-'============================================================================
-'                        Update Time of Action
-'============================================================================
+
+    ' Update Time of Action
 	toa(index) = timex + Pnlty + plus
 	CALL YouorMe(active, F)
 	IF F = 0 THEN
@@ -2260,10 +2186,8 @@ unitx(index) = xloc: unity(index) = yloc
 CALL SHOWUNIT(index)
 IF terrain(index) = 233 THEN CALL victory(index)
 EXIT SUB
-'��������������������������������������������������������������������ͻ
-'�                    Check Alternate Routes If Blocked               �
-'��������������������������������������������������������������������ͼ
-route:
+
+route: ' Check Alternate Routes If Blocked
 CALL YouorMe(index, F): IF F > 0 THEN uorder(index) = 1: RETURN
 a$ = "GIKMOQ": IF RND > .5 THEN a$ = "QOMKIG"
 dx = 2 * ABS(unity(index) - objy) + ABS(unitx(index) - objx)
@@ -2289,10 +2213,8 @@ ELSE
 	IF z = 176 THEN blox = 1: RETURN
 END IF
 RETURN
-'��������������������������������������������������������������������ͻ
-'�                    Special Cleanup -Contacted Units                �
-'��������������������������������������������������������������������ͼ
-special:
+
+special: ' Special Cleanup -Contacted Units 
 GOSUB route
 	IF uorder(index) = 0 THEN
 		z = ASC(MID$(sdtext$(ynew + 1), xnew, 1))
@@ -2310,9 +2232,8 @@ IF quiet = 1 THEN
 		END IF
 	END IF
 END IF
-'��������������������������������������������������������������������ͻ
-'�                            Combine Units                           �
-'��������������������������������������������������������������������ͼ
+
+' Combine Units
 CALL whois(xloc, yloc, Enemy, index)
 IF Enemy = 0 THEN EXIT SUB
 CALL YouorMe(Enemy, F)
@@ -2326,7 +2247,7 @@ IF strength(index) + strength(Enemy) > 500 * (stakk - 1) THEN
 		EXIT SUB
 	END IF
 END IF
-'...........................................................................
+
 IF t$ = "L" THEN unit$(Enemy) = MID$(unit$(Enemy), 2): CALL SHOWUNIT(Enemy)
 a$ = LEFTY$(index)
 IF t$ = "E" OR a$ = "B" OR t$ = "B" THEN uorder(index) = 0: CALL clrbot: PRINT "Illegal unit type to stack"; : TICK (.3 * mdly!): EXIT SUB
@@ -2360,7 +2281,7 @@ mtx$(0) = "Stack Units"
 CALL YesNo(u$)
 CALL scrcol(1)
 IF u$ <> "Y" THEN CALL SHOWUNIT(Enemy): EXIT SUB
-'...........................................................................
+
 cluster:
 IF automatic = 0 AND Visible(index) > 0 THEN clrbot: COLOR 11: PRINT name$(index); " stacking with "; name$(Enemy);
 IF quiet = 1 THEN
@@ -2460,7 +2381,7 @@ SUB SHOWUNIT (index)
 			LINE (x, y)-(x + 15, y + 13), 1, B
 			IF uorder(index) > 0 THEN uorder(index) = 0
 		END IF
-		CASE 232   'Charge Infantry
+		CASE 232   ' Charge Infantry
 		IF index > m1 THEN
 			PUT (x, y), Iunion, PSET: c = 15
 		ELSE
