@@ -18,7 +18,7 @@ INPUT #1, a
 	INPUT #1, matrix(k, j)
 	NEXT j
 INPUT #1, ry(k), rx(k), region$(k)
-'...........................................................................
+
 	c = 8
 	IF region(k) > 0 THEN
 		c = 4
@@ -28,7 +28,7 @@ INPUT #1, ry(k), rx(k), region$(k)
 	COLOR c
 	LOCATE ry(k), rx(k): PRINT region$(k);
 	IF k = 2 OR k = 6 THEN PRINT "*"
-'...........................................................................
+
 INPUT #1, x
 mtx$(0) = STR$(x)
 	IF x > 0 THEN
@@ -111,7 +111,7 @@ LOCATE 20, 66: PRINT "VICTORY SCORES"
 LOCATE 21, 66: PRINT "Neutral  50%"
 LOCATE 22, 66: PRINT "Occupied"; x; "%";
 LOCATE 23, 66: PRINT "Capitals"; x + 5; "%"
-'...........................................................................
+
 t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF _FILEEXISTS(a$) THEN t$ = a$
 CLOSE #1
 OPEN "I", 1, t$
@@ -151,7 +151,7 @@ KILL "regions.sav"
 SCREEN 9
 EXIT SUB
 END IF
-'...........................................................................
+
 CALL area(0)
 COLOR 4: IF side = 2 THEN COLOR 9
 x = INT(52.632 * z + .5) * .1
@@ -163,7 +163,7 @@ a = z: IF camwin = 2 THEN a = y
 LOCATE 16, 69: PRINT "CONTROL"
 LOCATE 17, 66: PRINT a; "Regions"
 LOCATE 18, 69: PRINT "("; x; "%)"
-'...........................................................................
+
 batreg:
 IF difficult > 3 THEN camwin = 0
 IF camwin = 0 THEN camwin = 1: IF RND > .5 THEN camwin = 2
@@ -189,9 +189,8 @@ dupe:
 	END IF
 NEXT k
 mtx$(0) = sname$(camwin) + " Move"
-'............................................................................
-'                               computer move
-'............................................................................
+
+' Computer Move
 IF nplayer = 0 AND camwin <> side THEN
 rhett:
 	choose = 1 + INT(RND * size)
@@ -205,9 +204,8 @@ rhett:
 	CALL cmap
 	GOTO horses
 END IF
-'............................................................................
-'                               human move
-'............................................................................
+
+' Human Move
 CALL Bubble(size)
 colour = 7: IF camwin = 2 THEN colour = 9
 CALL icon(585, 140, camwin)
@@ -312,7 +310,7 @@ END SUB
 
 SUB codex (flag, index, a$, t$)
 SELECT CASE flag
-CASE 1                  '....... encode
+CASE 1 ' encode
 	t$ = ""
 FOR k = 1 TO LEN(a$)
 	x = ASC(MID$(a$, k, 1))
@@ -322,7 +320,7 @@ FOR k = 1 TO LEN(a$)
 	t$ = t$ + CHR$(x)
 NEXT k
 
-CASE 2                  '........ decode
+CASE 2 ' decode
 	t$ = ""
 FOR k = 1 TO LEN(a$)
 	x = ASC(MID$(a$, k, 1))
@@ -659,7 +657,7 @@ method2:
 	a$ = "OQ"
 	CASE ELSE
 END SELECT
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 blox = -1
 dx = LEN(a$)
 FOR k = 1 TO dx
@@ -670,7 +668,7 @@ NEXT k
 IF blox > 0 THEN xnew = tlx: ynew = tly: GOTO slide
 uorder(index) = 0
 EXIT SUB
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 isblox:
 IF xnew < 1 XOR xnew > 55 THEN RETURN
 IF ynew < 1 XOR ynew > 20 THEN RETURN
@@ -699,7 +697,7 @@ CALL whois(xnew, ynew, Enemy, index)
 	IF bonus > 0 THEN bonus = bonus + 3 * RND
 	IF bonus > blox THEN blox = bonus: tlx = xnew: tly = ynew
 RETURN
-'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 slide:
 	IF t$ = "G" THEN CALL proximity(index, xnew, ynew, plus): IF plus > 0 THEN uorder(index) = 0: EXIT SUB
 	CALL placeunit(xnew, ynew, index)
@@ -805,10 +803,7 @@ tly = 2: colour = 3: size = 18: CALL menu: COLOR 7, 0
 	SELECT CASE choose
 		CASE -1
 		GOTO isthru
-'----------------------------------------------------------------------------
-'                                    Difficulty
-'----------------------------------------------------------------------------
-		CASE 1
+		CASE 1 ' Difficulty
 	choose = 21 + difficult: tly = 13
 	mtx$(0) = "Difficulty"
 	FOR k = 1 TO 5: mtx$(k) = adj2$(k): NEXT k
@@ -818,17 +813,11 @@ tly = 2: colour = 3: size = 18: CALL menu: COLOR 7, 0
 	IF choose = -1 XOR choose = 99 GOTO menup
 	difficult = choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                             Adjust Starting Location
-'----------------------------------------------------------------------------
-	CASE 2
+	CASE 2 ' Adjust Starting Location
 	COLOR 14
 	CALL variety
 	GOTO menup
-'----------------------------------------------------------------------------
-'                            Set Visibility Limit
-'----------------------------------------------------------------------------
-		CASE 3
+		CASE 3 ' Set Visibility Limit
 	CLS
 	COLOR 14: PRINT "LINE OF SIGHT RANGE": COLOR 11: LOCATE 4, 1
 	PRINT "MIN.�...1�0...�...2�0...�...3�0...�...4�0...�...5�0"
@@ -846,10 +835,7 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	IF seelimit > 50 THEN seelimit = 50
 	IF quiet = 1 THEN SOUND 800 + 20 * seelimit, 1
 	GOTO sight
-'----------------------------------------------------------------------------
-'                            Enemy Aggressiveness
-'----------------------------------------------------------------------------
-		CASE 4
+		CASE 4 ' Enemy Aggressiveness
 	choose = 21 + bold
 	mtx$(0) = "Enemy Aggression"
 	FOR k = 1 TO 5: mtx$(k) = adj1$(k): NEXT k
@@ -858,10 +844,7 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	CALL menu: IF choose = -1 GOTO menup
 	bold = choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                            Message Speed
-'----------------------------------------------------------------------------
-		CASE 5
+		CASE 5 ' Message Speed
 	mtx$(0) = "Display Speed"
 	choose = 21 + mdsp
 	FOR k = 1 TO 5: mtx$(k) = adj3$(k): NEXT k
@@ -871,15 +854,9 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 	mdsp = choose
 	mdly! = 2 * mdsp - 2: IF mdsp = 5 THEN mdly! = 15
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Sound Toggle
-'----------------------------------------------------------------------------
-		CASE 6
+		CASE 6 ' Sound Toggle
 	quiet = 1 - quiet: GOTO menup
-'----------------------------------------------------------------------------
-'                        Set Game Scoring Factors
-'----------------------------------------------------------------------------
-		CASE 7
+		CASE 7 ' Set Game Scoring Factors
 	COLOR 11, 3: LOCATE 19, 1
 	COLOR 14: PRINT "Game Scoring Factors": COLOR 11, 1
 	LOCATE 20, 1: PRINT "Points per enemy unit destroyed ["; factor(1); "]"; : INPUT x
@@ -892,10 +869,7 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 dorko:
 	SOUND 100, 2: LOCATE 23, 1: COLOR 14: PRINT "VALUE OUTSIDE VALID LIMITS - FACTOR NOT CHANGED !";
 	COLOR 11: TICK 99: clrbot: RETURN
-'----------------------------------------------------------------------------
-'                       Unit Reliability
-'----------------------------------------------------------------------------
-		CASE 8
+		CASE 8 ' Unit Reliability
 	mtx$(0) = "Unit Reliability"
 	choose = 21 + rely
 	mtx$(1) = "Extremely reliable"
@@ -907,15 +881,9 @@ dorko:
 	size = 5: CALL menu
 	IF choose > 0 THEN rely = choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                             Auto Play Option
-'----------------------------------------------------------------------------
-		CASE 9
+		CASE 9 ' Auto Play Option
 	quiet = 0: recon = 1: mdly! = 0: automatic = 1 - automatic: CALL BuffClear: GOTO menup
-'----------------------------------------------------------------------------
-'                             Stack Limit
-'----------------------------------------------------------------------------
-		CASE 10
+		CASE 10 ' Stack Limit
 	mtx$(0) = "Stack Limit"
 	FOR k = 1 TO 5: mtx$(k) = STR$(500 * (k - 1)): NEXT k
 	mtx$(1) = mtx$(1) + " (No Stacking)"
@@ -924,34 +892,19 @@ dorko:
 	size = 5: CALL menu
 	IF choose > 0 THEN stakk = choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Toggle Limber Option
-'----------------------------------------------------------------------------
-		CASE 11
+		CASE 11 ' Toggle Limber Option
 	limber = 1 - limber
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Toggle Line of Sight Option
-'----------------------------------------------------------------------------
-		CASE 12
+		CASE 12 ' Toggle Line of Sight Option
 	lineofsight = 1 - lineofsight
 	GOTO menup
-'----------------------------------------------------------------------------
-'                    Toggle Artillery Capture Option
-'----------------------------------------------------------------------------
-		CASE 13
+		CASE 13 ' Toggle Artillery Capture Option
 	artcap = 1 - artcap
 	GOTO menup
-'----------------------------------------------------------------------------
-'                                  Set History Flag
-'----------------------------------------------------------------------------
-		CASE 14
+		CASE 14 ' Set History Flag
 	history = 1 - history
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Sound Blaster Toggle
-'----------------------------------------------------------------------------
-		CASE 15
+		CASE 15 ' Sound Blaster Toggle
 	mtx$(0) = "Artillery Fire Rate"
 	mtx$(1) = "Very FAST"
 	mtx$(2) = "FAST"
@@ -963,10 +916,7 @@ dorko:
 	size = 5: CALL menu
 	IF choose > 0 THEN artdelay = choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Clear History Files
-'----------------------------------------------------------------------------
-			CASE 16
+			CASE 16 ' Clear History Files
 	OPEN "O", 1, "generalz"
 	PRINT #1, "HALL OF FAME"
 	CLOSE #1
@@ -975,10 +925,7 @@ dorko:
 	CLOSE #1
 	LOCATE 22, 1: PRINT "History files cleared": TICK 2
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Battle Intensity
-'----------------------------------------------------------------------------
-			CASE 17
+			CASE 17 ' Battle Intensity
 	mtx$(0) = "Battle Intensity"
 	mtx$(1) = "Normal"
 	mtx$(2) = "Low"
@@ -989,13 +936,10 @@ dorko:
 	IF choose < 0 GOTO menup
 	intense! = 1.2 - .2 * choose
 	GOTO menup
-'----------------------------------------------------------------------------
-'                       Parameter Setting Configuration File
-'----------------------------------------------------------------------------
-		CASE 18
+		CASE 18 ' Parameter Setting Configuration File
 	flag = 1
 	GOTO isthru
-'----------------------------------------------------------------------------
+
 	CASE ELSE
 	GOTO menup
 	END SELECT
@@ -1127,24 +1071,17 @@ RETURN
 END SUB
 
 SUB Enput (t$, tlx, tly, brx, mask$)
-'===========================================================================
-'                               Initialize
-'===========================================================================
+  ' Initialize
   x1 = 1
   text$ = t$ + SPACE$(brx - tlx + 1 - LEN(t$))
   LOCATE tly, tlx: PRINT text$;
 
-'===========================================================================
-'                               MAIN LOOP
-'===========================================================================
+' Main Loop
 DO
-'...........................................................................
   DO
      LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 15, B
      LOCATE tly, tlx + x1 - 1, 1
-'===========================================================================
-'                               Get Key
-'===========================================================================
+  ' Get Key
 	Ky$ = ""
 	DO WHILE Ky$ = "": Ky$ = INKEY$: LOOP
      LINE (8 * (tlx + x1 - 2), 14 * (tly - 1))-(8 * (tlx + x1 - 2) + 8, 14 * tly), 0, B
@@ -1154,38 +1091,28 @@ DO
 	ELSE
 		choose = ASC(Ky$)
 	END IF
-'===========================================================================
-'                               Key Actions
-'===========================================================================
-SELECT CASE choose
-	CASE -83                          'delete key
+SELECT CASE choose ' Key Actions
+	CASE -83       ' delete key
 	 MID$(text$, x1) = MID$(text$, x1 + 1) + " "
 	 LOCATE , , 0
 	 PRINT MID$(text$, x1);
-
-	CASE -82                         'Insert
+	CASE -82       ' Insert
 	 Insrt = 1 - Insrt
 	 IF Insrt = 0 THEN
 		LOCATE , , , 6, 7
 	 ELSE
 		LOCATE , , , 1, 6
 	 END IF
-
-	CASE -79                         'end key
+	CASE -79 ' end key
 	 a$ = RTRIM$(text$): x1 = LEN(a$) + 1
 	 IF x1 > LEN(text$) THEN x1 = LEN(text$)
-
-
-	CASE -77                         'right arrow
+	CASE -77 ' right arrow
 	 IF tlx + x1 < brx + 1 THEN x1 = x1 + 1
-
-	CASE -75                         'left arrow
+	CASE -75  ' left arrow
 	 IF x1 > 1 THEN x1 = x1 - 1
-
-	CASE -71                         'home key
+	CASE -71  ' home key
 	 x1 = 1
-
-	CASE 8                           'backspace
+	CASE 8    ' backspace
 	 IF x1 > 1 THEN x1 = x1 - 1
 	 LOCATE , tlx + x1 - 1, 0
 	 IF x1 > 0 THEN
@@ -1196,14 +1123,11 @@ SELECT CASE choose
 	   END IF
 		PRINT MID$(text$, x1);
 	 END IF
-
-	CASE 13                          'enter
+	CASE 13 ' enter
 	 EXIT DO
-
-	CASE 27                          'escape : blanks the text
+	CASE 27  ' escape : blanks the text
 	 text$ = "": EXIT DO
-
-	CASE 32 TO 122                   'other keys : check vs. mask
+	CASE 32 TO 122  ' other keys : check vs. mask
 	 IF LEN(mask$) > 0 THEN IF INSTR(mask$, CHR$(choose)) = 0 GOTO illegalk
 	 IF x1 > brx - tlx + 1 GOTO illegalk
 	 LOCATE , , 0
@@ -1267,7 +1191,7 @@ LINE (1, 240)-(400, 280), 3, B
 			
 LOCATE 13, 19: COLOR 9: PRINT score&(1) + vp&(2) + x
 COLOR 15: LOCATE 13, 29: PRINT score&(2) + vp&(1) + y
-'---------------------------------------------------------------------------
+
 x = 0: IF timelimit - timex < 1 AND possess = side THEN x = factor(3)
 IF total& < 1 GOTO noresult
 a = 100: IF possess = 0 OR timelimit - timex > 0 THEN a = 0
@@ -1478,7 +1402,7 @@ IF file$ = "" THEN file$ = sdtext$(23): IF LEN(file$) < 4 THEN EXIT SUB
 IF LEFT$(file$, 1) = "$" THEN file$ = sdtext$(23)
 IF LEN(file$) < 4 THEN EXIT SUB
 IF campane > 0 THEN EXIT SUB
-'...........................................................................
+
 SCREEN 0
 SHELL "copy maxskors temp.$$$"
 CALL scrnload("newhi.scr")
@@ -1599,7 +1523,7 @@ SUB Near2 (index, Enemy, near)
 	IF d > vantage GOTO deadog
 
 	dx = 100 - d
-'.............................................................................
+
 	IF INSTR("AENHL", t$) = 0 THEN
 		IF strength(i) > 1.2 * strength(index) THEN dx = dx - 20
 		IF strength(index) > 1.2 * strength(i) THEN dx = dx + 20
@@ -1609,7 +1533,7 @@ SUB Near2 (index, Enemy, near)
 		IF Visible(i) = 0 THEN Visible(i) = 1
 		IF F = 0 THEN dx = -9999
 	END IF
-'.............................................................................
+
 	IF d < near THEN dx = dx + 20
 	a$ = LEFTY$(i): IF a$ = "w" THEN a$ = MID$(unit$(i), 2, 1)
 	IF INSTR("AENHL", a$) > 0 THEN dx = dx + 100 + 50 * RND
@@ -1698,9 +1622,7 @@ IF morale(index) < 20 THEN EXIT SUB
 
 runn:
 IF flag = 0 GOTO runn2
-'============================================================================
-'                             Artillery Capture
-'============================================================================
+' Artillery Capture
  s = 1: IF index > m1 THEN s = 2
 	id = 0
 	IF s = 1 AND Bigg(1) < m1 THEN id = Bigg(1) + 1
@@ -1725,7 +1647,7 @@ IF terrain(id) = 233 THEN CALL victory(id)
 CALL Compact(s)
 TICK 9
 GOTO runn3
-'.........................................................................
+
 runn2:
 CALL Tara(unitx(index), unity(index) + 1, 0)
 unity(index) = y: unitx(index) = x: terrain(index) = z
@@ -1962,14 +1884,14 @@ CASE 10
 a$ = "GI"
 CASE ELSE
 END SELECT
-'============================================================================
+
 dx = LEN(a$)
 FOR k = 1 TO dx
 xnew = unitx(index): ynew = unity(index)
 CALL curser(MID$(a$, k, 1), xnew, ynew)
 GOSUB run1: IF blox = 0 GOTO woe
 NEXT k
-'============================================================================
+
 rout = 1 + .05 * strength(index): IF RND > .5 THEN rout = rout * 2
 score&(id) = score&(id) + rout
 CALL scrcol(2)
@@ -2157,10 +2079,8 @@ seehim:
 		CALL los(attack, defend, F, 0)
 		IF F = 0 GOTO ourboy
 	END IF
-'============================================================================
-'                               Reveal Unit
-'============================================================================
-suresee:
+
+suresee: ' Reveal Unit
 	Visible(attack) = 1: Visible(defend) = 1
 	CALL SHOWUNIT(defend): CALL SHOWUNIT(attack)
 	IF terrain(defend) = 42 AND d > 4 GOTO ourboy
