@@ -6,7 +6,7 @@ DECLARE SUB email ()
 DECLARE SUB noise (x%, y%, t$)
 DECLARE SUB vistarg (active%, flag%)
 REM $INCLUDE: 'civ20.bi'
-RANDOMIZE TIMER: CLS
+CALL scriptstart: CLS
 
 REM $INCLUDE: 'civwar25.bi'
 
@@ -229,7 +229,7 @@ getmax:
 	CLS : CALL clrbot: COLOR 11: PRINT "Saving file "; file$; " ";
 	OPEN "O", 1, file$
 	x = INSTR(SCENARIO$, "|"): IF x > 0 THEN SCENARIO$ = LEFT$(SCENARIO$, x - 1)
-	a$ = SCENARIO$ + " | " + DATE$ + " " + LEFT$(TIME$, LEN(TIME$) - 3)
+	a$ = SCENARIO$ + " | " + scriptdate$
 	PRINT #1, a$
 	WRITE #1, timelimit, possess, vp&(1), vp&(2), score&(1), score&(2)
 	IF altobj$ <> "" THEN
@@ -277,7 +277,7 @@ ritefile:
 'บ                             Run Scenario                           บ
 'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
 	CASE 4
-	IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
+	IF flag = 0 THEN CALL clrbot: COLOR 4: PRINT "Must LOAD Scenario First"; : BEEP: CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP: CALL clrbot: GOTO menu7
 	GOTO cont1
 'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
 'บ                              Campaign Map                          บ
@@ -430,7 +430,7 @@ muscle:
 	FOR active = s TO F: IF strength(active) > 0 AND uorder(active) <> 99 THEN Visible(active) = 1: CALL see(active)
 	NEXT active
 
-	startit! = TIMER
+	startit! = scripttime!
 IF file$ = "ERROR" GOTO menu7
 CALL refresh
 nother:
@@ -604,7 +604,7 @@ filerr:
 		CASE ELSE
 	END SELECT
 softend:
-		DO WHILE INKEY$ = "": LOOP
+		CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP
 		END
 caterr:
 	LOCATE 22, 1: COLOR 14: PRINT "ERROR: "; ERR; " - ";
@@ -659,3 +659,4 @@ REM $INCLUDE: 'civwar2a.bm'
 REM $INCLUDE: 'civwar2b.bm'
 REM $INCLUDE: 'civwar2c.bm'
 REM $INCLUDE: 'qb64.bm'
+REM $INCLUDE: 'script.bm'

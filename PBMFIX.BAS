@@ -17,6 +17,7 @@ PRINT "Working";
         CLOSE #1
 PRINT "Done"
 PRINT "Your original SAVEGAME.PBM has been renamed SAVEGAME.OLD"
-SHELL "rename savegame.pbm savegame.old"
-SHELL "rename savegame.fix savegame.pbm"
+CALL scriptshell("rename savegame.pbm savegame.old")
+CALL scriptshell("rename savegame.fix savegame.pbm")
 
+REM $INCLUDE: 'script.bm'

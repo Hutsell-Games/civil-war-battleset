@@ -1,0 +1,141 @@
+# The scenario editor (cs.exe) with 1st Manassas (BULLRUN1.CIV): Load Scenario; Map Edit (the
+# cursor, trees and a road, the help, F10); Army Edit (the help, an infantry unit placed and
+# named, its strength and morale changed, a delay, its type, Wait, Zap and Unzap, and F10, which
+# once left its GOSUB routine by EXIT SUB; docs/devnotes.md, item 9); Description; Save Scenario
+# as TESTCIV; Quit answered by the letter of Yes, inside the yorn routine. It checks the saved
+# scenario.
+#! program cs
+#! seed 8
+#! files TESTCIV.CIV
+
+rule 1 key space
+
+# The title, then Options: Load Scenario; BULLRUN1.CIV.
+play until 2:O
+digest
+text l
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+
+# Map Edit, which the menu highlights after a load.
+play until 2:O
+digest
+key enter
+play until 9
+digest
+key right
+prompt
+key right
+prompt
+text t
+prompt
+key down
+prompt
+text r
+prompt
+digest
+text ;
+prompt
+digest
+key space
+play until 9
+key f10
+
+# Army Edit: the help; R, the Rebel side; an infantry unit at the cursor, two hexes left.
+play until 2:O
+text a
+play until 10
+digest
+text ;
+prompt
+digest
+key space
+play until 10
+text r
+prompt
+key left
+prompt
+key left
+prompt
+text i
+play until 4
+text Test Brigade
+key enter
+play until 10
+digest
+# S: its strength, 20 more (Up adds 10); M: its morale, 1 more (Right).
+text s
+prompt
+digest
+key up
+prompt
+key up
+prompt
+key enter
+play until 10
+text m
+prompt
+key right
+prompt
+key enter
+# D: a delay of 5 turns, off the screen (No to "off screen", so it stays).
+play until 10
+text d
+play until 4
+text 5
+key enter
+prompt
+digest
+text n
+# T: its type becomes cavalry. W: waiting, twice. Z: zapped; !: back again.
+play until 10
+text t
+prompt
+text c
+play until 10
+digest
+text w
+play until 10
+text w
+play until 10
+text z
+play until 10
+digest
+text !
+play until 10
+digest
+# F10: back to Options.
+key f10
+
+# Description: the scenario's own, and its time limit, both kept with Enter.
+play until 2:O
+digest
+text d
+play until 4
+key enter
+play until 4
+key enter
+
+# Save Scenario: the name typed over the current one, BULLRUN1.CIV.
+play until 2:O
+text s
+play until 4
+text TESTCIV.CIV
+key enter
+
+# Quit: Yes, by its letter.
+play until 2:O
+digest
+text q
+prompt
+digest
+text y
+repeat space

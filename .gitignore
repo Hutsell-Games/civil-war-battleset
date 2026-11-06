@@ -1,0 +1,4 @@
+# Builds, runs and reports of tests/play.py and tests/make_scripts.py.
+tests/out/
+__pycache__/
+*.pyc

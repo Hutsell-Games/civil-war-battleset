@@ -1,0 +1,124 @@
+' ===========================================================================
+' SCRIPT.BM - hooks for the whole-game scripts of tests\play.py.
+' Included at the end of CIVWAR25.BAS and CIVSET24.BAS. See tests\README.md.
+'
+' A program started with the environment variable CWB_SEED set is
+' "scripted":
+'   - RANDOMIZE takes that number instead of TIMER, so every run is the same;
+'   - each wait for a key is announced in bytes &H4F0 to &H4F2 of memory,
+'     which QB64 does not use, so that a keys file gives each key only when
+'     the program waits for it (QB64Rust's tools\screen\README.md, "Prompts");
+'   - a timed pause (TICK of less than 99 seconds) returns at once, and a
+'     longer one, which the game uses as "press a key", waits for a key;
+'   - a saved game holds the date 01-01-2000 12:00 instead of the time now,
+'     and the elapsed time of a computer-against-computer game stays 0:00;
+'   - CURDIR$ shows the folder the program started in as C:\CWB, so that
+'     the menus look the same in every folder the scripts run in.
+' A program started without it plays as before: announce does nothing.
+' ===========================================================================
+
+' Seeds the random numbers, from CWB_SEED when it is set, else from TIMER.
+SUB scriptstart
+seed$ = ENVIRON$("CWB_SEED")
+IF seed$ = "" THEN RANDOMIZE TIMER: EXIT SUB
+scripted = 1
+c$ = _CWD$
+IF LEN(c$) > 3 AND (RIGHT$(c$, 1) = CHR$(92) OR RIGHT$(c$, 1) = "/") THEN c$ = LEFT$(c$, LEN(c$) - 1)
+scriptdir$ = c$
+RANDOMIZE VAL(seed$)
+END SUB
+
+' The date and time a saved game holds: now, or a fixed one when the
+' program is scripted, so that the saved games' menu shows the same in
+' every run.
+FUNCTION scriptdate$
+IF scripted THEN
+	scriptdate$ = "01-01-2000 12:00"
+ELSE
+	scriptdate$ = DATE$ + " " + LEFT$(TIME$, LEN(TIME$) - 3)
+END IF
+END FUNCTION
+
+' TIMER, or 0 when the program is scripted: the elapsed time of a game and
+' of the editor's placing of armies, which the screen shows.
+FUNCTION scripttime!
+IF scripted THEN scripttime! = 0 ELSE scripttime! = TIMER
+END FUNCTION
+
+' TICK's pause when the program is scripted. Gives 0 when it is not, and
+' TICK then pauses as before. A pause of 99 seconds or more is how the game
+' says "press a key" (the end of a game, the help screens, a victory), so a
+' script waits there for a key; a shorter one returns at once.
+FUNCTION scripttick% (sec!)
+scripttick% = 0
+IF scripted = 0 THEN EXIT FUNCTION
+scripttick% = -1
+IF sec! < 99 THEN EXIT FUNCTION
+CALL announce(1, "")
+DO WHILE INKEY$ = "": LOOP
+END FUNCTION
+
+' The folder c$ as CURDIR$ shows it. When the program is scripted, the
+' folder it started in becomes C:\CWB, and a folder inside it C:\CWB\name.
+FUNCTION scriptfolder$ (c$)
+scriptfolder$ = c$
+IF scripted = 0 OR scriptdir$ = "" THEN EXIT FUNCTION
+IF UCASE$(LEFT$(c$, LEN(scriptdir$))) <> UCASE$(scriptdir$) THEN EXIT FUNCTION
+scriptfolder$ = "C:" + CHR$(92) + "CWB" + MID$(c$, LEN(scriptdir$) + 1)
+END FUNCTION
+
+' SHELL cmd$, or under a script the same work done in BASIC. The programs
+' run "copy <from> <to>" and "rename <from> <to>" (the history files, and
+' pbmfix's renames). A SHELL starts cmd.exe, whose console window shows on
+' the user's desktop even when the program runs on a hidden one, so the
+' scripts must not run it. Copy replaces <to>, as copy does. Rename does
+' nothing when <to> exists or <from> does not, as rename then only prints
+' a message. It reads CWB_SEED itself, because pbmfix has no scriptstart.
+SUB scriptshell (cmd$)
+IF ENVIRON$("CWB_SEED") = "" THEN SHELL cmd$: EXIT SUB
+c$ = LTRIM$(RTRIM$(cmd$))
+sp = INSTR(c$, " "): verb$ = LCASE$(LEFT$(c$, sp - 1)): args$ = LTRIM$(MID$(c$, sp + 1))
+sp = INSTR(args$, " "): from$ = LEFT$(args$, sp - 1): into$ = LTRIM$(MID$(args$, sp + 1))
+IF NOT _FILEEXISTS(from$) THEN EXIT SUB
+SELECT CASE verb$
+	CASE "copy"
+		f = FREEFILE: OPEN from$ FOR BINARY AS #f
+		d$ = SPACE$(LOF(f)): GET #f, , d$: CLOSE #f
+		IF _FILEEXISTS(into$) THEN KILL into$
+		f = FREEFILE: OPEN into$ FOR BINARY AS #f: PUT #f, , d$: CLOSE #f
+	CASE "rename"
+		IF NOT _FILEEXISTS(into$) THEN NAME from$ AS into$
+	CASE ELSE
+		SHELL cmd$
+END SELECT
+END SUB
+
+' Says that the program is about to wait for a key. place names the kind of
+' wait (1 to 255) and letter$ narrows it (its first character, or ""):
+'   1  a pause that any key ends (TICK of 99 seconds or more, "hit a key")
+'   2  a menu; letter$ is the first letter of the menu's title
+'   3  the list of .civ files (menufile)
+'   4  a line of text: Enput, the scoring factors' INPUTs, the editor's unit
+'      names and delay
+'   5  the game: the command for a unit; letter$ is the first letter of the
+'      side that gives it, C (Confederate) or U (Union)
+'   6  the game: the cursor on the map (move, fire, intelligence, inspire)
+'   7  the game: the boss screen, which only Ctrl+B ends
+'   8  the game: the line of sight range bar (Game Options, Visibility)
+'   9  the editor: the cursor of Map Edit
+'  10  the editor: the cursor of Army Edit
+'  11  the editor: a unit's strength, morale or leadership to change
+'  12  the editor: a one-key answer (a terrain, Y or N, a unit type)
+' Byte &H4F1 holds the place, &H4F2 the letter, and &H4F0 counts the waits.
+' It leaves DEF SEG at 0, as BuffClear does: during a computer-against-
+' computer game, order reads PEEK(1052) after BuffClear without setting
+' DEF SEG again, and a plain DEF SEG here would make it read elsewhere.
+SUB announce (place, letter$)
+IF scripted = 0 THEN EXIT SUB
+code = 0
+IF letter$ <> "" THEN code = ASC(UCASE$(letter$))
+DEF SEG = 0
+POKE &H4F1, place
+POKE &H4F2, code
+POKE &H4F0, (PEEK(&H4F0) + 1) AND 255
+END SUB

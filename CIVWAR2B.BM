@@ -551,7 +551,7 @@ matched:
 	LOCATE 20, 1: PRINT "press a key"; : TICK 99
 
 	IF flag = 1 THEN OPEN "A", 1, "generalz": WRITE #1, a$, dx, x1, dy, z: CLOSE #1: EXIT SUB
-	SHELL "copy generalz temp.$$$"
+	CALL scriptshell("copy generalz temp.$$$")
 	OPEN "I", 1, "temp.$$$"
 	OPEN "O", 2, "generalz"
 	LINE INPUT #1, u$
@@ -828,7 +828,7 @@ tly = 2: colour = 3: size = 18: CALL menu: COLOR 7, 0
 sight:
 	COLOR 4: LOCATE 5, seelimit: PRINT SPACE$(51 - seelimit)
 	LOCATE 5, 1: FOR k = 1 TO seelimit: PRINT "Û"; : NEXT k: COLOR 14: LOCATE 5, 51: PRINT seelimit; " ";
-noth:   a$ = INKEY$: IF a$ = "" GOTO noth
+noth:   CALL announce(8, ""): DO: a$ = INKEY$: LOOP WHILE a$ = ""
 	IF ASC(a$) = 13 GOTO menup
 	IF LEN(a$) > 1 THEN a$ = RIGHT$(a$, 1)
 	IF a$ = "+" OR a$ = "M" THEN seelimit = seelimit + 1
@@ -873,11 +873,11 @@ noth:   a$ = INKEY$: IF a$ = "" GOTO noth
 		CASE 7
 	COLOR 11, 3: LOCATE 19, 1
 	COLOR 14: PRINT "Game Scoring Factors": COLOR 11, 1
-	LOCATE 20, 1: PRINT "Points per enemy unit destroyed ["; factor(1); "]"; : INPUT x
+	LOCATE 20, 1: PRINT "Points per enemy unit destroyed ["; factor(1); "]"; : CALL announce(4, ""): INPUT x
 	IF x > 0 AND x < 51 THEN factor(1) = x ELSE GOSUB dorko
-	LOCATE 21, 1: PRINT "Points per turn objective controlled ["; factor(2); "]"; : INPUT x
+	LOCATE 21, 1: PRINT "Points per turn objective controlled ["; factor(2); "]"; : CALL announce(4, ""): INPUT x
 	IF x > 0 AND x < 101 THEN factor(2) = x ELSE GOSUB dorko
-	LOCATE 22, 1: PRINT "Points for controlling objective on last turn ["; factor(3); "]"; : INPUT x
+	LOCATE 22, 1: PRINT "Points for controlling objective on last turn ["; factor(3); "]"; : CALL announce(4, ""): INPUT x
 	IF x > 0 AND x < 5001 THEN factor(3) = x ELSE GOSUB dorko
 	GOTO menup
 dorko:
@@ -1124,6 +1124,7 @@ SUB Enput (t$, tlx, tly, brx, mask$)
   x1 = 1
   text$ = t$ + SPACE$(brx - tlx + 1 - LEN(t$))
   LOCATE tly, tlx: PRINT text$;
+  CALL announce(4, "")
 
 '===========================================================================
 '                               MAIN LOOP
@@ -1471,7 +1472,7 @@ IF LEN(file$) < 4 THEN EXIT SUB
 IF campane > 0 THEN EXIT SUB
 '...........................................................................
 SCREEN 0
-SHELL "copy maxskors temp.$$$"
+CALL scriptshell("copy maxskors temp.$$$")
 CALL scrnload("newhi.scr")
 COLOR 14: LOCATE 13, 25: PRINT "Scenario :"; file$; " "; .1 * x; "%"
 highscore(side) = x
@@ -1571,7 +1572,7 @@ SUB lowtime
 END SUB
 
 SUB minsec
-a = TIMER - startit!: x = INT(a / 60): y = a - 60 * x
+a = scripttime! - startit!: x = INT(a / 60): y = a - 60 * x
 B$ = RTRIM$(STR$(x)): a$ = LTRIM$(STR$(y)): IF y < 10 THEN a$ = "0" + a$
 LOCATE 1, 58: PRINT "Elapsed Time "; B$; ":"; a$
 END SUB
@@ -1874,7 +1875,7 @@ EXIT SUB
 
 hold8:
 COLOR 14: LOCATE 25, 1: PRINT "hit a key";
-DO WHILE INKEY$ = "": LOOP
+CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP
 RETURN
 
 fog:
@@ -2208,6 +2209,7 @@ played = playsound(mask$ + ".wav")
 END SUB
 
 SUB TICK (sec!)
+IF scripttick(sec!) THEN EXIT SUB
 start! = TIMER
 DO WHILE TIMER - start! < sec! AND INKEY$ = "": LOOP
 END SUB

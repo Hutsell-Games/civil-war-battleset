@@ -1,0 +1,37 @@
+# The Directory menu. Under a script CURDIR$ shows the folder the game started in as C:\CWB
+# (SCRIPT.BM), so the menu looks the same in every folder. Esc leaves the menu. A folder that does
+# not exist on the drive CURDIR$ names, C:\NO\SUCH\FOLDER, gives error 76, "PATH NOT FOUND", for
+# a moment, and the main menu comes back. The text field starts with C:\CWB, which typing
+# overwrites.
+#! seed 4
+
+# Directory, the eighth entry: seven down from Load File, which the menu highlights.
+play until 2:M
+repeat 6
+key down
+prompt
+end
+key enter
+play until 4
+digest
+key esc
+
+# Directory again: a folder that does not exist.
+play until 2:M
+digest
+repeat 6
+key down
+prompt
+end
+key enter
+play until 4
+text C:\NO\SUCH\FOLDER
+key enter
+play until 2:M
+digest
+
+# Quit, Yes.
+text q
+prompt
+text y
+repeat space

@@ -93,4 +93,6 @@ DIM SHARED terrain(most), morale(most), leader(most), uorder(most), factor(3)
 DIM SHARED toa(most), name$(most), score&(2), adj1$(5), adj2$(5), adj3$(5), rx(19), ry(19)
 DIM SHARED sdtext$(24), mtx$(20), vp&(2), sname$(2), Bigg(2), stex$(22), highscore(2)
 DIM SHARED queue(2), alt(3), matrix(19, 6), region(19), region$(19), array(20)
+' Set by scriptstart (SCRIPT.BM) when tests\play.py runs the program.
+DIM SHARED scripted, scriptdir$
 

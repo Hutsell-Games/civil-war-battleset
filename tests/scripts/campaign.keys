@@ -1,0 +1,45 @@
+# A campaign, begun new: the campaign map, the move into a region, its battle with every unit
+# resting, the Hall of Fame, the campaign's result, and Main Menu. It checks REGIONS.SAV, which
+# the end of the battle writes.
+#! seed 6
+#! timeout 600
+#! files REGIONS.SAV
+
+# Pauses that any key ends; a unit's command: rest; a menu with the letter C (the Confederate
+# move on the campaign map and the combat menu): its first entry; Pursue ? and Stack Units: No.
+rule 1 key space
+rule 5 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+
+# Campaign Game; Begin NEW.
+play until 2:M
+digest
+text c
+prompt
+digest
+text b
+
+# The first command of the battle; then every unit rests to the end.
+play until 5
+digest
+key space
+
+# The Hall of Fame.
+play until 4
+text Tester
+key enter
+
+# The campaign's result: Options, Main Menu.
+play until 2:O
+digest
+text m
+play until 2:M
+digest
+
+# Quit, Yes.
+text q
+prompt
+text y
+repeat space

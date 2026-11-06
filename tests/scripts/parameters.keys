@@ -1,0 +1,222 @@
+# Every entry of Parameters (Game Options), with 1st Manassas (BULLRUN1.CIV) loaded: each
+# submenu with another choice, Adjust Start Position, the Visibility bar, the Scoring Factors
+# (one value out of range), each toggle twice, Clear History Files and Save Settings. It checks
+# the PREFER.CFG that Save Settings writes and the history files that Clear empties.
+#! seed 2
+#! files PREFER.CFG GENERALZ MAXSKORS
+
+rule 1 key space
+
+# Main menu, Load File; BULLRUN1.CIV.
+play until 2:M
+key enter
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+
+# Parameters: three down from Fight.
+repeat 3
+key down
+prompt
+end
+key enter
+prompt
+digest
+
+# Difficulty: Hard, one down from Normal.
+key enter
+prompt
+digest
+key down
+prompt
+key enter
+
+# Adjust Start Position moves the units of the scenario.
+prompt
+text a
+
+# Visibility: two more hexes.
+prompt
+text v
+prompt
+digest
+key right
+prompt
+key right
+prompt
+digest
+key enter
+
+# Enemy Aggression: Cautious, one up from Normal.
+prompt
+text e
+prompt
+digest
+key up
+prompt
+key enter
+
+# Display Speed (the fifth entry; its letter would choose Difficulty): VERY Slow.
+prompt
+repeat 4
+key down
+prompt
+end
+key enter
+prompt
+digest
+key end
+prompt
+key enter
+
+# QUIET becomes SOUND, and SOUND QUIET again.
+prompt
+text q
+prompt
+digest
+text s
+
+# Scoring Factors (the seventh entry): 7, 20, and 999999, which is out of range.
+prompt
+repeat 6
+key down
+prompt
+end
+key enter
+prompt
+text 7
+key enter
+prompt
+text 20
+key enter
+prompt
+text 999999
+key enter
+prompt
+digest
+key space
+
+# Unit Reliability: Very reliable, one up.
+prompt
+text u
+prompt
+digest
+key up
+prompt
+key enter
+
+# Computer vs. Computer, twice: on and off.
+prompt
+text c
+prompt
+digest
+text c
+
+# Stack Limit (the tenth entry): 0 (No Stacking).
+prompt
+repeat 9
+key down
+prompt
+end
+key enter
+prompt
+digest
+key home
+prompt
+key enter
+
+# Limber, twice.
+prompt
+text l
+prompt
+digest
+text l
+
+# Line of Sight (the twelfth entry), twice.
+prompt
+repeat 11
+key down
+prompt
+end
+key enter
+prompt
+digest
+repeat 11
+key down
+prompt
+end
+key enter
+
+# Capture Artillery (the thirteenth entry), twice.
+prompt
+repeat 12
+key down
+prompt
+end
+key enter
+prompt
+repeat 12
+key down
+prompt
+end
+key enter
+
+# History, twice.
+prompt
+text h
+prompt
+digest
+text h
+
+# Artillery Fire Rate (the fifteenth entry): FAST, one up from MODERATE.
+prompt
+repeat 14
+key down
+prompt
+end
+key enter
+prompt
+digest
+key up
+prompt
+key enter
+
+# CLEAR History Files (the sixteenth entry).
+prompt
+repeat 15
+key down
+prompt
+end
+key enter
+
+# Battle Intensity: Low.
+prompt
+text b
+prompt
+digest
+key down
+prompt
+key enter
+
+# SAVE Settings, the last entry: the game writes PREFER.CFG and goes back to the main menu.
+prompt
+digest
+key end
+prompt
+key enter
+play until 2:M
+digest
+
+# Quit, Yes.
+text q
+prompt
+text y
+repeat space

@@ -1,0 +1,9 @@
+# pbmfix.exe on the repo's SAVEGAME.PBM. It writes a line only when it reads a carriage return,
+# and git stores that file with LF line ends only, so the fixed file is empty: this records
+# that (docs/devnotes.md, "The first builds", Found). pbmfix renames the original SAVEGAME.OLD
+# with SHELL "rename", a Windows command. It reads no key; END's "Press any key to continue"
+# takes the last one.
+#! program pbmfix
+#! files SAVEGAME.PBM SAVEGAME.OLD SAVEGAME.FIX
+
+repeat space

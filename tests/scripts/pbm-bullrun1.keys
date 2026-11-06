@@ -1,0 +1,72 @@
+# A play-by-mail game of 1st Manassas (BULLRUN1.CIV). PBM Game, Begin NEW: the Confederate
+# player rests every unit for nine turns, and the game writes SAVEGAME.PBM for the other player.
+# PBM Game, Continue: the file is decoded and its checksum checked, and the Union player rests
+# every unit for nine turns; the game writes the file again. The PBM menu has no title of its
+# own: it shows the main menu's, so it waits at 2:M too. It checks the file written last.
+#! seed 7
+#! timeout 600
+#! files SAVEGAME.PBM
+
+rule 1 key space
+rule 5 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+
+# PBM Game, four down from Load File; Begin NEW PBM Game.
+play until 2:M
+repeat 4
+key down
+prompt
+end
+key enter
+prompt
+digest
+key enter
+
+# The file list: BULLRUN1.CIV; then the main menu, without Parameters; Fight.
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+digest
+key enter
+play until 5
+digest
+key space
+
+# Nine turns later the game writes the PBM file and goes back to the main menu.
+play until 2:M
+digest
+
+# PBM Game, Continue PBM Game; Fight as the Union side.
+repeat 4
+key down
+prompt
+end
+key enter
+prompt
+key down
+prompt
+key enter
+play until 2:M
+digest
+key enter
+play until 5
+digest
+key space
+play until 2:M
+digest
+
+# Quit, Yes.
+text q
+prompt
+text y
+repeat space

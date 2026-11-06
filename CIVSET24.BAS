@@ -33,7 +33,7 @@ OPEN "I", 1, "prefer.cfg"
 FOR k = 1 TO 5: INPUT #1, quiet: NEXT k
 CLOSE #1
 '...........................................................................
-timelimit = 100: RANDOMIZE TIMER
+timelimit = 100: CALL scriptstart
 CLS
 CALL title
 SCREEN 9: CALL iconload
@@ -454,7 +454,7 @@ COLOR 11: LOCATE 2, 58: PRINT SPACE$(21): LOCATE 2, 60: PRINT t$;
 IF choose = 1 THEN PRINT strength(index)
 IF choose = 2 THEN PRINT morale(index)
 IF choose = 3 THEN PRINT leader(index)
-pluskey: a$ = INKEY$: IF a$ = "" GOTO pluskey
+pluskey: CALL announce(11, ""): DO: a$ = INKEY$: LOOP WHILE a$ = ""
 a$ = RIGHT$(a$, 1)
 IF quiet > 0 THEN SOUND 4000, .7
 IF ASC(a$) = 27 XOR ASC(a$) = 13 GOTO done4
@@ -691,7 +691,7 @@ moro:
 				CASE 2
 					CALL clrlin(23)
 					PRINT "Terrain to replace ORIGINAL objective (BCFHMPRSTVW) :";
-					DO: s$ = INKEY$: LOOP WHILE s$ = ""
+					CALL announce(12, ""): DO: s$ = INKEY$: LOOP WHILE s$ = ""
 					s$ = UCASE$(s$): PRINT s$;
 					SELECT CASE s$
 						CASE "B": z = 91
@@ -739,7 +739,7 @@ com2:
 '                           Keyboard Commands
 '============================================================================
 wait4:
-	DO: commnd$ = INKEY$: LOOP UNTIL commnd$ <> ""
+	CALL announce(9, ""): DO: commnd$ = INKEY$: LOOP UNTIL commnd$ <> ""
 wait1:
 	a = ASC(LEFT$(commnd$, 1))
 	IF a = 13 THEN SOUND 400, .7: RETURN
@@ -849,6 +849,7 @@ SUB Enput (t$, tlx, tly, brx, mask$)
   x1 = 1
   text$ = t$ + SPACE$(brx - tlx + 1 - LEN(t$))
   LOCATE tly, tlx: PRINT text$;
+  CALL announce(4, "")
 
 '===========================================================================
 '                               MAIN LOOP
@@ -965,7 +966,7 @@ PRINT "	L  = SET ALTERNATE OBJECTIVE (optional; at most 1 alt obj)"
 COLOR 15: LOCATE 23, 9: PRINT "(hit a key)";
 COLOR 14: LOCATE 1, 35: PRINT "MAP EDIT HELP"
 LINE (0, 0)-(639, 340), 11, B
-DO WHILE INKEY$ = "": LOOP
+CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP
 SCREEN 9, , 0, 0
 END SUB
 
@@ -1092,7 +1093,7 @@ COLOR 0, 5: PRINT t$
 t0$ = t$
 
 a$ = ""
-DO WHILE a$ = "": a$ = INKEY$: LOOP
+CALL announce(3, ""): DO WHILE a$ = "": a$ = INKEY$: LOOP
 q = ASC(UCASE$(RIGHT$(a$, 1)))
 SELECT CASE q
 	CASE 27
@@ -1127,6 +1128,10 @@ x0 = x: y0 = y
 GOTO ff0
 
 ff7:
+' FILES shows a short name padded to 8 characters, as $AVE5   .CIV. DOS
+' ignored the blanks before the dot; Windows does not, so they go here,
+' as in the game's menufile (CIVWAR2A.BM).
+x = INSTR(t$, "."): IF x > 0 THEN t$ = RTRIM$(LEFT$(t$, x - 1)) + MID$(t$, x)
 COLOR 11, 1
 LOCATE 23, 2: PRINT "Loading "; t$; " ";
 END SUB
@@ -1190,7 +1195,7 @@ attn:
 '                           Keyboard Commands
 '============================================================================
 wait8:
-	commnd$ = INKEY$: IF commnd$ = "" GOTO wait8
+	CALL announce(10, ""): DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
 	IF commnd$ = CHR$(0) + "D" AND stax = 0 THEN leave = 1: RETURN
 	IF commnd$ = CHR$(0) + "D" THEN CALL clrlin(23): COLOR 12: PRINT "MUST PLACE UNIT BEFORE RETURNING TO MAIN MENU": BEEP: GOTO wait8
 
@@ -1458,7 +1463,7 @@ CALL scoreboard(1)
 tell:
 CALL clrlin(23)
 COLOR 11: PRINT "Enter Name of Unit "; index;
-INPUT name$(index)
+CALL announce(4, ""): INPUT name$(index)
 IF name$(index) = "" THEN
 	ON ERROR GOTO cater3
 	CALL autoname(index, who$)
@@ -1486,7 +1491,7 @@ BEEP
 COLOR 12: PRINT "NO MORE SLOTS FOR "; who$; " ARMIES";
     IF LEFT$(who$, 1) = "R" THEN who$ = "Union (USA)": GOTO dl
     IF LEFT$(who$, 1) = "U" THEN who$ = "Rebel (CSA)"
-dl: DO WHILE INKEY$ = "": LOOP: CALL clrlin(23)
+dl: CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP: CALL clrlin(23)
     GOSUB side
     index = 0
 RETURN
@@ -1536,19 +1541,19 @@ CALL scoreboard(1)
 GOSUB side
 
 CASE 4
-CALL clrlin(23): PRINT "New name for unit "; : INPUT name$(index)
+CALL clrlin(23): PRINT "New name for unit "; : CALL announce(4, ""): INPUT name$(index)
 SOUND 2700, 1: CALL clrlin(23)
 RETURN
 CASE 5
 delay:
 	CALL clrlin(23): COLOR 11
-	PRINT "Delay how many time units "; : INPUT a$
+	PRINT "Delay how many time units "; : CALL announce(4, ""): INPUT a$
 	CALL scoreboard(1)
 	toa(index) = VAL(a$)
 	IF toa(index) = 0 THEN uorder(index) = 0: CALL SHOWUNIT(index): SOUND 2300, .5: RETURN
 	CALL clrlin(23): COLOR 11
 	PRINT "Unit off screen during delay [Y/n] ?";
-	DO: a$ = INKEY$: LOOP UNTIL a$ <> ""
+	CALL announce(12, ""): DO: a$ = INKEY$: LOOP UNTIL a$ <> ""
 	a$ = UCASE$(a$)
 	IF a$ <> "N" AND toa(index) > 0 THEN
 		uorder(index) = 99
@@ -1591,14 +1596,14 @@ RETURN
 
 err5:
 CALL clrlin(23): COLOR 12: PRINT "NO UNIT AT THAT LOCATION"; : BEEP
-DO WHILE INKEY$ = "": LOOP: CALL clrlin(23)
+CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP: CALL clrlin(23)
 RETURN
 '============================================================================
 '                            Change Unit Type
 '============================================================================
 newtype:
 CALL clrlin(23): COLOR 11: PRINT "Enter New Unit Type ( A B C E G H I N )";
-DO: t$ = INKEY$: LOOP WHILE t$ = ""
+CALL announce(12, ""): DO: t$ = INKEY$: LOOP WHILE t$ = ""
 t$ = UCASE$(t$)
 IF INSTR("ABCEGHIN", t$) = 0 THEN CALL clrlin(23): RETURN
 SELECT CASE t$
@@ -1744,7 +1749,7 @@ END SUB
 SUB randarm (allarm, rx)
 COLOR 4: LOCATE 23, 1: PRINT "Placing armies ... "
 CALL scoreboard(-1)
-ratio! = TIMER
+ratio! = scripttime!
 FOR side = 1 TO 2
 IF side = 1 THEN xloc = 10: IF RND > .3 THEN xloc = 28: IF RND > .5 THEN xloc = 45
 IF side = 1 THEN yloc = 6: IF RND > .3 THEN yloc = 10: IF RND > .5 THEN yloc = 14
@@ -1759,7 +1764,7 @@ LOCATE 10, 58: PRINT SPACE$(21)
 LINE (455, 110)-(622, 140), 4, B
 not4:
 FOR i = 1 TO allarm
-	COLOR 15: LOCATE 10, 65: PRINT INT(TIMER - ratio!)
+	COLOR 15: LOCATE 10, 65: PRINT INT(scripttime! - ratio!)
 	IF INKEY$ <> "" GOTO walk
 	spin = 0
 	index = 40 * (side - 1) + i
@@ -1839,7 +1844,7 @@ odd:    flag = 0
 
 walk:
 COLOR 14: LOCATE 23, 1: PRINT "Press Any Key ...  "
-DO WHILE INKEY$ = "": LOOP: CLS
+CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP: CLS
 END SUB
 
 SUB randmap
@@ -2230,6 +2235,7 @@ lim2:
 END SUB
 
 SUB TICK (r!)
+IF scripttick(r!) THEN EXIT SUB
 t! = TIMER
 DO WHILE TIMER - t! < r! AND INKEY$ = "": LOOP
 END SUB
@@ -2266,3 +2272,4 @@ END SUB
 
 REM $INCLUDE: 'civwar2c.bm'
 REM $INCLUDE: 'qb64.bm'
+REM $INCLUDE: 'script.bm'

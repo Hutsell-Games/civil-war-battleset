@@ -72,6 +72,7 @@ sel1:
 	choose = row
 	GOTO sel1
 crsr:
+	CALL announce(2, LEFT$(LTRIM$(mtx$(0)), 1))
 	DO: a$ = INKEY$: LOOP WHILE a$ = ""
 akey5:
 	IF ASC(a$) = 13 THEN RETURN

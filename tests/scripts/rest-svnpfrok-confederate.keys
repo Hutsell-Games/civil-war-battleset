@@ -1,0 +1,95 @@
+# Seven Pines/Fair Oaks May 31, 1862 (SVNPFROK.CIV) as the Confederate side, resting every unit; the computer plays the Union side.
+# A digest at each of the 389 commands of a unit, at the end and at the pauses after it.
+# Written by tests/make_scripts.py.
+#! seed 75195
+#! cfg side=1
+
+# Pauses that any key ends; a unit's command: rest; the combat menu: Light Skirmish;
+# Pursue ? and Stack Units: No; the time limit: End Game & See Results.
+rule 1 key space
+rule 5 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+rule 2:T key enter
+
+# Main menu, Load File; SVNPFROK.CIV in the list.
+play until 2:M
+digest
+key enter
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+digest
+
+# Fight.
+key enter
+
+# Each command of a unit: a digest, then rest.
+repeat 389
+play until 5
+digest
+key space
+end
+
+# The time limit: End Game. The results, then a digest at each pause until the
+# Hall of Fame asks for a name.
+play until 2:T
+digest
+key enter
+prompt
+digest
+key space
+play until 4
+text Tester
+key enter
+prompt
+digest
+key space
+
+# The main menu: Quit, Yes, and a key for END's "Press any key to continue".
+play until 2:M
+digest
+text q
+prompt
+digest
+text y
+repeat space

@@ -1,0 +1,184 @@
+# The commands of a battle, in 1st Manassas (BULLRUN1.CIV) as the Confederate side: the help
+# (F1), the Game Options of F3 (Order of Battle, Game Score, Briefing, Screen Redraw), the hot
+# keys (View, Terrain, Join, Order of battle, Game score, Quiet, Recon, Screen redraw,
+# Intelligence), the Unit Command menu, a move order with the cursor, Charge, an artillery
+# battery's Fire, Limber and Unlimber, Wait, and a move by an arrow key. Then F10 ends the battle
+# at the main menu, and the game quits.
+#! seed 1
+#! timeout 600
+
+# Pauses that any key ends; the combat menu: Light Skirmish; Pursue ? and Stack Units: No.
+rule 1 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+
+# Main menu, Load File; BULLRUN1.CIV in the list; Fight.
+play until 2:M
+digest
+key enter
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+digest
+key enter
+
+# The first command: Cocke, infantry. F1, the help, which a key ends.
+play until 5
+digest
+key f1
+prompt
+digest
+key space
+
+# F3, Game Options: Order of Battle, its pages; Game Score; Briefing; Screen Redraw; Esc.
+play until 5
+key f3
+prompt
+digest
+text o
+prompt
+digest
+key space
+play until 5
+digest
+key f3
+prompt
+text g
+prompt
+digest
+key space
+play until 5
+key f3
+prompt
+text b
+prompt
+digest
+key space
+play until 5
+key f3
+prompt
+text s
+play until 5
+digest
+key f3
+prompt
+key esc
+
+# The hot keys. V: the line of sight, which a key ends.
+play until 5
+text v
+prompt
+digest
+key space
+# T: the terrain alone, and J: the units this one may join; both show for a moment.
+play until 5
+digest
+text t
+play until 5
+text j
+play until 5
+digest
+# O: the order of battle. G: the game score.
+text o
+prompt
+digest
+key space
+play until 5
+text g
+prompt
+key space
+# Q and R toggle the sound and the recon mode; each twice.
+play until 5
+text q
+prompt
+digest
+text q
+prompt
+text r
+prompt
+digest
+text r
+prompt
+# S: the screen redrawn. I: intelligence, the cursor moved over two hexes, Esc.
+text s
+play until 5
+text i
+prompt
+digest
+key right
+prompt
+key right
+prompt
+digest
+key esc
+# Enter: the Unit Command menu, Esc.
+play until 5
+key enter
+prompt
+digest
+key esc
+# Move to location: the cursor two hexes to the right, Enter.
+play until 5
+key enter
+prompt
+text m
+prompt
+key right
+prompt
+key right
+prompt
+digest
+key enter
+play until 5
+digest
+# C: charge. Next is Walton, a Napoleon battery.
+text c
+play until 5
+digest
+# F: fire. Enter at the battery's own hex finds no enemy there and gives the cursor again; Esc.
+text f
+prompt
+digest
+key enter
+prompt
+digest
+key esc
+# L: limber; the battery's turn ends.
+play until 5
+text l
+# Wheat, infantry: W, wait.
+play until 5
+digest
+text w
+# Cocke, charging: an arrow key moves him one hex.
+play until 5
+digest
+key left
+# Walton, limbered: F asks to unlimber first. Yes.
+play until 5
+digest
+text f
+prompt
+digest
+text y
+play until 5
+digest
+
+# F10: back to the main menu. Quit, Yes, and a key for END's "Press any key to continue".
+key f10
+play until 2:M
+digest
+text q
+prompt
+digest
+text y
+repeat space

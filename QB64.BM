@@ -27,7 +27,7 @@ FUNCTION CURDIR$
 c$ = _CWD$
 root = LEN(c$) = 1 OR (LEN(c$) = 3 AND MID$(c$, 2, 1) = ":")
 IF NOT root AND (RIGHT$(c$, 1) = CHR$(92) OR RIGHT$(c$, 1) = "/") THEN c$ = LEFT$(c$, LEN(c$) - 1)
-CURDIR$ = c$
+CURDIR$ = scriptfolder$(c$)
 END FUNCTION
 
 ' PDS 7.1's CHDRIVE: makes the drive named by the first letter of d$ the

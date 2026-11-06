@@ -1,0 +1,107 @@
+# The saved games, and the menus that leave a GOSUB routine by Esc or by a letter, which once
+# stopped the game with "RETURN without GOSUB" (docs/devnotes.md, item 9). Esc at "SAVEGAME
+# FILE TO LOAD"; an unused saved game chosen by its letter; 1st Manassas (BULLRUN1.CIV) played
+# for three commands, saved in the second slot and loaded again; Quit answered by Esc and by
+# the letter of Not Yet. It checks the saved file, which holds the fixed date of a script.
+#! seed 3
+#! files $AVE2.CIV
+
+rule 1 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+
+# Load File; the list highlights $AVE5.CIV first; Enter; Esc at the saved games.
+play until 2:M
+digest
+key enter
+prompt
+key enter
+prompt
+digest
+key esc
+
+# Load File, $AVE5.CIV, and the first saved game chosen by its letter: it is unused.
+play until 2:M
+digest
+key enter
+prompt
+key enter
+prompt
+text $
+
+# Load File, BULLRUN1.CIV; Fight; three commands rest; F10.
+play until 2:M
+digest
+key enter
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+key enter
+repeat 3
+play until 5
+key space
+end
+play until 5
+digest
+key f10
+
+# Save File, the second slot.
+play until 2:M
+digest
+text s
+prompt
+digest
+key down
+prompt
+key enter
+
+# Load File, two up from Fight (its entry now names the file loaded), $AVE5.CIV, then the
+# second saved game, three up from the fifth, which the menu highlights; Fight.
+play until 2:M
+digest
+key up
+prompt
+key up
+prompt
+key enter
+prompt
+key enter
+prompt
+digest
+repeat 3
+key up
+prompt
+end
+key enter
+play until 2:M
+digest
+key enter
+play until 5
+digest
+key f10
+
+# Quit: Esc; Quit: Not Yet, by its letter; Quit: Yes.
+play until 2:M
+text q
+prompt
+digest
+key esc
+play until 2:M
+text q
+prompt
+text n
+play until 2:M
+digest
+text q
+prompt
+text y
+repeat space

@@ -1,0 +1,66 @@
+# Two players in 1st Manassas (BULLRUN1.CIV): the main menu's first entry, twice, makes the
+# Confederate player Union and then BOTH SIDES. Each side rests every unit, and a key passes
+# play to the other side ("press any key to switch", the otherside routine of order, which
+# once left its GOSUB by EXIT SUB and GOTO; docs/devnotes.md, item 9). Digests at each side's
+# first three commands, at the time limit and at both sides' results.
+#! seed 5
+#! timeout 600
+
+rule 1 key space
+rule 5 key space
+rule 2:C key enter
+rule 2:P key enter
+rule 2:S key enter
+
+# Player: Union, then BOTH SIDES.
+play until 2:M
+text p
+play until 2:M
+digest
+text p
+play until 2:M
+digest
+
+# Load File, BULLRUN1.CIV; Fight.
+key enter
+prompt
+key down
+prompt
+key down
+prompt
+key down
+prompt
+key right
+prompt
+key enter
+play until 2:M
+key enter
+
+# The first three commands of each side.
+repeat 3
+play until 5:C
+digest
+key space
+play until 5:U
+digest
+key space
+end
+
+# The time limit: End Game. Each side's results.
+play until 2:T
+digest
+key enter
+prompt
+digest
+key space
+prompt
+digest
+key space
+
+# Quit, Yes.
+play until 2:M
+digest
+text q
+prompt
+text y
+repeat space

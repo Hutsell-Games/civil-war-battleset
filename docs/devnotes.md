@@ -6,8 +6,8 @@ the game builds with QB64Rust and with QB64pe, and so that its SUBs can be teste
 `qb64rust`) and the principles in QB64Rust's `docs\PORTING-PDS.md`, section 0.
 
 This file holds what was changed from `main` and why, and the results of the plan's steps: the searches made before
-any edit (step 2), the measurements of what the searches left in doubt (step 3), the first builds (step 4), and
-what DOS did that QB64 does not (step 5).
+any edit (step 2), the measurements of what the searches left in doubt (step 3), the first builds (step 4), what
+DOS did that QB64 does not (step 5), the test hooks (step 6) and the tests (step 7).
 
 ## Build
 
@@ -66,14 +66,23 @@ a build of those names in this folder overwrites them, so build elsewhere and co
    - `eval` in `general` (`CIVWAR2B.BM`): the `GOTO improve` sets `leave` to 1. Each of the six `GOSUB eval`
      lines is followed by `IF leave GOTO improve`.
    - `wait8` in `placearmy` (`CIVSET24.BAS`): F10 with no unit in hand sets `leave` to 1, and the line after
-     `GOSUB wait8` ends the SUB. The F10 line became two lines, one for each case, because QB64Rust does not
-     yet accept `RETURN` just before `ELSE` in a one-line `IF` (step 5, below).
+     `GOSUB wait8` ends the SUB. The F10 line became two lines, one for each case, because QB64Rust did not
+     accept `RETURN` just before `ELSE` in a one-line `IF` when the fix was written (step 5, below).
 
    The script of section 2 now finds no routine that can leave its SUB. Before the fix, it found these four.
 10. **The title screen is a picture in `docs\`.** The DOS game showed it by running `CWBSTITL.EXE` from `CW.BAT`,
     before the game started; the game's code never runs it. Run in DOSBox on 2026-11-06, it drew
     [CWBSTITL.png](CWBSTITL.png) in less than 10 seconds and then waited for a key. The QB64 builds start without
     it.
+11. **The editor's list of files trims the name it gives.** `FILES` shows a name shorter than 8 characters padded
+    with blanks, as `$AVE5   .CIV`, and the editor's `menufile` (`CIVSET24.BAS`) read the name back from the
+    screen and opened it as it was. DOS stores names padded to 8 characters, so it ignored the blanks before the
+    dot. Windows does not: the editor stopped with "ERROR : 53 ... Not On This Drive" (step 7). The game's own
+    `menufile` (`CIVWAR2A.BM`) already removed the blanks, and the editor's now does the same, in one added line.
+    Names of 8 characters, such as `BULLRUN1.CIV`, worked before. That DOS ignored the blanks is not measured.
+12. **The test hooks** (step 6): `SCRIPT.BM`, included at the end of `CIVWAR25.BAS` and `CIVSET24.BAS`, and calls
+    to it in the sources. When the environment variable `CWB_SEED` is not set, the programs behave as before.
+    Each changed line is listed in "Step 6", below.
 
 ## The searches before the port (2026-11-06)
 
@@ -272,4 +281,98 @@ can reach one.
 
 - **`RETURN` just before `ELSE` in a one-line `IF` is rejected.** `IF a = 0 THEN RETURN ELSE CALL s` gives
   "not supported yet: word `CALL` (expected the end of the statement)". QB64pe 4.7.0 builds it. The first
-  form of the `wait8` fix had it; item 9 uses two lines instead.
+  form of the `wait8` fix had it; item 9 uses two lines instead. QB64Rust fixed it the same day
+  (`verification\v17_d_return_before_else`); the two lines stay, as they work in both compilers.
+
+## Step 6: the test hooks (2026-11-06)
+
+`SCRIPT.BM` holds the hooks, as World War 2's does. `tests\README.md` ("How the game takes part") says what each
+does for a script and lists the places of the waits. The hooks act only when `CWB_SEED` is set. Two shared
+variables, `scripted` and `scriptdir$`, are added at the end of `CIV20.BI`, which both programs include.
+
+The lines changed for them:
+
+| Where | Before | Now |
+|---|---|---|
+| `CIVWAR25.BAS`, start | `RANDOMIZE TIMER` | `CALL scriptstart` |
+| `CIVSET24.BAS`, start | `RANDOMIZE TIMER` | `CALL scriptstart` |
+| `TICK`, `CIVWAR2B.BM` and `CIVSET24.BAS` | | first line `IF scripttick(sec!) THEN EXIT SUB` |
+| `CIVWAR25.BAS`, Save File | `DATE$ + " " + LEFT$(TIME$, LEN(TIME$) - 3)` | `scriptdate$` |
+| `CIVWAR25.BAS`, the start of a battle, and `minsec`, `CIVWAR2B.BM` | `TIMER` | `scripttime!` |
+| `randarm`, `CIVSET24.BAS` (two lines) | `TIMER` | `scripttime!` |
+| `CURDIR$`, `QB64.BM` | `CURDIR$ = c$` | `CURDIR$ = scriptfolder$(c$)` |
+| `commander` and `ishi`, `CIVWAR2B.BM`; `PBMFIX.BAS` (two lines) | `SHELL "copy ..."`, `SHELL "rename ..."` | `CALL scriptshell("copy ...")`, `CALL scriptshell("rename ...")`; `PBMFIX.BAS` now includes `SCRIPT.BM` |
+| 29 waits for a key: 14 in the game, 15 in the editor | | `CALL announce(place, letter$)` before the wait |
+
+Where a wait was a loop of the form `label: k$ = INKEY$: IF k$ = "" GOTO label`, the line became
+`CALL announce(...): DO: k$ = INKEY$: LOOP WHILE k$ = ""`, which reads keys the same way. The label stays where
+other lines jump to it, so the wait is announced again after a key that the game ignores. The announced waits:
+
+- the game: the menu (`crsr` in `menu`, `CIVWAR2C.BM`), the list of files (`menufile`), `Enput`, the three
+  `INPUT`s of the scoring factors, a unit's command (`wait3` in `order`), the map cursor (`wait5`), the boss screen,
+  the line of sight bar, and the four "press a key" loops (Fight without a scenario, the end after a file error,
+  the side switch of two players, the pages of the order of battle);
+- the editor: its list of files, `Enput`, the Map Edit cursor (`wait4`), the Army Edit cursor (`wait8`), the
+  attribute keys (`pluskey`), the three one-key answers (the alternate objective's terrain, "off screen during
+  delay [Y/n]", a new unit type), the three `INPUT`s (a unit's name twice, a delay), and the four "press a key"
+  loops (the map help, "NO MORE SLOTS", "NO UNIT AT THAT LOCATION", the end of placing random armies).
+
+Choices made here, which the user has not ruled on yet (QB64Rust's `study\44`, section 5):
+
+- **`TICK` of 99 seconds or more waits for a key** under a script, instead of returning at once as World War 2's
+  timed pauses do. The game uses `TICK 99` and `TICK 999` for "hit a key" (the results, the help, the Hall of
+  Fame, a victory). Returning at once would leave those screens unseen by any script.
+- **`CURDIR$` shows the folder the program started in as `C:\CWB`** under a script. Both main menus show the
+  folder in their Directory entry, so its full path would be in every digest of the main menu, different in each
+  folder a script runs in and on each machine. The real folder is used for everything else.
+- **`announce` leaves `DEF SEG` at 0**, as `BuffClear` does. During a computer-against-computer game, `order`
+  reads `PEEK(1052)` after `BuffClear` without setting `DEF SEG` again. World War 2's `announce` ends with a plain
+  `DEF SEG`, which here could make that `PEEK` read another segment.
+- **`Enput` announces once**, when it starts, so that a script gives a whole line after one `play until 4`.
+- **Under a script, the four `SHELL` lines copy and rename in BASIC** (`scriptshell`). Each `SHELL` starts a
+  `cmd.exe`, whose console window showed on the user's desktop although the program ran on a hidden one. The
+  first runs of `make_scripts.py` and `play.py record` flashed such a window at nearly every battle's end, for
+  about two and a half hours, before this was found. With the hook, a check of one battle and of `pbmfix` started
+  no `cmd.exe`. The scripts no longer run the real `SHELL`; a `TODO.md` row.
+
+## Step 7: the tests (2026-11-06)
+
+`tests\play.py`, `tests\make_scripts.py` and `tests\test_play.py` are World War 2's, changed for this game: the
+three programs `cw`, `cs` and `pbmfix`, `PREFER.CFG` instead of `WW2.CFG`, `CWB_SEED`, and data files beside the
+program instead of in folders. `tests\README.md` is their manual. `tests\rules_test.bas` has 26 unit tests of 19
+SUBs and FUNCTIONs that draw nothing.
+
+The scripts: two generated styles, `rest-<scenario>-<side>` for each of the 77 scenarios and both sides, but
+three whose battle stops with a runtime error ("Found", below), and `auto-<scenario>` (Computer vs. Computer)
+for eight scenarios, 159 in all; and ten written by hand (`tests\README.md`, "The
+scripts"). QB64pe 4.7.0 and QB64Rust gave the same screens in every recording. The coverage is in
+`tests\README.md`, "What the scripts do not cover".
+
+### Found
+
+- **The computer's move can stop the game with a runtime error.** In three generated scripts the battle never
+  ended: `rest-bold-confederate` (`BOLD.CIV`, "Beauregard's Plan", 15 turns left, "Couch's TURN"),
+  `rest-antietm2-confederate` and `rest-antietm2-union`. For `BOLD.CIV` both compilers stopped at the same screen,
+  and a coverage build shows where: the last statement started and never finished is `z = SCREEN(ynew + 1, xnew)`
+  in `cupdate` (`CIVWAR2B.BM`, the line after `IF dy = 0 THEN xnew = unitx(index) + 2 * dxs`). A unit in column 2
+  that moves left gives `xnew` 0, and `SCREEN` with column 0 is an illegal function call, which DOS would stop on
+  too. The `ANTIETM2.CIV` scripts were not looked into; they stopped the same way. Until then each run waited for
+  the "Continue?" dialog on a desktop nobody sees; `play.py` now sets `QB64PE_NOPROMPT`, so such a run ends at
+  once with exit code 1. The three scripts are not written. A `TODO.md` row, and D16 of study 44.
+- **QB64's `FILES` scrolls the list of files up by one line**, in both compilers. The list has 82 files in 21 rows.
+  With the folder's line before them and the free space after them, the last line printed goes past the bottom
+  row. The list's title row is lost, and the files start on the second row, where `menufile` expects them on the
+  third. So the first file highlighted is the fifth, `$AVE5.CIV`, and `$AVE1.CIV` to `$AVE4.CIV` cannot be chosen
+  in the list. Saved games are still loaded by choosing `$AVE5.CIV` and then the slot in the menu that follows.
+  Whether DOS also scrolled is not measured; a `TODO.md` row.
+- **The editor could not load a file whose name is shorter than 8 characters** (item 11, fixed).
+- **The editor stops with error 62 on an unused saved game.** Load Scenario of `$AVE5.CIV`, which holds only
+  "UNUSED", reads past the end of the file. The game checks for "UNUSED"; the editor does not. This is the game's
+  own behavior and is not changed; a `TODO.md` row.
+- **A `SHELL` hung once.** While `play.py record` ran three scripts at once, one of the four runs of `pbmfix`,
+  built by QB64pe, did not end within 300 seconds. `pbmfix` ends with two `SHELL "rename ..."` lines. Recorded
+  alone, all four runs passed. QB64Rust's Civil War Strategy scripts see the same under load in
+  `SHELL "copy ..."` (QB64Rust's `STATUS.md`, known bugs), so it is not particular to either compiler.
+- **The PBM game's second session starts with 96 turns left** (`pbm-bullrun1`). The first session's first command
+  showed 98, and the game writes the file when more than 8 turns have passed. How many turns the first session
+  played is not checked; a `TODO.md` row.

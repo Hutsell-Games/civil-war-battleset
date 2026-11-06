@@ -499,7 +499,7 @@ COLOR 0, 5: PRINT t$
 t0$ = t$
 
 a$ = ""
-DO WHILE a$ = "": a$ = INKEY$: LOOP
+CALL announce(3, ""): DO WHILE a$ = "": a$ = INKEY$: LOOP
 q = ASC(UCASE$(RIGHT$(a$, 1)))
 SELECT CASE q
 	CASE 27
@@ -849,7 +849,7 @@ wait2:
 '                     Get Keyboard Command
 '============================================================================
 wait3:
-	commnd$ = INKEY$: IF commnd$ = "" GOTO wait3
+	CALL announce(5, LEFT$(sname$(side), 1)): DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
 	IF ASC(commnd$) = 2 GOTO noboss
 	a = LEN(commnd$): commnd$ = RIGHT$(commnd$, 1)
 	z = ASC(UCASE$(commnd$))
@@ -1005,7 +1005,7 @@ IF nplayer = 2 THEN
 		LINE (88, 92)-(528, 142), 15, B
 		LOCATE 9
 		center ("press any key to switch to " + sname$(3 - side) + " side")
-		DO WHILE INKEY$ = "": LOOP
+		CALL announce(1, ""): DO WHILE INKEY$ = "": LOOP
 		SCREEN 9, , 0, 0
 	END IF
 	side = 3 - side
@@ -1120,7 +1120,7 @@ cline:
 	COLOR 15: PRINT a$; : COLOR 14: PRINT " F1:Help F2:Unit Command F3:Game Options F10:Main Menu";
 	RETURN
 wait5:
-	commnd$ = INKEY$: IF commnd$ = "" GOTO wait5
+	CALL announce(6, ""): DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
 	dxs = ASC(UCASE$(commnd$)): dys = LEN(commnd$)
 	SELECT CASE dxs
 		CASE 13, 27, 32, 42, 76, 88: RETURN
@@ -1410,7 +1410,7 @@ whoa1:
 noboss:
 	CLS : COLOR 7, 0: LOCATE 1, 1: PRINT "C:>";
 	TICK .5
-	DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
+	CALL announce(7, ""): DO: commnd$ = INKEY$: LOOP WHILE commnd$ = ""
 	IF ASC(commnd$) <> 2 GOTO noboss
 	GOTO cartog
 '...........................................................................
