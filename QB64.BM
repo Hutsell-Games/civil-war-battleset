@@ -1,0 +1,62 @@
+' ===========================================================================
+' QB64.BM - what the game and the editor need from BASIC PDS 7.1 that QB64
+' does not have: DIR$, CURDIR$ and CHDRIVE, and the playing of the sound
+' files. Included at the end of CIVWAR25.BAS and CIVSET24.BAS.
+' DIR$ and CURDIR$ are those of the World War 2 port (Hutsell-Games/world-war-2).
+' ===========================================================================
+
+' PDS 7.1's DIR$: the first file that matches spec$, or the next match of
+' the last search when spec$ is "" (PDS: DIR$ with no argument). Folders are
+' skipped, and the name is in upper case, as DOS gave it.
+' Without this FUNCTION, QB64pe and QB64Rust read DIR$("*.civ") as an array.
+FUNCTION DIR$ (spec$)
+IF spec$ = "" THEN f$ = _FILES$ ELSE f$ = _FILES$(spec$)
+DO WHILE RIGHT$(f$, 1) = CHR$(92) OR RIGHT$(f$, 1) = "/"
+	f$ = _FILES$
+LOOP
+DIR$ = UCASE$(f$)
+END FUNCTION
+
+' PDS 7.1's CURDIR$ with no drive given: the current folder, such as
+' C:\GAMES\CIVWAR, with no separator at its end unless it is a root (C:\).
+' QB64 has no CURDIR$. Without this FUNCTION, QB64pe and QB64Rust both
+' build CURDIR$ as a string variable, which is always "". The game and the
+' editor show it in their Change Directory menus. QB64's _CWD$ ends with a
+' separator.
+FUNCTION CURDIR$
+c$ = _CWD$
+root = LEN(c$) = 1 OR (LEN(c$) = 3 AND MID$(c$, 2, 1) = ":")
+IF NOT root AND (RIGHT$(c$, 1) = CHR$(92) OR RIGHT$(c$, 1) = "/") THEN c$ = LEFT$(c$, LEN(c$) - 1)
+CURDIR$ = c$
+END FUNCTION
+
+' PDS 7.1's CHDRIVE: makes the drive named by the first letter of d$ the
+' current one. QB64 has no CHDRIVE. On Windows, CHDIR to "D:" does the same:
+' each drive keeps its own current folder. An error (a drive that does not
+' exist) goes to the Change Directory menus' own handler, aint1.
+SUB CHDRIVE (d$)
+CHDIR LEFT$(d$, 1) + ":"
+END SUB
+
+' The DOS game played a .WAV file with PLANY.EXE (sndblst, CIVWAR2B.BM).
+' playsound plays it with QB64's own sound and gives -1, or 0 if the file
+' is missing or QB64 cannot play it. Like the SHELL it replaces, it returns
+' when the sound ends, so the game waits. As with PLANY ("Press any key
+' during playback to terminate output", PLANY.DOC), a key ends the sound.
+' The key stays for the game to read: playsound watches for it with
+' _KEYHIT, whose buffer is not the one INKEY$ and INPUT read.
+FUNCTION playsound% (file$)
+DIM h AS LONG
+playsound% = 0
+IF NOT _FILEEXISTS(file$) THEN EXIT FUNCTION
+h = _SNDOPEN(file$)
+IF h <= 0 THEN EXIT FUNCTION
+_KEYCLEAR 2
+_SNDPLAY h
+DO WHILE _SNDPLAYING(h)
+	IF _KEYHIT > 0 THEN _SNDSTOP h: EXIT DO
+	_LIMIT 100
+LOOP
+_SNDCLOSE h
+playsound% = -1
+END FUNCTION

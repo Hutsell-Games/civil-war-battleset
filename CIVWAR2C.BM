@@ -1,7 +1,3 @@
-DECLARE SUB choices (wide%)
-DECLARE SUB choices (wide%)
-DEFINT A-Z
-REM $INCLUDE: 'civ20.bi'
 '============================================================================
 '                       CIVWAR MENU 2.2 for EGA
 '============================================================================
@@ -96,7 +92,8 @@ arrows:
 	 IF a$ = "O" THEN row = size: GOSUB limits: RETURN
 	 IF a$ = "P" THEN row = row + 1: GOSUB limits: RETURN
 	 IF a$ = "Q" THEN row = size: GOSUB limits: RETURN
-	 IF a$ = "ƒ" THEN LOCATE 1, 1: PRINT FRE(-1)
+	 ' QB64 has no FRE. In DOS, Alt+= printed the free memory here:
+	 'IF a$ = "ƒ" THEN LOCATE 1, 1: PRINT FRE(-1)
 	 RETURN
 limits:
 	IF row > size THEN row = 1

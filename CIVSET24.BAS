@@ -2263,3 +2263,5 @@ IF strength(k) > 0 AND x = unitx(k) AND y = unity(k) THEN Enemy = k: EXIT SUB
 NEXT k
 END SUB
 
+REM $INCLUDE: 'civwar2c.bm'
+REM $INCLUDE: 'qb64.bm'

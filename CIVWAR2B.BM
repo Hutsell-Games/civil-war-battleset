@@ -1,12 +1,3 @@
-DEFINT A-Z
-DECLARE SUB Bubble (limit%)
-DECLARE SUB codex (flag%, index%, a$, t$)
-DECLARE SUB commander (x%)
-DECLARE SUB dirge ()
-DECLARE SUB ishi (x%)
-DECLARE SUB rank (k%, dx%, t$)
-REM $INCLUDE: 'civ20.bi'
-
 SUB area (F%)
 IF F = 0 THEN F = 19
 SCREEN 9
@@ -2199,7 +2190,6 @@ nosee:
 END SUB
 
 SUB sndblst (mask$)
-ON LOCAL ERROR GOTO nosound
 IF sblast$ = "" OR quiet = 0 THEN EXIT SUB
 CALL BuffClear
 SELECT CASE mask$
@@ -2211,12 +2201,10 @@ SELECT CASE mask$
 		IF RND > .4 THEN mask$ = "volly"
 		IF RND > .7 THEN mask$ = "spenser"
 END SELECT
-SHELL "plany " + mask$ + ".wav": EXIT SUB
-nosound:
-RESUME sounder
-sounder:
-CALL clrbot: PRINT "Sound Driver Error Encountered": TICK 1
-ON ERROR GOTO 0
+' The DOS game ran SHELL "plany " + mask$ + ".wav" here, under ON LOCAL ERROR,
+' and printed "Sound Driver Error Encountered" if PLANY.EXE could not run.
+' playsound (QB64.BM) plays the file with QB64's own sound instead.
+played = playsound(mask$ + ".wav")
 END SUB
 
 SUB TICK (sec!)
