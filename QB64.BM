@@ -43,18 +43,20 @@ END SUB
 ' is missing or QB64 cannot play it. Like the SHELL it replaces, it returns
 ' when the sound ends, so the game waits. As with PLANY ("Press any key
 ' during playback to terminate output", PLANY.DOC), a key ends the sound.
-' The key stays for the game to read: playsound watches for it with
-' _KEYHIT, whose buffer is not the one INKEY$ and INPUT read.
+' Like PLANY, playsound reads that key, so the game does not see it. A key
+' already waiting ends the sound at once. Measured in DOSBox with a PDS 7.1
+' program that put a key in the BIOS buffer and ran SHELL "yell.exe": the
+' yell stopped after 0.06 s instead of 2.3 s, and INKEY$ then gave "".
+' Shift, Ctrl and Alt alone do not end it, as they put nothing in the buffer.
 FUNCTION playsound% (file$)
 DIM h AS LONG
 playsound% = 0
 IF NOT _FILEEXISTS(file$) THEN EXIT FUNCTION
 h = _SNDOPEN(file$)
 IF h <= 0 THEN EXIT FUNCTION
-_KEYCLEAR 2
 _SNDPLAY h
 DO WHILE _SNDPLAYING(h)
-	IF _KEYHIT > 0 THEN _SNDSTOP h: EXIT DO
+	IF INKEY$ <> "" THEN _SNDSTOP h: EXIT DO
 	_LIMIT 100
 LOOP
 _SNDCLOSE h

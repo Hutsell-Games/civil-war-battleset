@@ -65,6 +65,7 @@ sel1:
 	COLOR hilite
 	LOCATE tly + 2 + row, tlx + 2: PRINT mtx$(row)
 	GOSUB crsr
+	IF leave GOTO called
 	IF ASC(a$) = 13 GOTO called
 	COLOR colour
 	LOCATE tly + 2 + row1, tlx + 2: PRINT mtx$(row1)
@@ -75,12 +76,12 @@ crsr:
 akey5:
 	IF ASC(a$) = 13 THEN RETURN
 	IF LEN(a$) = 2 GOTO arrows
-	IF ASC(a$) = 27 THEN choose = -1: GOTO called
+	IF ASC(a$) = 27 THEN choose = -1: leave = 1: RETURN
 		row1 = row
 		FOR k = 1 TO size
 		c1$ = UCASE$(a$)
 		c2$ = UCASE$(LEFT$(mtx$(k), 1))
-		IF c1$ = c2$ THEN row = k: choose = row: GOSUB limits: GOTO called
+		IF c1$ = c2$ THEN row = k: choose = row: GOSUB limits: leave = 1: RETURN
 		NEXT k
 	GOTO crsr
 arrows:

@@ -1393,15 +1393,15 @@ IF a = 42 AND RND < .95 THEN EXIT SUB
 
 art:
 IF y > 1 THEN
-	y = unity(index) - 1: x = unitx(index) - 1: GOSUB eval
-	y = unity(index) - 1: x = unitx(index) + 1: GOSUB eval
+	y = unity(index) - 1: x = unitx(index) - 1: GOSUB eval: IF leave GOTO improve
+	y = unity(index) - 1: x = unitx(index) + 1: GOSUB eval: IF leave GOTO improve
 END IF
 IF y < 22 THEN
-	y = unity(index) + 1: x = unitx(index) - 1: GOSUB eval
-	y = unity(index) + 1: x = unitx(index) + 1: GOSUB eval
+	y = unity(index) + 1: x = unitx(index) - 1: GOSUB eval: IF leave GOTO improve
+	y = unity(index) + 1: x = unitx(index) + 1: GOSUB eval: IF leave GOTO improve
 END IF
-IF x > 1 THEN x = unitx(index) - 2: GOSUB eval
-IF x < 59 THEN x = unitx(index) + 2: GOSUB eval
+IF x > 1 THEN x = unitx(index) - 2: GOSUB eval: IF leave GOTO improve
+IF x < 59 THEN x = unitx(index) + 2: GOSUB eval: IF leave GOTO improve
 
 a = 1 + INT(Bigg(1) * RND)
 IF side = 2 THEN a = 1 + m1 + INT((Bigg(2) - m1) * RND)
@@ -1413,7 +1413,7 @@ IF x < 1 THEN x = 1
 IF x > 59 THEN x = 59
 IF y < 1 THEN y = 1
 IF y > 22 THEN y = 22
-z = SCREEN(y + 1, x): IF z = 35 OR z = 42 XOR z = 94 XOR z = 239 GOTO improve
+z = SCREEN(y + 1, x): IF z = 35 OR z = 42 XOR z = 94 XOR z = 239 THEN leave = 1: RETURN
 RETURN
 
 afraid:
@@ -1721,7 +1721,7 @@ runn2:
 CALL Tara(unitx(index), unity(index) + 1, 0)
 unity(index) = y: unitx(index) = x: terrain(index) = z
 CALL SHOWUNIT(index)
-IF sblast$ <> "" THEN SHELL "yell.exe"
+IF sblast$ <> "" THEN played = playsound("yell.wav")
 IF (side = 1 AND index < m2) OR (side = 2 AND index > m1) THEN CALL trumpet(index)
 runn3:
 morale(index) = morale(index) + 9
@@ -2035,7 +2035,7 @@ IF RND > .2 THEN leader(index) = leader(index) - 2: IF rout > 0 THEN leader(inde
 		IF sblast$ = "" THEN
 			PLAY a$
 		ELSE
-			SHELL "yell.exe"
+			played = playsound("yell.wav")
 		END IF
 	ELSE
 	TICK .5 * mdly!

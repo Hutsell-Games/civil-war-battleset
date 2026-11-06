@@ -808,8 +808,19 @@ playon:
 	IF t$ = "w" THEN CALL rest(active): GOTO sleep2
 	IF t$ = "E" THEN uorder(active) = 0
       
-	IF automatic = 1 THEN GOSUB otherside: GOTO asleep
-	CALL YouorMe(active, F): IF F = 0 THEN GOSUB otherside: IF recon = 0 GOTO sleep2 ELSE GOTO asleep
+	IF automatic = 1 THEN
+		GOSUB otherside
+		IF leave = 1 THEN EXIT SUB
+		IF leave = 2 GOTO human
+		GOTO asleep
+	END IF
+	CALL YouorMe(active, F)
+	IF F = 0 THEN
+		GOSUB otherside
+		IF leave = 1 THEN EXIT SUB
+		IF leave = 2 GOTO human
+		IF recon = 0 GOTO sleep2 ELSE GOTO asleep
+	END IF
 '============================================================================
 human:
 	y0 = 14 * unity(active): x0 = 8 * unitx(active)
@@ -977,8 +988,9 @@ EXIT SUB
 '                               Enemy Update Logic
 '============================================================================
 otherside:
+leave = 0
 IF nplayer = 2 THEN
-	IF queue(3 - side) = 0 THEN EXIT SUB
+	IF queue(3 - side) = 0 THEN leave = 1: RETURN
 	c = 7: IF side = 1 THEN c = 1
 	GOSUB sidechange
 	LOCATE 12, 58: PRINT "("; queue(3 - side); "Possible Moves)"
@@ -999,7 +1011,7 @@ IF nplayer = 2 THEN
 	side = 3 - side
 	GOSUB aque
 	CALL clrbot
-	GOTO human
+	leave = 2: RETURN
 END IF
 IF flag = 0 THEN GOSUB sidechange: IF quiet > 0 AND sblast$ <> "" THEN CALL sndblst("drums3")
 COLOR 11: CALL clrbot: LOCATE 23, 50: PRINT name$(active); "'s TURN";

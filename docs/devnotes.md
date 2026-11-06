@@ -6,7 +6,8 @@ the game builds with QB64Rust and with QB64pe, and so that its SUBs can be teste
 `qb64rust`) and the principles in QB64Rust's `docs\PORTING-PDS.md`, section 0.
 
 This file holds what was changed from `main` and why, and the results of the plan's steps: the searches made before
-any edit (step 2), the measurements of what the searches left in doubt (step 3), and the first builds (step 4).
+any edit (step 2), the measurements of what the searches left in doubt (step 3), the first builds (step 4), and
+what DOS did that QB64 does not (step 5).
 
 ## Build
 
@@ -20,19 +21,16 @@ Keep the names `cw.exe` and `cs.exe`: the game's Scenario Editor entry runs `cs.
 runs `CW.EXE`. Until the DOS programs `CS.EXE` and `PBMFIX.EXE` are removed from this branch (step 8 of the plan),
 a build of those names in this folder overwrites them, so build elsewhere and copy the data files beside it.
 
-**Do not start the game with an option (`cw s`) yet.** Any option turns the sounds on, and then the game runs the
-DOS program `YELL.EXE` in a battle (`CIVWAR2B.BM` lines 1724 and 2038). 64-bit Windows cannot run it, and is
-expected to say so in a dialog box. Step 5 of the plan replaces it.
-
 ## What was changed from `main`, and why
 
 1. **One program for the game, instead of three linked modules.** QB64 builds one source file. `CIVWAR2B.BAS` and
    `CIVWAR2C.BAS` were renamed to `.BM` (with `git mv`) and are included at the end of `CIVWAR25.BAS`. Their headers
    were removed: `DEFINT A-Z`, their `DECLARE` lines and the include of `civ20.bi`. The main module already has
    `DEFINT A-Z` and the include, and QB64 does not need a `DECLARE` for a SUB the program defines.
-2. **The 16 SUBs of `CIVWAR25.BAS` moved to `CIVWAR2A.BM`, unchanged.** A test file can then include the `.BI`
-   and `.BM` files and get every SUB without the main module's code. Put back together, `CIVWAR25.BAS`,
-   `CIVWAR25.BI` and `CIVWAR2A.BM` give the original `CIVWAR25.BAS` byte for byte.
+2. **The 16 SUBs of `CIVWAR25.BAS` moved to `CIVWAR2A.BM`.** A test file can then include the `.BI` and `.BM`
+   files and get every SUB without the main module's code. They moved unchanged: at the commit that moved them,
+   `CIVWAR25.BAS`, `CIVWAR25.BI` and `CIVWAR2A.BM` put back together gave the original `CIVWAR25.BAS` byte for
+   byte. Since then, `order` has the `GOSUB` fix of item 9.
 3. **The 7 `DIM SHARED` lines of `CIVWAR25.BAS` moved to `CIVWAR25.BI`**, which the main module includes where
    they were. They are the icon arrays. A test file needs them too. They are not in `CIV20.BI`, because the editor
    includes `CIV20.BI` and declares its own icon arrays.
@@ -45,11 +43,37 @@ expected to say so in a dialog box. Step 5 of the plan replaces it.
    `SHELL "plany " + mask$ + ".wav"` in `sndblst` (`CIVWAR2B.BM`), under `ON LOCAL ERROR GOTO nosound`, which QB64
    does not have. The handler printed "Sound Driver Error Encountered" when `PLANY.EXE` could not run. The `SHELL`,
    the `ON LOCAL ERROR` and the handler are gone, and `sndblst` calls `playsound`. As with `PLANY` ("Press any key
-   during playback to terminate output", `PLANY.DOC`), a key ends the sound. The key stays for the game to read;
-   whether `PLANY` also took the key is not known. A missing file is silent. As in DOS, `cw s` turns the sounds
-   on. `SHELL "yell.exe"` is not changed yet (decision D4, step 5).
+   during playback to terminate output", `PLANY.DOC`), a key ends the sound, and `playsound` reads that key, so
+   the game does not see it. `PLANY` did the same (measured in step 5, below). A missing file is silent. As in
+   DOS, `cw s` turns the sounds on.
 7. **`FRE(-1)` is commented out** (`menu`, `CIVWAR2C.BM`). QB64pe has no `FRE`. In DOS, Alt+= at a menu printed the
    free memory at the top left; now Alt+= does nothing, as any other key the menu does not use.
+8. **The rebel yell is `YELL.WAV`, played by `playsound`.** `YELL.EXE` is `PLANY.EXE` with a WAV file added at its
+   end, as `PLANY.DOC` describes for "self playing sound files": its first 32,262 bytes are `PLANY.EXE` byte for
+   byte, and its last 25,560 bytes are a whole WAV file (8-bit mono, 11,025 Hz, 2.31 s), the same format as the
+   game's other sounds. `YELL.WAV` is those bytes, taken out unchanged. The two `SHELL "yell.exe"` lines (`pursue`
+   and `retreat`, `CIVWAR2B.BM`) are now `played = playsound("yell.wav")`, under the same conditions as before. They
+   do not go through `sndblst`, which would add its own test of `quiet` and a `BuffClear`.
+9. **Every `GOSUB` routine in a SUB ends by `RETURN`.** These are the four routines of "The searches", section 2.
+   Each now sets `leave` and returns, and the line after the `GOSUB` makes the jump the routine made. This is
+   World War 2's fix.
+   - `crsr` in `menu` (`CIVWAR2C.BM`): Esc, and an entry chosen by its first letter, set `leave` to 1. The line
+     after `GOSUB crsr` goes to `called`.
+   - `otherside` in `order` (`CIVWAR2A.BM`): `leave` is 1 for the `EXIT SUB` (the other side has no moves left)
+     and 2 for the `GOTO human` (play passes to the other player). The two lines that call it are now `IF`
+     blocks that make those jumps. `otherside` sets `leave` to 0 first, because after `GOTO human` the loop
+     comes back to it.
+   - `eval` in `general` (`CIVWAR2B.BM`): the `GOTO improve` sets `leave` to 1. Each of the six `GOSUB eval`
+     lines is followed by `IF leave GOTO improve`.
+   - `wait8` in `placearmy` (`CIVSET24.BAS`): F10 with no unit in hand sets `leave` to 1, and the line after
+     `GOSUB wait8` ends the SUB. The F10 line became two lines, one for each case, because QB64Rust does not
+     yet accept `RETURN` just before `ELSE` in a one-line `IF` (step 5, below).
+
+   The script of section 2 now finds no routine that can leave its SUB. Before the fix, it found these four.
+10. **The title screen is a picture in `docs\`.** The DOS game showed it by running `CWBSTITL.EXE` from `CW.BAT`,
+    before the game started; the game's code never runs it. Run in DOSBox on 2026-11-06, it drew
+    [CWBSTITL.png](CWBSTITL.png) in less than 10 seconds and then waited for a key. The QB64 builds start without
+    it.
 
 ## The searches before the port (2026-11-06)
 
@@ -110,9 +134,8 @@ There are 75 `GOSUB` routines in 16 SUBs: 14 in `order`, 2 in `placeunit`, 1 eac
 - In the editor's main module, `yorn` (lines 393 to 400) and the routine `battle` (from line 213) call `menu`.
   This is World War 2's case: there, "Leave Edit" answered with `y` stopped the editor.
 
-These are expected from the code and from World War 2's measurements. They have not been seen yet, because the
-port does not build yet (step 4 of the plan). The fix will be World War 2's: the routine sets a flag and
-returns, and the line after the `GOSUB` makes the jump.
+These were expected from the code and from World War 2's measurements. The first builds showed the second one
+(step 4, "Found" below). The fix is item 9 of the changes above.
 
 The main modules' own routines (6 in the game, 4 in the editor) were not searched in the same way. A main-module
 routine that leaves by `GOTO` leaves an entry too, but no SUB ends over it, so it cannot cause this error.
@@ -129,7 +152,7 @@ What each one did in DOS:
 | `DEF SEG = 0`, `POKE 1050, 30`, `POKE 1052, 30` | `BuffClear`, `CIVWAR2B.BAS` lines 65 and 66; `CIVSET24.BAS` lines 515 and 516 | Set the head and the tail of the BIOS keyboard buffer (bytes `&H41A` and `&H41C`) to its start, so that keys typed ahead were thrown away. It leaves `DEF SEG` at 0 | Kept: libqb emulates the buffer, and the `POKE`s throw a waiting key away (measured, "The measurements" below) |
 | `PEEK(1052) > 30` | `order`, `CIVWAR25.BAS` line 1448 | During automatic play, true when a key was waiting: the tail of the buffer had moved. Then automatic play stopped. It reads segment 0 because `BuffClear` ran first and left `DEF SEG` at 0 | Kept: a waiting key moves the tail from 30 to 32 (measured, "The measurements" below) |
 | `SHELL "copy generalz temp.$$$"`, `SHELL "copy maxskors temp.$$$"` | `CIVWAR2B.BAS` lines 563 and 1483 | Copied the generals' records and the high scores to a temporary file, which the code then reads and deletes | Kept: `copy` works on Windows. A `TODO.md` row for Linux |
-| `SHELL "yell.exe"` | `CIVWAR2B.BAS` lines 1733 and 2047 | Played the rebel yell. The program has no source | Decision D4: the yell recorded in DOSBox to a WAV, played with QB64's sound |
+| `SHELL "yell.exe"` | `CIVWAR2B.BAS` lines 1733 and 2047 | Played the rebel yell. The program has no source | `YELL.WAV`, taken out of `YELL.EXE`, played with QB64's sound (item 8 above) |
 | `SHELL "plany " + mask$ + ".wav"` | `sndblst`, `CIVWAR2B.BAS` line 2214, called from 26 lines | Played a sound file with the DOS player `PLANY.EXE` | QB64's own sound plays the WAV. `CW s` still turns sound on |
 | `RUN "cs.exe"` | `CIVWAR25.BAS` line 372, the game's Editor entry | Ended the game and started the editor | Kept: `RUN` of an `.exe` starts it in both compilers (measured, "The measurements" below). The editor is built as `cs.exe` |
 | `RUN "CW.EXE"` | `CIVSET24.BAS` line 381, the editor's Run Game entry | Ended the editor and started the game | Kept, as the row above. The game is built as `cw.exe` |
@@ -186,7 +209,7 @@ QB64Rust's screen-state check. There are no test hooks yet (step 6 of the plan),
   (QB64Rust with exit code 1 and QB64pe with 0, as QB64Rust's `QB64PE-DIVERGENCES.md` D-012 records). Without
   `QB64PE_NOPROMPT`, both builds stopped drawing at that screen and waited until the run's timeout of 90 seconds.
   That is expected of libqb's error dialog, which a desktop that is never shown does not let anyone see or close.
-  The fix is step 5 of the plan.
+  Fixed in step 5 (item 9 of the changes).
 - **`pbmfix.exe` empties the play-by-mail file in this repo.** It writes a line only when it reads a carriage
   return, `CHR$(13)`. The repo's `SAVEGAME.PBM` has LF line ends only: git stored it that way in the first commit
   (`.gitattributes` has `* text=auto`), so the CR LF ends that DOS wrote were lost before the port. Run on it,
@@ -200,3 +223,53 @@ QB64Rust's screen-state check. There are no test hooks yet (step 6 of the plan),
   `wtype` (`CIVSET24.BAS` line 66) is set and never read. `a$` (line 1925) is an output argument of
   `CALL terra(z, a$)` that the caller does not use. The others are labels no jump names, a SUB never called
   (`BuffClear`, in the editor) and an unused parameter.
+
+## Step 5: what DOS did that QB64 does not (2026-11-06)
+
+The changes are items 8 to 10 above, and the key that ends a sound in item 6.
+
+### Does `PLANY` take the key that ends a sound?
+
+Yes. A PDS 7.1 program, built with `BC /O /E /X /D` and run in DOSBox 0.74-3, put the key `x` in the BIOS keyboard
+buffer with `POKE` (as `BuffClear` does), ran `SHELL`, and then read the buffer's head and tail and `INKEY$`.
+`YELL.EXE` and `PLANY` behave the same, since `YELL.EXE` is `PLANY` (item 8).
+
+| `SHELL` of | Key waiting | Time | Head, tail after | `INKEY$` after |
+|---|---|---|---|---|
+| a 15-byte program that waits 3 s and reads no key (the control) | yes | 2.96 s | 30, 32 | `x` |
+| `yell.exe` | no | 2.30 s | 30, 30 | empty |
+| `yell.exe` | yes | 0.06 s | 32, 32 | empty |
+| `plany yell.wav` | yes | 0 s | 32, 32 | empty |
+
+The control shows that a key survives `SHELL`. `PLANY` stops at once when a key waits, and reads exactly that key
+from the buffer. So `playsound` reads the key too: it watches `INKEY$`, not `_KEYHIT` as at first. Like `PLANY`,
+it then ends only for a key that puts something in the buffer, not for Shift, Ctrl or Alt alone.
+
+A key pressed at DOSBox's prompt cannot answer this question. DOSBox's shell empties the keyboard buffer before
+its prompt: a key pressed while the 3-second program ran did not show at the prompt either.
+
+### How the yell was checked
+
+Played in DOSBox, `YELL.EXE` gave 2.3208 s of sound. DOSBox's own recorder (Ctrl+F6) and a recording through SDL's
+disk audio driver gave the same 102,350 samples at 44,100 Hz. The Sound Blaster cannot play at 11,025 Hz exactly:
+the nearest rate its time constant gives is 10,989 Hz, and 25,502 samples at that rate last 2.3207 s. This agrees
+with `YELL.WAV`, so the file taken out of `YELL.EXE` is the whole yell.
+
+The yell has not been heard in the QB64 builds yet: a battle with sound on is needed, and a script of step 7
+can reach one.
+
+### Checks of the `GOSUB` fixes
+
+- The script of "The searches", section 2, run again on the changed sources: every routine of every SUB ends by
+  `RETURN`. Run on the commit before step 5, it names the four routines of item 9.
+- Step 4's failure played again with the screen-state check (Load File, `$ave1.civ` chosen in the list, Esc at
+  "SAVEGAME FILE TO LOAD"). Both builds now go back to the main menu instead of stopping with "RETURN without
+  GOSUB". Their screens are the same, except the width of the menu box: the Directory entry shows the folder
+  each build ran in, and the two folders' names differ in length.
+- Both compilers build `cw.exe` and `cs.exe`. QB64Rust's warnings (`-w`) are the same 10 as in step 4.
+
+### Found in QB64Rust
+
+- **`RETURN` just before `ELSE` in a one-line `IF` is rejected.** `IF a = 0 THEN RETURN ELSE CALL s` gives
+  "not supported yet: word `CALL` (expected the end of the statement)". QB64pe 4.7.0 builds it. The first
+  form of the `wait8` fix had it; item 9 uses two lines instead.

@@ -1163,7 +1163,7 @@ SUB placearmy
 '============================================================================
 movea:
 	y = yloc: x = xloc
-	GOSUB wait8
+	GOSUB wait8: IF leave THEN EXIT SUB
 	a = ASC(commnd$)
 	IF stax > 0 AND a = 13 THEN GOSUB newloc: GOTO movea
 	IF a = 13 THEN GOSUB soldier: GOTO movea
@@ -1191,7 +1191,8 @@ attn:
 '============================================================================
 wait8:
 	commnd$ = INKEY$: IF commnd$ = "" GOTO wait8
-	IF commnd$ = CHR$(0) + "D" THEN IF stax = 0 THEN EXIT SUB ELSE CALL clrlin(23): COLOR 12: PRINT "MUST PLACE UNIT BEFORE RETURNING TO MAIN MENU": BEEP: GOTO wait8
+	IF commnd$ = CHR$(0) + "D" AND stax = 0 THEN leave = 1: RETURN
+	IF commnd$ = CHR$(0) + "D" THEN CALL clrlin(23): COLOR 12: PRINT "MUST PLACE UNIT BEFORE RETURNING TO MAIN MENU": BEEP: GOTO wait8
 
 	IF RIGHT$(commnd$, 1) = ";" THEN CALL helpme: RETURN
 	IF RIGHT$(commnd$, 1) = "=" THEN
