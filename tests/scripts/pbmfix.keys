@@ -4,6 +4,6 @@
 # with SHELL "rename", a Windows command. It reads no key; END's "Press any key to continue"
 # takes the last one.
 #! program pbmfix
-#! files SAVEGAME.PBM SAVEGAME.OLD SAVEGAME.FIX
+#! files scenarios/SAVEGAME.PBM scenarios/SAVEGAME.OLD scenarios/SAVEGAME.FIX
 
 repeat space

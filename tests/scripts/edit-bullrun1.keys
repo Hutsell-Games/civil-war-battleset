@@ -6,7 +6,7 @@
 # scenario.
 #! program cs
 #! seed 8
-#! files TESTCIV.CIV
+#! files scenarios/TESTCIV.CIV
 
 rule 1 key space
 

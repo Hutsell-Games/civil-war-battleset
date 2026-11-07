@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import fnmatch
 import hashlib
 import os
 import shutil
@@ -47,10 +48,18 @@ NOT_DATA_SUFFIXES = SOURCE_SUFFIXES | {
     ".exe", ".obj", ".lnk", ".mak", ".zip", ".md", ".qlb", ".com", ".drv", ".bat", ".btm",
     ".pif", ".doc", ".txt", ".png",
 }
-# The folders of data files, copied whole into a run's folder. None yet: the data files are
-# beside the program until step 8 of the port (QB64Rust's study\44) moves them into folders.
-DATA_FOLDERS: tuple[str, ...] = ()
-# Files that every run takes from here instead of the repo's folder, when this folder exists.
+# The folders of data files (FOLDERS.BM), copied whole into a run's folder.
+DATA_FOLDERS: tuple[str, ...] = ("graphics", "sound", "data", "scenarios")
+# The files that playing writes, by folder ("" is the top), as .gitignore lists them. copy_data
+# leaves out any that playing left in the repo's folder, so that a run starts only from the
+# repo's files and tests/data. Each name is a pattern, matched whatever its case.
+PLAYED_FILES = {
+    "": ("generalz", "maxskors", "regions.sav", "temp.$$$"),
+    "scenarios": ("$ave?.civ", "savegame.pbm", "savegame.old", "savegame.fix", "temp.&&&"),
+}
+# The files that playing writes, as a run starts with them: the history files, the campaign
+# under way, and in scenarios/ the saved games and the PBM file. The tree is copied over the
+# run's folder, after the repo's files.
 TEST_DATA = GAME / "tests" / "data"
 # The name of the configuration file the run starts with; play.py writes it.
 CFG_NAME = "PREFER.CFG"
@@ -372,17 +381,22 @@ class Run:
 
 
 def copy_data(work: Path, game: Path = GAME, test_data: Path = TEST_DATA) -> None:
-    """Fills a run's folder: the game's data files, then the files of tests/data when that folder
-    exists, which replace those of the same name."""
+    """Fills a run's folder: the game's top-level data files and its data folders, then the tree
+    of tests/data when that folder exists. Its files go into the folders of the same names and
+    replace the files of the same names. Files that playing left in the repo's folder
+    (PLAYED_FILES) are not copied."""
+    def played(folder: str, name: str) -> bool:
+        return any(fnmatch.fnmatchcase(name.lower(), p) for p in PLAYED_FILES.get(folder, ()))
+
     for path in game.iterdir():
-        if path.is_file() and path.suffix.lower() not in NOT_DATA_SUFFIXES:
+        if path.is_file() and path.suffix.lower() not in NOT_DATA_SUFFIXES and not played("", path.name):
             shutil.copy2(path, work / path.name)
     for folder in DATA_FOLDERS:
-        shutil.copytree(game / folder, work / folder)
+        if (game / folder).is_dir():
+            shutil.copytree(game / folder, work / folder,
+                            ignore=lambda _d, names, f=folder: [n for n in names if played(f, n)])
     if test_data.is_dir():
-        for path in test_data.iterdir():
-            if path.is_file():
-                shutil.copy2(path, work / path.name)
+        shutil.copytree(test_data, work, dirs_exist_ok=True)
 
 
 def write_cfg(work: Path, cfg: dict[str, str]) -> None:

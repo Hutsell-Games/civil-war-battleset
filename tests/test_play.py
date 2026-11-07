@@ -161,14 +161,46 @@ class CopyDataTest(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in work.iterdir()), ["BULLRUN1.CIV", "GENERALZ"])
             self.assertEqual((work / "GENERALZ").read_text(), "test data")
 
+    def test_data_folders_and_test_data_folders(self):
+        with tempfile.TemporaryDirectory() as d:
+            game, data, work = Path(d) / "game", Path(d) / "data", Path(d) / "work"
+            for folder in (game / "scenarios", game / "sound", data / "scenarios", work):
+                folder.mkdir(parents=True)
+            (game / "scenarios" / "BULLRUN1.CIV").write_text("map")
+            (game / "sound" / "DING.WAV").write_text("ding")
+            (data / "scenarios" / "$AVE1.CIV").write_text("UNUSED")
+            (data / "MAXSKORS").write_text("test data")
+            play.copy_data(work, game, data)
+            # A folder that is not there (graphics, data) is left out; tests/data goes into the
+            # folders of the same names.
+            self.assertEqual(sorted(p.name for p in work.iterdir()), ["MAXSKORS", "scenarios", "sound"])
+            self.assertEqual(sorted(p.name for p in (work / "scenarios").iterdir()),
+                             ["$AVE1.CIV", "BULLRUN1.CIV"])
+            self.assertTrue((work / "sound" / "DING.WAV").is_file())
+
     def test_no_test_data_folder(self):
         with tempfile.TemporaryDirectory() as d:
             game, work = Path(d) / "game", Path(d) / "work"
             game.mkdir()
             work.mkdir()
-            (game / "MAXSKORS").write_text("x")
+            (game / "PREFER.CFG").write_text("x")
             play.copy_data(work, game, Path(d) / "none")
-            self.assertEqual([p.name for p in work.iterdir()], ["MAXSKORS"])
+            self.assertEqual([p.name for p in work.iterdir()], ["PREFER.CFG"])
+
+    def test_files_that_playing_left_are_not_copied(self):
+        with tempfile.TemporaryDirectory() as d:
+            game, work = Path(d) / "game", Path(d) / "work"
+            (game / "scenarios").mkdir(parents=True)
+            work.mkdir()
+            for name in ("generalz", "MAXSKORS", "temp.$$$", "PREFER.CFG"):
+                (game / name).write_text("x")
+            for name in ("$ave1.civ", "$AVE5.CIV", "SAVEGAME.OLD", "temp.&&&", "BULLRUN1.CIV", "MY.CIV"):
+                (game / "scenarios" / name).write_text("x")
+            play.copy_data(work, game, Path(d) / "none")
+            # The settings and the scenarios, including one the editor saved, are still copied.
+            self.assertEqual(sorted(p.name for p in work.iterdir()), ["PREFER.CFG", "scenarios"])
+            self.assertEqual(sorted(p.name for p in (work / "scenarios").iterdir()),
+                             ["BULLRUN1.CIV", "MY.CIV"])
 
 
 class CoverageTest(unittest.TestCase):
@@ -221,6 +253,25 @@ class MakeScriptsTest(unittest.TestCase):
         self.assertEqual(make_scripts.pick_keys("E.CIV", self.FILES), ["key down", "prompt", "key right", "prompt"])
         with self.assertRaises(ValueError):
             make_scripts.pick_keys("$AVE2.CIV", self.FILES)
+
+    def test_civ_files_take_the_saved_games_from_test_data(self):
+        import make_scripts
+        with tempfile.TemporaryDirectory() as d:
+            game, data = Path(d) / "game", Path(d) / "data"
+            for folder in (game / "scenarios", data / "scenarios"):
+                folder.mkdir(parents=True)
+            for name in ("BULLRUN1.CIV", "&STONES.CIV", "CAMPAIGN.INI"):
+                (game / "scenarios" / name).write_text("x")
+            (data / "scenarios" / "$AVE1.CIV").write_text("UNUSED")
+            self.assertEqual(sorted(make_scripts.civ_files(game, data)),
+                             ["$AVE1.CIV", "&STONES.CIV", "BULLRUN1.CIV"])
+
+    def test_scenarios_leave_out_the_saved_games(self):
+        import make_scripts
+        names = make_scripts.scenarios()
+        self.assertIn("BULLRUN1.CIV", names)
+        self.assertFalse([n for n in names if n.startswith("$")])
+        self.assertEqual(len(names), 77)
 
     def test_script_names(self):
         import make_scripts

@@ -29,7 +29,8 @@ DIM SHARED Explo(60), Death(60), Boat(60), Pfield(60), tldr(15)
 '============================================================================
 '                       CIVILSET    v2.4 - EGA VERSION
 '============================================================================
-OPEN "I", 1, "prefer.cfg"
+CALL setfolders
+OPEN "I", 1, homedir$ + "prefer.cfg"
 FOR k = 1 TO 5: INPUT #1, quiet: NEXT k
 CLOSE #1
 '...........................................................................
@@ -378,7 +379,9 @@ mapp:
 	CASE 11
 		GOSUB yorn
 		IF choose <> 2 THEN GOTO menu7
-		RUN "CW.EXE"
+		' The game is beside the editor, and the current folder is scenarios\
+		' (FOLDERS.BM).
+		CHDIR homedir$: RUN "CW.EXE"
 '============================================================================
 '                            Quit Editor
 '============================================================================
@@ -494,6 +497,7 @@ END SUB
 
 SUB autoname (index, who$)
 a$ = "Rebel.ldr": IF LEFT$(who$, 1) = "U" THEN a$ = "Union.ldr"
+a$ = datdir$ + a$
 name$(index) = ""
 IF LEN(DIR$(a$)) = 0 THEN who$ = "": EXIT SUB
 OPEN "I", 1, a$
@@ -1009,7 +1013,7 @@ LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
 '                            UNIT Icons
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "stdicon.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "stdicon.ega", VARPTR(Image(1))
 	DEF SEG
 
 	PUT (100, 100), Image, PSET
@@ -1027,7 +1031,7 @@ LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
 '                            Terrain Icons
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "terrain.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "terrain.ega", VARPTR(Image(1))
 	DEF SEG
 	PUT (200, 100), Image, PSET
 	GET (200, 101)-(215, 114), Cterr
@@ -1042,7 +1046,7 @@ LOCATE 1, 1: COLOR 11: PRINT "Loading Icons"
 '                         Miscellaneous Icons
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "misc.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "misc.ega", VARPTR(Image(1))
 	DEF SEG
 	PUT (300, 100), Image, PSET
 	GET (300, 101)-(315, 114), Wterr
@@ -1138,7 +1142,7 @@ END SUB
 
 SUB namer (file$, a$)
 newname:
-CLOSE #1: OPEN "i", 1, file$
+CLOSE #1: OPEN "i", 1, datdir$ + file$
 INPUT #1, x
 x = x * RND
 FOR i = 1 TO x: INPUT #1, a$: NEXT i
@@ -2272,4 +2276,5 @@ END SUB
 
 REM $INCLUDE: 'civwar2c.bm'
 REM $INCLUDE: 'qb64.bm'
+REM $INCLUDE: 'folders.bm'
 REM $INCLUDE: 'script.bm'

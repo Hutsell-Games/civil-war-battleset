@@ -2,6 +2,8 @@ DEFINT A-Z
 SCREEN 0: CLS
 PRINT "PBMFIX removes extra carriage return/line feeds from PBM files"
 PRINT "Working";
+' The game writes the PBM file in scenarios\ (FOLDERS.BM).
+IF _DIREXISTS("scenarios") THEN CHDIR "scenarios"
         OPEN "I", 1, "savegame.pbm"
         OPEN "O", 2, "savegame.fix"
         a$ = ""
@@ -17,7 +19,7 @@ PRINT "Working";
         CLOSE #1
 PRINT "Done"
 PRINT "Your original SAVEGAME.PBM has been renamed SAVEGAME.OLD"
-CALL scriptshell("rename savegame.pbm savegame.old")
-CALL scriptshell("rename savegame.fix savegame.pbm")
+CALL scriptshell("rename", "savegame.pbm", "savegame.old")
+CALL scriptshell("rename", "savegame.fix", "savegame.pbm")
 
 REM $INCLUDE: 'script.bm'

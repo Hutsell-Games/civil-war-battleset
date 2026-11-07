@@ -12,8 +12,9 @@
 '     longer one, which the game uses as "press a key", waits for a key;
 '   - a saved game holds the date 01-01-2000 12:00 instead of the time now,
 '     and the elapsed time of a computer-against-computer game stays 0:00;
-'   - CURDIR$ shows the folder the program started in as C:\CWB, so that
-'     the menus look the same in every folder the scripts run in.
+'   - CURDIR$ shows the current folder at the start, which setfolders
+'     (FOLDERS.BM) made scenarios\, as C:\CWB, so that the menus look the
+'     same in every folder the scripts run in.
 ' A program started without it plays as before: announce does nothing.
 ' ===========================================================================
 
@@ -59,7 +60,8 @@ DO WHILE INKEY$ = "": LOOP
 END FUNCTION
 
 ' The folder c$ as CURDIR$ shows it. When the program is scripted, the
-' folder it started in becomes C:\CWB, and a folder inside it C:\CWB\name.
+' current folder at the start (scenarios\) becomes C:\CWB, and a folder
+' inside it C:\CWB\name.
 FUNCTION scriptfolder$ (c$)
 scriptfolder$ = c$
 IF scripted = 0 OR scriptdir$ = "" THEN EXIT FUNCTION
@@ -67,20 +69,21 @@ IF UCASE$(LEFT$(c$, LEN(scriptdir$))) <> UCASE$(scriptdir$) THEN EXIT FUNCTION
 scriptfolder$ = "C:" + CHR$(92) + "CWB" + MID$(c$, LEN(scriptdir$) + 1)
 END FUNCTION
 
-' SHELL cmd$, or under a script the same work done in BASIC. The programs
-' run "copy <from> <to>" and "rename <from> <to>" (the history files, and
-' pbmfix's renames). A SHELL starts cmd.exe, whose console window shows on
-' the user's desktop even when the program runs on a hidden one, so the
-' scripts must not run it. Copy replaces <to>, as copy does. Rename does
-' nothing when <to> exists or <from> does not, as rename then only prints
-' a message. It reads CWB_SEED itself, because pbmfix has no scriptstart.
-SUB scriptshell (cmd$)
-IF ENVIRON$("CWB_SEED") = "" THEN SHELL cmd$: EXIT SUB
-c$ = LTRIM$(RTRIM$(cmd$))
-sp = INSTR(c$, " "): verb$ = LCASE$(LEFT$(c$, sp - 1)): args$ = LTRIM$(MID$(c$, sp + 1))
-sp = INSTR(args$, " "): from$ = LEFT$(args$, sp - 1): into$ = LTRIM$(MID$(args$, sp + 1))
+' SHELL verb$ with from$ and into$, or under a script the same work done in
+' BASIC. The programs run "copy" (the history files) and "rename" (pbmfix).
+' The DOS game ran SHELL "copy generalz temp.$$$"; the history files are
+' now named by their full path (FOLDERS.BM), which may hold blanks, so the
+' SHELL puts each name in quotes. A SHELL starts cmd.exe, whose console
+' window shows on the user's desktop even when the program runs on a hidden
+' one, so the scripts must not run it. Copy replaces into$, as copy does.
+' Rename does nothing when into$ exists or from$ does not, as rename then
+' only prints a message; into$ is a bare name, as rename wants. It reads
+' CWB_SEED itself, because pbmfix has no scriptstart.
+SUB scriptshell (verb$, from$, into$)
+q$ = CHR$(34)
+IF ENVIRON$("CWB_SEED") = "" THEN SHELL verb$ + " " + q$ + from$ + q$ + " " + q$ + into$ + q$: EXIT SUB
 IF NOT _FILEEXISTS(from$) THEN EXIT SUB
-SELECT CASE verb$
+SELECT CASE LCASE$(verb$)
 	CASE "copy"
 		f = FREEFILE: OPEN from$ FOR BINARY AS #f
 		d$ = SPACE$(LOF(f)): GET #f, , d$: CLOSE #f
@@ -89,7 +92,7 @@ SELECT CASE verb$
 	CASE "rename"
 		IF NOT _FILEEXISTS(into$) THEN NAME from$ AS into$
 	CASE ELSE
-		SHELL cmd$
+		SHELL verb$ + " " + q$ + from$ + q$ + " " + q$ + into$ + q$
 END SELECT
 END SUB
 

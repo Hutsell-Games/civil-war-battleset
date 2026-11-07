@@ -325,14 +325,14 @@ SUB TestScriptshellCopiesAndRenames
 ENVIRON "CWB_SEED=1"
 d$ = TestTempDir$ + "/"
 f = FREEFILE: OPEN d$ + "maxskors" FOR OUTPUT AS #f: PRINT #f, "best": CLOSE #f
-CALL scriptshell("copy " + d$ + "maxskors " + d$ + "temp.$$$")
+CALL scriptshell("copy", d$ + "maxskors", d$ + "temp.$$$")
 AssertTrue _FILEEXISTS(d$ + "temp.$$$"), "copied"
 f = FREEFILE: OPEN d$ + "temp.$$$" FOR INPUT AS #f: LINE INPUT #f, a$: CLOSE #f
 AssertEqualStr "best", a$, "the copy's text"
-CALL scriptshell("rename " + d$ + "temp.$$$ " + d$ + "savegame.old")
+CALL scriptshell("rename", d$ + "temp.$$$", d$ + "savegame.old")
 AssertTrue _FILEEXISTS(d$ + "savegame.old"), "renamed"
 AssertFalse _FILEEXISTS(d$ + "temp.$$$"), "the old name is gone"
-CALL scriptshell("rename " + d$ + "maxskors " + d$ + "savegame.old")
+CALL scriptshell("rename", d$ + "maxskors", d$ + "savegame.old")
 AssertTrue _FILEEXISTS(d$ + "maxskors"), "no rename over an existing file"
 END SUB
 

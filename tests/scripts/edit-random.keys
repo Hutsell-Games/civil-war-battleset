@@ -4,7 +4,7 @@
 # at last Yes. It checks the saved scenario, made from the script's seed.
 #! program cs
 #! seed 9
-#! files RANDTEST.CIV
+#! files scenarios/RANDTEST.CIV
 
 rule 1 key space
 

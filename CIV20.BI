@@ -95,4 +95,7 @@ DIM SHARED sdtext$(24), mtx$(20), vp&(2), sname$(2), Bigg(2), stex$(22), highsco
 DIM SHARED queue(2), alt(3), matrix(19, 6), region(19), region$(19), array(20)
 ' Set by scriptstart (SCRIPT.BM) when tests\play.py runs the program.
 DIM SHARED scripted, scriptdir$
+' The folder the program started in and its data folders, set by setfolders
+' (FOLDERS.BM).
+DIM SHARED homedir$, gfxdir$, snddir$, datdir$
 

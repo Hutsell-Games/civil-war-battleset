@@ -298,7 +298,7 @@ SCREEN 9, 0, 1, 0
 '                            UNIT Icons..... STDICON
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "stdicon.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "stdicon.ega", VARPTR(Image(1))
 	DEF SEG
 
 	PUT (100, 100), Image, PSET
@@ -315,7 +315,7 @@ SCREEN 9, 0, 1, 0
 '                            UNIT Icons..... ALTICON
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "alticon.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "alticon.ega", VARPTR(Image(1))
 	DEF SEG
 
 	PUT (100, 100), Image, PSET
@@ -330,7 +330,7 @@ SCREEN 9, 0, 1, 0
 '                            Terrain Icons
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "terrain.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "terrain.ega", VARPTR(Image(1))
 	DEF SEG
 	PUT (200, 100), Image, PSET
 	GET (200, 101)-(215, 114), Cterr
@@ -346,7 +346,7 @@ SCREEN 9, 0, 1, 0
 '                         Miscellaneous Icons
 '----------------------------------------------------------------------------
 	DEF SEG = VARSEG(Image(1))
-	BLOAD "misc.ega", VARPTR(Image(1))
+	BLOAD gfxdir$ + "misc.ega", VARPTR(Image(1))
 	DEF SEG
 	PUT (300, 100), Image, PSET
 	GET (300, 101)-(315, 114), Wterr
@@ -362,12 +362,12 @@ SCREEN 9, 0, 1, 0
 '                         Side Identifier Icons
 '----------------------------------------------------------------------------
 sideicon = 0
-IF LEN(DIR$("yank.ega")) = 0 GOTO noside
+IF LEN(DIR$(gfxdir$ + "yank.ega")) = 0 GOTO noside
 DEF SEG = VARSEG(Image(1))
-BLOAD "yank.ega", VARPTR(Image(1))
+BLOAD gfxdir$ + "yank.ega", VARPTR(Image(1))
 DEF SEG
 DEF SEG = VARSEG(Rmage(1))
-BLOAD "reb.ega", VARPTR(Rmage(1))
+BLOAD gfxdir$ + "reb.ega", VARPTR(Rmage(1))
 DEF SEG
 sideicon = 1
 noside:

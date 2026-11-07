@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+import tempfile
 import zlib
 from pathlib import Path
 
@@ -40,15 +41,20 @@ PROBE_UNITS = 3000
 PROBE_PROMPT_MS = "20000"
 
 
-def civ_files(game: Path = play.GAME) -> list[str]:
-    """The .civ files of the game's folder in the order FILES lists them. On Windows, os.listdir
-    gives the order of the file system, which is the order FILES gives."""
-    return [n for n in os.listdir(game) if n.lower().endswith(".civ")]
+def civ_files(game: Path = play.GAME, test_data: Path = play.TEST_DATA) -> list[str]:
+    """The .civ files of a run's scenarios folder in the order FILES lists them: the repo's
+    scenarios and the saved games of tests/data, put together as play.copy_data puts them. On
+    Windows, os.listdir gives the order of the file system, which is the order FILES gives."""
+    with tempfile.TemporaryDirectory() as d:
+        play.copy_data(Path(d), game, test_data)
+        folder = Path(d) / "scenarios"
+        return [n for n in os.listdir(folder) if n.lower().endswith(".civ")]
 
 
 def scenarios(game: Path = play.GAME) -> list[str]:
-    """The scenarios a script can load: every .civ file but the five saved games."""
-    return [n for n in civ_files(game) if not n.startswith("$")]
+    """The scenarios a script can load: the .civ files of the repo's scenarios folder, which
+    leaves out the five saved games."""
+    return [n for n in civ_files(game) if (game / "scenarios" / n).is_file()]
 
 
 def pick_keys(name: str, files: list[str]) -> list[str]:
@@ -74,7 +80,7 @@ def script_name(style: str, scenario: str, side: int) -> str:
 
 
 def title(scenario: str, game: Path = play.GAME) -> str:
-    first = (game / scenario).read_bytes().split(b"\n", 1)[0].strip()
+    first = (game / "scenarios" / scenario).read_bytes().split(b"\n", 1)[0].strip()
     return first.decode("cp437").split("|")[0].strip()
 
 

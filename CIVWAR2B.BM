@@ -2,7 +2,7 @@ SUB area (F%)
 IF F = 0 THEN F = 19
 SCREEN 9
 CLOSE #1
-OPEN "I", 1, "campaign.ini"
+OPEN "I", 1, datdir$ + "campaign.ini"
 FOR k = 1 TO F
 INPUT #1, a
 	FOR j = 1 TO 6
@@ -88,7 +88,7 @@ CALL cmap: CALL area(0)
 IF campane > 0 GOTO cmp
 IF choose = 99 THEN choose = 1: GOTO cmp
 mtx$(0) = "CAMPAIGN"
-mtx$(1) = "Continue OLD": IF LEN(DIR$("regions.sav")) = 0 THEN choose = 2: GOTO cmp
+mtx$(1) = "Continue OLD": IF LEN(DIR$(homedir$ + "regions.sav")) = 0 THEN choose = 2: GOTO cmp
 mtx$(2) = "Begin NEW"
 tlx = 60: tly = 18
 size = 2: CALL menu
@@ -103,7 +103,7 @@ LOCATE 21, 66: PRINT "Neutral  50%"
 LOCATE 22, 66: PRINT "Occupied"; x; "%";
 LOCATE 23, 66: PRINT "Capitals"; x + 5; "%"
 '...........................................................................
-t$ = "regions.ini": IF choose = 1 THEN a$ = "regions.sav": IF LEN(DIR$(a$)) > 0 THEN t$ = a$
+t$ = datdir$ + "regions.ini": IF choose = 1 THEN a$ = homedir$ + "regions.sav": IF LEN(DIR$(a$)) > 0 THEN t$ = a$
 CLOSE #1
 OPEN "I", 1, t$
 z = 0: y = 0
@@ -117,7 +117,7 @@ CLOSE #1
 IF z > 9 OR y > 9 THEN
 SCREEN 0
 DEF SEG = &HB800
-BLOAD "victory.scr", 0
+BLOAD gfxdir$ + "victory.scr", 0
 DEF SEG
 c = 4: s = 1: IF y > 9 THEN s = 2: c = 1
 COLOR 15, c: FOR k = 7 TO 12: LOCATE k, 20: PRINT SPACE$(40): NEXT k
@@ -138,7 +138,7 @@ IF quiet > 0 THEN
 	END IF
 END IF
 TICK 999
-KILL "regions.sav"
+KILL homedir$ + "regions.sav"
 SCREEN 9
 EXIT SUB
 END IF
@@ -456,7 +456,7 @@ SUB commander (x)
 	LOCATE 1, 20: PRINT "CIVILWAR BATTLESET HALL OF FAME"
 	LOCATE 1, 68: PRINT .1 * x; "%"
 	COLOR 14: LOCATE 3, 1: PRINT "ESC to enter NEW GENERAL"
-	OPEN "I", 1, "generalz"
+	OPEN "I", 1, homedir$ + "generalz"
 	LINE INPUT #1, u$
 	k = 0
 	DO WHILE NOT EOF(1)
@@ -496,7 +496,7 @@ validid:
 	IF t$ = "" GOTO validid
 	CLOSE #1
 bingo:
-	OPEN "I", 1, "generalz"
+	OPEN "I", 1, homedir$ + "generalz"
 	LINE INPUT #1, u$
 	DO WHILE NOT EOF(1)
 	INPUT #1, a$, dx, x1, dy, z
@@ -550,10 +550,10 @@ matched:
 
 	LOCATE 20, 1: PRINT "press a key"; : TICK 99
 
-	IF flag = 1 THEN OPEN "A", 1, "generalz": WRITE #1, a$, dx, x1, dy, z: CLOSE #1: EXIT SUB
-	CALL scriptshell("copy generalz temp.$$$")
-	OPEN "I", 1, "temp.$$$"
-	OPEN "O", 2, "generalz"
+	IF flag = 1 THEN OPEN "A", 1, homedir$ + "generalz": WRITE #1, a$, dx, x1, dy, z: CLOSE #1: EXIT SUB
+	CALL scriptshell("copy", homedir$ + "generalz", homedir$ + "temp.$$$")
+	OPEN "I", 1, homedir$ + "temp.$$$"
+	OPEN "O", 2, homedir$ + "generalz"
 	LINE INPUT #1, u$
 	PRINT #2, u$
 
@@ -567,7 +567,7 @@ matched:
 	LOOP
 
 	CLOSE #1: CLOSE #2
-	KILL "temp.$$$"
+	KILL homedir$ + "temp.$$$"
 	EXIT SUB
 END SUB
 
@@ -958,10 +958,10 @@ dorko:
 '                       Clear History Files
 '----------------------------------------------------------------------------
 			CASE 16
-	OPEN "O", 1, "generalz"
+	OPEN "O", 1, homedir$ + "generalz"
 	PRINT #1, "HALL OF FAME"
 	CLOSE #1
-	OPEN "O", 1, "maxskors"
+	OPEN "O", 1, homedir$ + "maxskors"
 	WRITE #1, "PREVIOUS BEST SCORE FILE", 0, 0
 	CLOSE #1
 	LOCATE 22, 1: PRINT "History files cleared": TICK 2
@@ -1472,12 +1472,12 @@ IF LEN(file$) < 4 THEN EXIT SUB
 IF campane > 0 THEN EXIT SUB
 '...........................................................................
 SCREEN 0
-CALL scriptshell("copy maxskors temp.$$$")
-CALL scrnload("newhi.scr")
+CALL scriptshell("copy", homedir$ + "maxskors", homedir$ + "temp.$$$")
+CALL scrnload(gfxdir$ + "newhi.scr")
 COLOR 14: LOCATE 13, 25: PRINT "Scenario :"; file$; " "; .1 * x; "%"
 highscore(side) = x
-OPEN "I", 1, "temp.$$$"
-OPEN "O", 2, "maxskors"
+OPEN "I", 1, homedir$ + "temp.$$$"
+OPEN "O", 2, homedir$ + "maxskors"
 z = 0
 DO WHILE NOT EOF(1)
 INPUT #1, a$, dx, dy
@@ -1487,7 +1487,7 @@ LOOP
 IF z = 0 THEN WRITE #2, file$, highscore(1), highscore(2)
 CLOSE #1
 CLOSE #2
-KILL "temp.$$$"
+KILL homedir$ + "temp.$$$"
 IF quiet = 1 THEN
 	IF sblast$ = "" THEN
 	PLAY "T140O3L8C;FCFG;A4GMLA16mnB-16;O4CO3FL16MLAMNGMLFMNEL8;F4.C"

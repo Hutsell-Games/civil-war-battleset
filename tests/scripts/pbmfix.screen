@@ -49,6 +49,6 @@ t "                                                                             
 a 07*80
 = 24
 end
-file SAVEGAME.PBM E3B0C44298FC1C14
-file SAVEGAME.OLD C6853078C95417D8
-file SAVEGAME.FIX missing
+file scenarios/SAVEGAME.PBM E3B0C44298FC1C14
+file scenarios/SAVEGAME.OLD C6853078C95417D8
+file scenarios/SAVEGAME.FIX missing

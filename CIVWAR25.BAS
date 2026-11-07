@@ -6,7 +6,7 @@ DECLARE SUB email ()
 DECLARE SUB noise (x%, y%, t$)
 DECLARE SUB vistarg (active%, flag%)
 REM $INCLUDE: 'civ20.bi'
-CALL scriptstart: CLS
+CALL setfolders: CALL scriptstart: CLS
 
 REM $INCLUDE: 'civwar25.bi'
 
@@ -201,7 +201,7 @@ tidy1:
 	highscore(1) = 0: highscore(2) = 0
 	ON ERROR GOTO nomax
 getmax:
-	CLOSE #1: OPEN "I", 1, "maxskors"
+	CLOSE #1: OPEN "I", 1, homedir$ + "maxskors"
 	a$ = file$: IF LEFT$(file$, 1) = "$" THEN a$ = sdtext$(23)
 	DO WHILE NOT EOF(1)
 	z = z + 1
@@ -363,7 +363,9 @@ oldd:
 'บ                             Run Editor                             บ
 'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
 	CASE 9
-	RUN "cs.exe"
+	' The editor is beside the game, and the current folder is scenarios\
+	' (FOLDERS.BM).
+	CHDIR homedir$: RUN "cs.exe"
 'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
 'บ                             Quit                                   บ
 'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
@@ -480,7 +482,7 @@ IF file$ = "๕" THEN
 			campane = -1
 			CLOSE #1
 			file$ = "regions.sav"
-			OPEN "O", 1, file$
+			OPEN "O", 1, homedir$ + file$
 			WRITE #1, camwin
 			FOR k = 1 TO 19: WRITE #1, region(k): NEXT k
 			CLOSE #1
@@ -543,7 +545,7 @@ lodecfg:
 	FOR k = 1 TO 2: READ sname$(k): NEXT k
 	ON ERROR GOTO nocfg
 pref:
-	OPEN "I", 1, "Prefer.cfg"
+	OPEN "I", 1, homedir$ + "Prefer.cfg"
 	INPUT #1, side, bold, seelimit, difficult, quiet, mdsp
 	FOR k = 1 TO 3: INPUT #1, factor(k): NEXT k
 	INPUT #1, rely, stakk, limber, lineofsight, artcap, history, artdelay, intense!
@@ -565,7 +567,7 @@ scfg1:
 'บ                    Write New Configuration File                    บ
 'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
 savecfg:
-	OPEN "O", 1, "Prefer.cfg"
+	OPEN "O", 1, homedir$ + "Prefer.cfg"
 	COLOR 14: LOCATE 23, 1: PRINT "Saving configuration .";
 	WRITE #1, side, bold, seelimit, difficult, quiet, mdsp: PRINT ".";
 	WRITE #1, factor(1), factor(2), factor(3)
@@ -632,13 +634,13 @@ nomax:
 	RESUME savemax1
 savemax1:
 	ON ERROR GOTO 0
-	CLOSE #1: OPEN "O", 1, "maxskors"
+	CLOSE #1: OPEN "O", 1, homedir$ + "maxskors"
 	WRITE #1, "PREVIOUS BEST SCORE FILE", 0, 0
 	GOTO getmax
 
 testgen:
 	ON ERROR GOTO nogen
-	CLOSE #1: OPEN "I", 1, "generalz"
+	CLOSE #1: OPEN "I", 1, homedir$ + "generalz"
 getgen:
 	CLOSE #1
 	RETURN
@@ -646,7 +648,7 @@ nogen:
 	RESUME savegen1
 savegen1:
 	ON ERROR GOTO 0
-	CLOSE #1: OPEN "O", 1, "generalz"
+	CLOSE #1: OPEN "O", 1, homedir$ + "generalz"
 	WRITE #1, "HALL OF FAME"
 	CLOSE #1
 	GOTO getgen
@@ -659,4 +661,5 @@ REM $INCLUDE: 'civwar2a.bm'
 REM $INCLUDE: 'civwar2b.bm'
 REM $INCLUDE: 'civwar2c.bm'
 REM $INCLUDE: 'qb64.bm'
+REM $INCLUDE: 'folders.bm'
 REM $INCLUDE: 'script.bm'

@@ -1,0 +1,38 @@
+' ===========================================================================
+' FOLDERS.BM - the folders of the data files. Included at the end of
+' CIVWAR25.BAS and CIVSET24.BAS.
+'
+' The DOS game kept every file beside the program. The port keeps them in
+' folders of the folder the program starts in:
+'   graphics\   the icons (.EGA) and the text screens (.SCR)
+'   sound\      the sounds (.WAV)
+'   data\       the campaign (CAMPAIGN.INI, REGIONS.INI) and the name lists
+'               (.DAT, .LDR)
+'   scenarios\  the scenarios (.CIV); the saved games, the PBM file and the
+'               editor's new scenarios are written here
+' The settings (PREFER.CFG), the history files (GENERALZ, MAXSKORS) and the
+' campaign under way (REGIONS.SAV) stay beside the program.
+'
+' The Directory menu changes the current folder with CHDIR, and the game
+' reads and writes the .civ files and the PBM file in the current folder.
+' So setfolders makes scenarios\ the current folder, and every other file is
+' opened by its full path, from the folder the program started in. The
+' Directory menu then changes where the scenarios and saved games are, and
+' nothing else.
+' ===========================================================================
+
+' Sets homedir$, gfxdir$, snddir$ and datdir$ (CIV20.BI), each with a
+' separator at its end, and makes scenarios\ the current folder. Called
+' first, before scriptstart, so that a script's CURDIR$ (scriptfolder$,
+' SCRIPT.BM) shows scenarios\ as C:\CWB, as it showed the program's folder
+' before the files were moved.
+SUB setfolders
+c$ = _CWD$
+s$ = "/": IF INSTR(c$, CHR$(92)) THEN s$ = CHR$(92)
+IF RIGHT$(c$, 1) <> s$ THEN c$ = c$ + s$
+homedir$ = c$
+gfxdir$ = c$ + "graphics" + s$
+snddir$ = c$ + "sound" + s$
+datdir$ = c$ + "data" + s$
+IF _DIREXISTS(c$ + "scenarios") THEN CHDIR c$ + "scenarios"
+END SUB

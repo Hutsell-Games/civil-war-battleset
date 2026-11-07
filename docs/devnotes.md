@@ -1,8 +1,8 @@
 # Developer notes: branch `qb64rust`
 
 This branch starts from `main`, the original BASIC PDS 7.1 source. It will change as little as possible so that
-the game builds with QB64Rust and with QB64pe, and so that its SUBs can be tested. The plan is QB64Rust's
-`study\44-civil-war-battleset-port.md`. It follows the port of World War 2 (`Hutsell-Games/world-war-2`, branch
+the game builds with QB64Rust and with QB64pe, and so that its SUBs can be tested. The plan is
+`docs\port-study.md` (QB64Rust's study 44 until 2026-11-06). It follows the port of World War 2 (`Hutsell-Games/world-war-2`, branch
 `qb64rust`) and the principles in QB64Rust's `docs\PORTING-PDS.md`, section 0.
 
 This file holds what was changed from `main` and why, and the results of the plan's steps: the searches made before
@@ -18,8 +18,8 @@ qb64rust -x PBMFIX.BAS -o pbmfix.exe
 ```
 
 Keep the names `cw.exe` and `cs.exe`: the game's Scenario Editor entry runs `cs.exe`, and the editor's game entry
-runs `CW.EXE`. Until the DOS programs `CS.EXE` and `PBMFIX.EXE` are removed from this branch (step 8 of the plan),
-a build of those names in this folder overwrites them, so build elsewhere and copy the data files beside it.
+runs `CW.EXE`. Build them in the repo's folder, beside `PREFER.CFG` and the four data folders (item 13), and run
+them from there. `.gitignore` leaves the builds out.
 
 ## What was changed from `main`, and why
 
@@ -83,6 +83,50 @@ a build of those names in this folder overwrites them, so build elsewhere and co
 12. **The test hooks** (step 6): `SCRIPT.BM`, included at the end of `CIVWAR25.BAS` and `CIVSET24.BAS`, and calls
     to it in the sources. When the environment variable `CWB_SEED` is not set, the programs behave as before.
     Each changed line is listed in "Step 6", below.
+13. **The data files are in folders** (step 8, decision D2 (a) of the plan). The DOS game kept its 155 files beside
+    the program. Now the folder the program starts in holds the sources, `PREFER.CFG` and these folders:
+
+    | Folder | What |
+    |---|---|
+    | `graphics\` | The 7 icon files (`.EGA`) and the 2 text screens (`VICTORY.SCR`, `NEWHI.SCR`) |
+    | `sound\` | The 17 sounds (`.WAV`) |
+    | `data\` | The campaign (`CAMPAIGN.INI`, `REGIONS.INI`) and the name lists (`MONTHS.DAT`, `PNAMES1.DAT`, `PNAMES2.DAT`, `RNAMES.DAT`, `YNAMES.DAT`, `UNION.LDR`, `REBEL.LDR`) |
+    | `scenarios\` | The 77 scenarios (`.CIV`). The game writes the saved games and the PBM file here, and the editor its new scenarios |
+    | `docs\` | The original documents: `CW.DOC`, `CS.DOC`, `SOUNDS.DOC`, `WRHGAMES.DOC`, `PLANY.DOC`, `README.TXT` |
+
+    The Directory menu of both programs changes the current folder with `CHDIR`. The game reads and writes the
+    `.civ` files, the PBM file and its `temp.&&&` there, by bare names. So these stay bare names, and the new
+    `SUB setfolders` (`FOLDERS.BM`) makes `scenarios\` the current folder at the start. Every other file is opened
+    by its full path, made from the folder the program started in: `homedir$`, `gfxdir$`, `snddir$` and `datdir$`
+    in `CIV20.BI`. So the Directory menu changes where the scenarios and saved games are, and nothing else. In DOS
+    it changed where every file was looked for, so after a change of folder the game no longer found its sounds,
+    its settings or its history files.
+
+    The settings (`PREFER.CFG`), the history files (`generalz`, `maxskors`) and the campaign under way
+    (`regions.sav`) are written beside the program. The game makes the saved games and the history files when they
+    are missing, so they are no longer in the repo's folder. The scripts' copies are in `tests\data\`, with the
+    saved games and `SAVEGAME.PBM` in `tests\data\scenarios\`. `.gitignore` leaves out the copies that playing
+    writes. `PREFER.CFG` stays in the repo, so playing with Save Settings changes a tracked file.
+
+    The 20 DOS-only files are removed; they are still on `main`. They are the DOS builds (`CIVWAR25.EXE`,
+    `CW25.EXE`, `CS.EXE`, `PBMFIX.EXE`), the programs with no source (`CWBSTITL.EXE`, `YELL.EXE`, `PLANY.EXE`,
+    `SOUND.EXE`), the batch files and their settings (`CW.BAT`, `GO.BAT`, `INSTALL.BAT`, `PRINTDOC.BAT`, `CW.PIF`,
+    `CWSND.CFG`), the DOS build's files (`CIVWAR24.MAK`, `CIVWAR25.MAK`, `CIVWAR25.LNK`, `CIVWAR2C.OBJ`,
+    `CW25MAKE.BTM`) and `SOUNDS.ZIP`, which holds the 16 WAV files of `sound\` other than `YELL.WAV`. No line of the port opens or
+    runs any of them. `PLANY.DOC` stays in `docs\`, because items 6 and 8 cite it.
+
+    The other lines that changed:
+    - The two `RUN` lines run `CHDIR homedir$` first: the other program is beside this one, not in `scenarios\`.
+    - `pbmfix` makes `scenarios\` the current folder before it opens `savegame.pbm`, which is where the game wrote
+      it. As in DOS, a PBM file that the Directory menu put elsewhere needs `pbmfix` run there.
+    - `scriptshell` (`SCRIPT.BM`) takes the command and its two names apart. The real `SHELL` puts each name in
+      quotes, because a full path may hold blanks: `copy "<home>generalz" "<home>temp.$$$"`. The DOS game ran
+      `copy generalz temp.$$$`.
+    - `playsound` (`QB64.BM`) takes a bare name, such as `ding.wav`, and plays it from `sound\`.
+
+    Under a script, `CURDIR$` still shows `C:\CWB`: `scriptstart` runs after `setfolders`, so it takes
+    `scenarios\` as the folder to show that way. `play.py check` gave the recorded screens for every script. The
+    only change to them is the name of five checked files, which now start with `scenarios/`.
 
 ## The searches before the port (2026-11-06)
 
@@ -317,7 +361,7 @@ other lines jump to it, so the wait is announced again after a key that the game
   delay [Y/n]", a new unit type), the three `INPUT`s (a unit's name twice, a delay), and the four "press a key"
   loops (the map help, "NO MORE SLOTS", "NO UNIT AT THAT LOCATION", the end of placing random armies).
 
-Choices made here, which the user has not ruled on yet (QB64Rust's `study\44`, section 5):
+Choices made here, which the user has not ruled on yet (`docs\port-study.md`, section 5):
 
 - **`TICK` of 99 seconds or more waits for a key** under a script, instead of returning at once as World War 2's
   timed pauses do. The game uses `TICK 99` and `TICK 999` for "hit a key" (the results, the help, the Hall of
@@ -358,7 +402,7 @@ scripts"). QB64pe 4.7.0 and QB64Rust gave the same screens in every recording. T
   that moves left gives `xnew` 0, and `SCREEN` with column 0 is an illegal function call, which DOS would stop on
   too. The `ANTIETM2.CIV` scripts were not looked into; they stopped the same way. Until then each run waited for
   the "Continue?" dialog on a desktop nobody sees; `play.py` now sets `QB64PE_NOPROMPT`, so such a run ends at
-  once with exit code 1. The three scripts are not written. A `TODO.md` row, and D16 of study 44.
+  once with exit code 1. The three scripts are not written. A `TODO.md` row, and D16 of `docs\port-study.md`.
 - **QB64's `FILES` scrolls the list of files up by one line**, in both compilers. The list has 82 files in 21 rows.
   With the folder's line before them and the free space after them, the last line printed goes past the bottom
   row. The list's title row is lost, and the files start on the second row, where `menufile` expects them on the

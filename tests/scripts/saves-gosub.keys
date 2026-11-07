@@ -4,7 +4,7 @@
 # for three commands, saved in the second slot and loaded again; Quit answered by Esc and by
 # the letter of Not Yet. It checks the saved file, which holds the fixed date of a script.
 #! seed 3
-#! files $AVE2.CIV
+#! files scenarios/$AVE2.CIV
 
 rule 1 key space
 rule 2:C key enter

@@ -48,11 +48,13 @@ END SUB
 ' program that put a key in the BIOS buffer and ran SHELL "yell.exe": the
 ' yell stopped after 0.06 s instead of 2.3 s, and INKEY$ then gave "".
 ' Shift, Ctrl and Alt alone do not end it, as they put nothing in the buffer.
+' file$ is a bare name, such as "ding.wav": the file is in snddir$
+' (FOLDERS.BM).
 FUNCTION playsound% (file$)
 DIM h AS LONG
 playsound% = 0
-IF NOT _FILEEXISTS(file$) THEN EXIT FUNCTION
-h = _SNDOPEN(file$)
+IF NOT _FILEEXISTS(snddir$ + file$) THEN EXIT FUNCTION
+h = _SNDOPEN(snddir$ + file$)
 IF h <= 0 THEN EXIT FUNCTION
 _SNDPLAY h
 DO WHILE _SNDPLAYING(h)

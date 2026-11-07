@@ -2,3 +2,20 @@
 tests/out/
 __pycache__/
 *.pyc
+
+# The builds (docs/devnotes.md, "Build").
+/cw.exe
+/cs.exe
+/pbmfix.exe
+
+# Files that playing writes, in lower case as the game names them. The game makes the saved
+# games and the history files when they are missing. The scripts take theirs from tests/data.
+/generalz
+/maxskors
+/regions.sav
+/temp.$$$
+/scenarios/$ave?.civ
+/scenarios/savegame.pbm
+/scenarios/savegame.old
+/scenarios/savegame.fix
+/scenarios/temp.&&&

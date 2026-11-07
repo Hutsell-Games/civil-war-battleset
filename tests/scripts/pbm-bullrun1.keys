@@ -5,7 +5,7 @@
 # own: it shows the main menu's, so it waits at 2:M too. It checks the file written last.
 #! seed 7
 #! timeout 600
-#! files SAVEGAME.PBM
+#! files scenarios/SAVEGAME.PBM
 
 rule 1 key space
 rule 5 key space

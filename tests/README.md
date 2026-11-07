@@ -36,10 +36,13 @@ source file, the compiler or the screen hook changed. What a command prints also
 `tests\out\last-<command>.txt`.
 
 Each run starts in a fresh copy of the game's data files in `tests\out\run\`, so the files in the repo are never
-changed. The copy takes every file of the repo's folder but the sources, documents and DOS programs. Then it
-takes the files of `tests\data\`, when that folder exists, over those of the same name. Until step 8 of the port
-moves the saved games and history files there (QB64Rust's `study\44`), they come from the repo's folder. So do
-not play the game in the repo's folder: a saved game or a Hall of Fame left there changes what the scripts see.
+changed. The copy takes the files at the top of the repo's folder but the sources, documents and DOS programs,
+and the four data folders `graphics\`, `sound\`, `data\` and `scenarios\` (`docs\devnotes.md`, item 13). Then
+it copies the tree of `tests\data\` over it: the history files (`GENERALZ`, `MAXSKORS`), the campaign under way
+(`REGIONS.SAV`), and in `tests\data\scenarios\` the five saved games and `SAVEGAME.PBM`. The files that playing
+writes in the repo's folder are not copied: the names in `.gitignore`, which `PLAYED_FILES` in `play.py` repeats.
+A scenario the editor saved in `scenarios\` is copied, though. It adds a file to the Load File list and moves the
+keys of every generated script, so do not keep one there.
 
 ### When a check fails
 
