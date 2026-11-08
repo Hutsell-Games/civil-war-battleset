@@ -1,14 +1,10 @@
 # To do
 
 Open work on the QB64 port (branch `qb64rust`). Remove an item when it is done. The plan is
-`docs\port-study.md`; steps 8 to 10 of it are not repeated here.
+`docs\port-study.md`; its steps 1 to 10 are done.
 
 ## The tests
 
-- **`pbmfix` on a real PBM file.** The script `pbmfix` runs on `tests\data\scenarios\SAVEGAME.PBM`, which git
-  stores with LF line ends, so the fixed file is empty. Add a PBM file with CR LF line ends and doubled line ends
-  to `tests\data\`, marked `-text` in `.gitattributes`, and a script that fixes it (`docs\port-study.md`, D15). `tests\data\`
-  now exists (step 8).
 - **`RUN "cs.exe"` and `RUN "CW.EXE"`.** No script goes from the game to the editor or back: the program that
   `RUN` starts would read the same keys file from its start. It needs a keys file per program, or a script that
   checks only that the other program starts.
@@ -30,14 +26,15 @@ Open work on the QB64 port (branch `qb64rust`). Remove an item when it is done. 
 
 ## The game
 
-- **`SCREEN(row, 0)` in `cupdate` stops the game.** The direct move of `cupdate` (`CIVWAR2B.BM`) reads
-  `SCREEN(ynew + 1, xnew)` with `xnew = unitx(index) + 2 * dxs`, which is 0 for a unit in column 2 moving left: an
-  illegal function call. `rest-bold-confederate` reaches it, and probably both `rest-antietm2` scripts, so those
-  three are not written (`docs\devnotes.md`, "Step 7", "Found"). Decide whether to fix it (`docs\port-study.md`, D16). A fix
-  changes how battles go only where the game stopped before, so the other scripts would not change.
-- **QB64's `FILES` scrolls the list of files by one line**, so `$AVE1.CIV` to `$AVE4.CIV` cannot be chosen in the
-  list (`docs\devnotes.md`, "Step 7"). Measure whether DOS scrolled too (`docs\port-study.md`, D14). If it did not, make the
-  list fit, and run `make_scripts.py` again, as every generated script's keys move.
+- **A list of more than 84 files still loses its first rows.** `menufile` now finds the first file when `FILES`
+  scrolled by one line (`docs\devnotes.md`, item 16), but a folder of 85 or more `.civ` files needs more rows
+  than the screen has. The game has 82 with the saved games. A player who adds scenarios with the editor could
+  pass 84; the list would then need pages.
+- **Enter on an empty cell of the file list.** Right moves past the last file of a short last row, and Enter
+  there computes `LEFT$(t$, -1)` in the game's `menufile` (`CIVWAR2A.BM`; the editor's checks for the dot
+  first). DOS stopped
+  with "Illegal function call"; QB64 gives `""`, and the game reports ".civ file not found" and goes on
+  (`docs\devnotes.md`, item 16). Decide whether to keep the highlight on files.
 - **The editor stops with error 62 on an unused saved game.** Load Scenario of a `$AVE` file that holds only
   "UNUSED" reads past its end. The game checks for "UNUSED"; the editor does not. Decide whether to change it.
 - **The PBM game's second session starts with 96 turns left**, after a first session that began at 98 and wrote

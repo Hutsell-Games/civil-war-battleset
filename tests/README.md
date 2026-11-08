@@ -125,11 +125,11 @@ A letter that matches no entry is ignored, and the menu announces its wait again
 entry, except where the game asks for another: the main menu highlights Load File, and Fight after a load; the
 saved games' menu highlights the slot of the file chosen in the list.
 
-**The list of files.** QB64's `FILES` scrolls the list up by one line. Its title row is lost, the folder ends up
-on the first row and the files start on the second. The list's code expects them on the third, so the first
-file it highlights is the fifth, `$AVE5.CIV`, and the first four cannot be chosen. A file is reached from there
-by Down (four files a row) and Right. `make_scripts.py` works the keys out from the order of the files in the
-folder (`pick_keys`). No script takes a digest at the list: it shows the full path of the folder and the free
+**The list of files.** The list highlights its first file, `$AVE1.CIV`. A file is reached from there by Down
+(four files a row) and Right. With more than 80 files `FILES` scrolls the screen up by one line, in DOS too;
+`menufile` finds where the files ended up and draws its title row again (`docs\devnotes.md`, item 16).
+`make_scripts.py` works the keys out from the order of the
+files in the folder (`pick_keys`). No script takes a digest at the list: it shows the full path of the folder and the free
 space of the disk.
 
 ## The scripts
@@ -163,7 +163,7 @@ once instead of waiting for an answer to "Continue?" on a desktop nobody sees.
 
 | Script | How the battle is played |
 |---|---|
-| `rest-<scenario>-<side>` | Every scenario (the 77 `.civ` files but the five saved games), as each side, but three whose battle stops with a runtime error (`TODO.md`): `rest-bold-confederate` and both `rest-antietm2` scripts. The player rests every unit at its first command (Space), so only the computer's side acts: its moves, its fire, the battles and retreats. A digest at every command of a unit |
+| `rest-<scenario>-<side>` | Every scenario (the 77 `.civ` files but the five saved games), as each side. The player rests every unit at its first command (Space), so only the computer's side acts: its moves, its fire, the battles and retreats. A digest at every command of a unit |
 | `auto-<scenario>` | Eight scenarios: `BULLRUN1`, `ANTIETAM`, `GETTY1`, `SHILOH`, `CRATER`, `MOBILE`, `CAMP04` and `&STONES`. Parameters, Computer vs. Computer: the computer plays both sides. A digest at the start and at the end |
 
 Each loads its scenario from the list of files, plays it to its end, names the commander "Tester" for the Hall of
@@ -184,7 +184,7 @@ four jobs.
 | `twoplayer-bullrun1` | Two players: the side switch between them (`otherside`, item 9) and both sides' results |
 | `campaign` | A campaign begun new: the map, a battle, the Hall of Fame, the campaign's result. Checks `REGIONS.SAV` |
 | `pbm-bullrun1` | A play-by-mail game: begun, written, continued as the other side and written again. Checks `SAVEGAME.PBM` |
-| `pbmfix` | `pbmfix.exe` on the repo's `SAVEGAME.PBM`, which git stores with LF line ends: the fixed file is empty |
+| `pbmfix` | `pbmfix.exe` on `tests\data\scenarios\SAVEGAME.PBM`, whose CR LF line ends are each doubled, as mail could leave them. `.gitattributes` keeps those bytes. Checks the fixed file, which has the 133 lines with one line end each, and `SAVEGAME.OLD` |
 | `edit-bullrun1` | The editor: Load, Map Edit, Army Edit (a unit placed, changed, delayed, zapped and unzapped, and F10, item 9), Description, Save, Quit by a letter. Checks the saved scenario |
 | `edit-random` | The editor's Random Scenario, saved, and Quit answered by Esc and by a letter. Checks the saved scenario |
 

@@ -614,9 +614,11 @@ notdone:
 	CALL Near2(index, Enemy, d)
 	IF d > 7 AND RND > .5 GOTO method2
 	dxs = SGN(x - unitx(index)): dys = SGN(y - unity(index))
-	IF dy > 0 THEN ynew = unity(index) + dys: xnew = unitx(index) + dxs: z = SCREEN(ynew + 1, xnew): IF z = 43 OR z = 46 OR z = 233 OR z = 254 THEN GOTO slide
+	IF dy > 0 THEN ynew = unity(index) + dys: xnew = unitx(index) + dxs: IF xnew < 1 THEN xnew = xnew + 2
+	IF dy > 0 THEN z = SCREEN(ynew + 1, xnew): IF z = 43 OR z = 46 OR z = 233 OR z = 254 THEN GOTO slide
 	IF t$ = "B" AND z = 176 GOTO slide
-	IF dy = 0 THEN xnew = unitx(index) + 2 * dxs: z = SCREEN(ynew + 1, xnew): IF z = 35 OR z = 43 OR z = 46 OR z = 233 OR z = 254 THEN GOTO slide
+	IF dy = 0 THEN xnew = unitx(index) + 2 * dxs: IF xnew < 1 THEN xnew = xnew + 2
+	IF dy = 0 THEN z = SCREEN(ynew + 1, xnew): IF z = 35 OR z = 43 OR z = 46 OR z = 233 OR z = 254 THEN GOTO slide
 	IF t$ = "B" AND z = 176 GOTO slide
 	ynew = unity(index): xnew = unitx(index)
 	IF RND > .4 AND dx > dy THEN xnew = unitx(index) + 2 * dxs: GOTO slide

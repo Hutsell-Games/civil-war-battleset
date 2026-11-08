@@ -245,14 +245,16 @@ class MakeScriptsTest(unittest.TestCase):
     FILES = ["$AVE1.CIV", "$AVE2.CIV", "$AVE3.CIV", "$AVE4.CIV", "$AVE5.CIV", "&A.CIV", "B.CIV",
              "C.CIV", "D.CIV", "E.CIV"]
 
-    def test_pick_keys_moves_from_the_fifth_file(self):
+    def test_pick_keys_moves_from_the_first_file(self):
         import make_scripts
-        self.assertEqual(make_scripts.pick_keys("$AVE5.CIV", self.FILES), [])
-        self.assertEqual(make_scripts.pick_keys("C.CIV", self.FILES),
+        self.assertEqual(make_scripts.pick_keys("$AVE1.CIV", self.FILES), [])
+        self.assertEqual(make_scripts.pick_keys("$AVE4.CIV", self.FILES),
                          ["key right", "prompt", "key right", "prompt", "key right", "prompt"])
-        self.assertEqual(make_scripts.pick_keys("E.CIV", self.FILES), ["key down", "prompt", "key right", "prompt"])
-        with self.assertRaises(ValueError):
-            make_scripts.pick_keys("$AVE2.CIV", self.FILES)
+        self.assertEqual(make_scripts.pick_keys("C.CIV", self.FILES),
+                         ["key down", "prompt", "key right", "prompt", "key right", "prompt",
+                          "key right", "prompt"])
+        self.assertEqual(make_scripts.pick_keys("E.CIV", self.FILES),
+                         ["key down", "prompt", "key down", "prompt", "key right", "prompt"])
 
     def test_civ_files_take_the_saved_games_from_test_data(self):
         import make_scripts

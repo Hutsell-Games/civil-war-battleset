@@ -21,6 +21,7 @@ battles go; then record.
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import os
 import sys
 import tempfile
@@ -33,9 +34,7 @@ import play  # noqa: E402
 SIDES = {1: ("confederate", "Confederate", "Union"), 2: ("union", "Union", "Confederate")}
 # The scenarios the auto style plays: battles of different sizes and kinds.
 AUTO_SCENARIOS = ["BULLRUN1", "ANTIETAM", "GETTY1", "SHILOH", "CRATER", "MOBILE", "CAMP04", "&STONES"]
-# The first file the Load File list highlights is the fifth: QB64's FILES scrolls the list up by
-# one line, so its first row is the folder and the files start on the second (tests/README.md).
-FIRST_HIGHLIGHT = 4
+# The Load File list highlights its first file, four to a row (docs/devnotes.md, item 16).
 COLUMNS = 4
 PROBE_UNITS = 3000
 PROBE_PROMPT_MS = "20000"
@@ -53,17 +52,16 @@ def civ_files(game: Path = play.GAME, test_data: Path = play.TEST_DATA) -> list[
 
 def scenarios(game: Path = play.GAME) -> list[str]:
     """The scenarios a script can load: the .civ files of the repo's scenarios folder, which
-    leaves out the five saved games."""
-    return [n for n in civ_files(game) if (game / "scenarios" / n).is_file()]
+    leaves out the five saved games, even when playing left copies of them there."""
+    played = play.PLAYED_FILES["scenarios"]
+    return [n for n in civ_files(game) if (game / "scenarios" / n).is_file()
+            and not any(fnmatch.fnmatchcase(n.lower(), p) for p in played)]
 
 
 def pick_keys(name: str, files: list[str]) -> list[str]:
     """The steps that move the Load File list's highlight from where it starts to the file."""
     i = files.index(name)
-    if i < FIRST_HIGHLIGHT:
-        raise ValueError(f"{name} is on the list's first row, which the highlight cannot reach")
-    downs = i // COLUMNS - FIRST_HIGHLIGHT // COLUMNS
-    rights = i % COLUMNS
+    downs, rights = divmod(i, COLUMNS)
     steps: list[str] = []
     for key in ["down"] * downs + ["right"] * rights:
         steps += [f"key {key}", "prompt"]

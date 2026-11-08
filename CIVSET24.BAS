@@ -1082,7 +1082,20 @@ COLOR 11, 1
 FILES "*.civ"
 ON ERROR GOTO 0
 maxy = CSRLIN - 2
-y = 3: x = 1: x0 = 1: y0 = 3
+' FILES scrolls the screen up by one line for each line of its list that
+' does not fit, in DOS too. With more than 80 files the title row is lost
+' and the files start on row 2, not 3. So count the files to find their
+' first row, and draw the title again when it scrolled away. _FILES$
+' counts as FILES does: folders too, which DIR$ (QB64.BM) skips.
+nfile = 0: nf$ = _FILES$("*.civ")
+DO WHILE LEN(nf$): nfile = nfile + 1: nf$ = _FILES$: LOOP
+ytop = maxy - (nfile + 3) \ 4 + 1: IF ytop < 2 THEN ytop = 2
+IF ytop < 3 THEN
+	LOCATE 1, 1: COLOR 4, 3: PRINT SPACE$(80);
+	LOCATE 1, 1: PRINT "{arrow keys} TO SELECT FILE              {ENTER} TO LOAD";
+	COLOR 11, 1
+END IF
+y = ytop: x = 1: x0 = 1: y0 = ytop
 FOR k = 1 TO 12: t0$ = t0$ + CHR$(SCREEN(y, 18 * (x - 1) + k)): NEXT k
 
 ff0:
@@ -1123,7 +1136,7 @@ SELECT CASE q
 	CASE ELSE
 END SELECT
 IF x < 1 THEN x = 1
-IF y < 3 THEN y = 3
+IF y < ytop THEN y = ytop
 IF y > maxy THEN y = maxy
 IF x > 4 THEN x = 4
 LOCATE y0, 18 * (x0 - 1) + 1

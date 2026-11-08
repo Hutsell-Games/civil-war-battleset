@@ -7,7 +7,9 @@ the game builds with QB64Rust and with QB64pe, and so that its SUBs can be teste
 
 This file holds what was changed from `main` and why, and the results of the plan's steps: the searches made before
 any edit (step 2), the measurements of what the searches left in doubt (step 3), the first builds (step 4), what
-DOS did that QB64 does not (step 5), the test hooks (step 6) and the tests (step 7).
+DOS did that QB64 does not (step 5), the test hooks (step 6), the tests (step 7), and what was done after the
+files moved (step 8): the user's rulings of 2026-11-07, the build on GitHub Actions (step 9) and the documents
+(step 10).
 
 ## Build
 
@@ -127,6 +129,47 @@ them from there. `.gitignore` leaves the builds out.
     Under a script, `CURDIR$` still shows `C:\CWB`: `scriptstart` runs after `setfolders`, so it takes
     `scenarios\` as the folder to show that way. `play.py check` gave the recorded screens for every script. The
     only change to them is the name of five checked files, which now start with `scenarios/`.
+14. **The computer's direct move no longer reads column 0 of the screen** (`cupdate`, `CIVWAR2B.BM`; decision
+    D16 (b) of the plan, user, 2026-11-07). The direct move looks at the square it moves to with
+    `SCREEN(ynew + 1, xnew)`. For a unit in column 2 moving left two columns, `xnew` was 0, and `SCREEN` with
+    column 0 stops the game with "Illegal function call". DOS would stop there too, so this is a fix of the game's
+    own bug, not of a port difference. Each of the two lines that read the square (one for a move with a change of
+    row, one without) is now two lines: the first sets `xnew` and adds 2 to it when it is below 1. The game does the
+    same a few lines further on for another move, there when `xnew` is below 2. The second line reads the square. So `xnew` changes only where
+    the game used to stop. `play.py check` of every other script gave its recorded screens. The script
+    `rest-bold-confederate` reached the crash, and it is now written.
+15. **`ANTIETM2.CIV` starts with its objective held by no side** (user, 2026-11-07). The second line of the file was
+    `250,20,120,0,0,0`, and its second number is `possess`, the side that holds the objective at the start: 0 for
+    none, 1 for the Rebels, 2 for the Union. The editor writes only those three. With 20, `order` added to
+    `vp&(20)` of `vp&(2)`, and QB64 stopped with "Subscript out of range" on the first turn ("After step 8",
+    below). The line is now `250,0,120,0,0,0`. That is how the DOS game played it: 20 is neither 1 nor 2, so no
+    side was shown or scored as holding the objective until a unit moved onto it. The Confederates still start
+    with the file's 120 objective points. The history and the file's own 120 suggest the author meant 1 (the
+    Confederates held Sharpsburg), but the user chose to keep what DOS players saw. The scripts
+    `rest-antietm2-confederate` and `rest-antietm2-union` are now written. No other script loads this scenario.
+16. **The list of files fits on the screen** (`menufile`, in `CIVWAR2A.BM` and in `CIVSET24.BAS`; decision D14
+    of the plan, user, 2026-11-07). With more than 80 `.civ` files, `FILES` scrolled the screen up by one line,
+    in DOS too ("After step 8", below). The title row was lost and the files started on row 2, while `menufile`
+    took row 3 as the first. So the first file it highlighted was the fifth, and `$AVE1.CIV` to `$AVE4.CIV`
+    could not be chosen. Now `menufile` counts the files with `_FILES$`, works out the row of the first file from
+    the row of the last (`maxy`, which it already had), and starts there. It counts with `_FILES$`, not the
+    port's `DIR$`, because `FILES` lists a folder whose name matches `*.civ` and `DIR$` skips it. libqb's
+    `FILES` prints every name as an 8.3 short name in 18 columns, four to a row, so the count gives the rows. When the list scrolled, it draws the
+    title row again over the folder's line. The list then shows every file of a folder of up to 84, and
+    highlights `$AVE1.CIV` first. With more than 84, the first rows still scroll away, as before.
+
+    Every script that uses a list needed one more Down to reach the same file. The battles and the screens did
+    not change. No script takes a digest at the list, and `play.py check` gave the recorded screens for every
+    script. `make_scripts.py`'s `pick_keys` now counts from the first file. `play.py compare` of
+    `edit-bullrun1`, `rest-bullrun1-union` and `saves-gosub` gave the same screens in both builds.
+
+    **Found while checking it: Enter on an empty cell of the list.** The last row of the list may hold fewer than
+    four files, but Right still moves to its empty cells. Enter there reads blanks, so the game's `ff7` computes
+    `LEFT$(t$, -1)`. QB64 gives `""` for that, and the game goes on to open `.civ`: "ERROR: 53 - .civ file not
+    found", then a key goes back to the menu. QB 4.5 and PDS 7.1 raise error 5, "Illegal function call", for a
+    negative length (measured with QB64Rust's `verification\qb45\q45_left_negative`). `menufile` turns error
+    trapping off right after `FILES`, so in DOS the game stopped there. The editor's `ff7` looks for the dot first (item 11), so it does not reach
+    this. Not changed; a `TODO.md` row.
 
 ## The searches before the port (2026-11-06)
 
@@ -420,3 +463,61 @@ scripts"). QB64pe 4.7.0 and QB64Rust gave the same screens in every recording. T
 - **The PBM game's second session starts with 96 turns left** (`pbm-bullrun1`). The first session's first command
   showed 98, and the game writes the file when more than 8 turns have passed. How many turns the first session
   played is not checked; a `TODO.md` row.
+
+## After step 8 (2026-11-07)
+
+On 2026-11-07 the user took the recommendations of D10 to D16 in `docs\port-study.md`. D10 to D13 were already
+built. This section holds what D14 to D16 found, and steps 9 and 10.
+
+### D14: DOS scrolls the list of files too
+
+The question was whether DOS also scrolled the Load File list by one line (step 7, "Found"). A small program drew
+the same screen as `menufile` (`CIVWAR2A.BM`): the title on row 1, the bottom line on row 25, then `LOCATE 2, 1`
+and `FILES "*.civ"`, in a folder holding the 82 files of the scripts' `scenarios\`. It then wrote all 25 rows to a
+file. It was built with PDS 7.1 and with QB 4.5 (`BC /O /E /X /D`) and run in DOSBox 0.74-3, through QB64Rust's
+`tools\qb45\qb45.py`.
+
+Both scroll in the same way as QB64. The folder (`D:\T`) is on row 1, where the title was. The 82 names fill
+rows 2 to 22, four to a row. "Bytes free" is on row 23, row 24 is empty, and `CSRLIN` is 24. The title row is
+gone. So in DOS too, `menufile` highlights `$AVE5.CIV` first, and `$AVE1.CIV` to `$AVE4.CIV` cannot be chosen.
+
+The list scrolls whenever it has more than 80 files (20 rows). `main` has 77 scenarios and 5 saved games, 82 in
+all, so the game as shipped had this bug. It is the game's own bug, not a QB64 difference. The user asked for the
+list to fit; that is item 16.
+
+### D15: `pbmfix` on a file as mail leaves it
+
+`tests\data\scenarios\SAVEGAME.PBM` now has CR LF line ends, each one doubled (`CR LF CR LF`), as a mail program
+could leave a PBM file. It is the repo's 133-line file with its line ends changed, 5,703 bytes.
+`.gitattributes` marks it `-text`, so git keeps those bytes. The script `pbmfix` fixes it. The fixed
+`SAVEGAME.PBM` has one CR LF per line, and its hash is that of the 133 lines as they were. `SAVEGAME.OLD` is the
+file as given, and `SAVEGAME.FIX` is gone. Both builds gave the same result in all four runs of `record`.
+
+The script `pbm-bullrun1` does not read this file: it begins a new PBM game, which writes `SAVEGAME.PBM` afresh.
+
+### D16: one more crash, in `ANTIETM2.CIV`'s data
+
+With item 14 built, `make_scripts.py` wrote `rest-bold-confederate`. Both `ANTIETM2.CIV` scripts still stopped,
+but for another reason, which item 15 fixed. The game ends with exit code 1 at "Initializing", before the first unit's command. A
+coverage build shows that `order` (`CIVWAR2A.BM`) ran 7 statements and stopped at line 726:
+`IF possess > 0 THEN vp&(possess) = vp&(possess) + factor(2) * (timex - told)`.
+
+The second line of `ANTIETM2.CIV` is `250,20,120,0,0,0`, read as `timelimit, possess, vp&(1), vp&(2), score&(1),
+score&(2)`. So `possess` is 20, and `vp&` is `DIM SHARED vp&(2)` (`CIV20.BI`). QB64 checks every array index, and
+stops with "Subscript out of range". The DOS game did not check: `CW25MAKE.BTM` (on `main`) built it with
+`bc/o/e`, without `/D`. So in DOS the line wrote past the end of `vp&` into some other variable, and the battle
+went on. What it overwrote is not known. The file is the same on `main`. Every other scenario has 0, 1 or 2 there.
+
+This is a fault in the scenario's data. The editor's "Objective Control" menu gives only 0, 1 or 2, so the value
+was probably typed by hand: the scenario is "courtesy of Grant Richards". The objective is at column 26, row 11,
+inside the Confederate line between D.H. Hill's and D.R. Jones's divisions, where Sharpsburg was. The fix is
+item 15: the user chose 0, as the DOS game behaved.
+
+### Step 9: the build on GitHub Actions
+
+`.github\workflows\build.yml` is World War 2's, changed for this game. It builds `cw.exe`, `cs.exe` and
+`pbmfix.exe` with QB64Rust and uploads the artifact `civil-war-battleset`. The artifact holds the three programs,
+`PREFER.CFG`, `LICENSE`, `README.md`, the four data folders and the game's original documents. It runs on a push
+to `main` or `qb64rust`, and by hand. World War 2's runs only for `main`. This game's port stays on `qb64rust`
+for now, so a run there checks the build. Its packaging step was run locally on 2026-11-07. The workflow itself
+first runs when the branch is pushed.

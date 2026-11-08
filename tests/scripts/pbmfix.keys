@@ -1,8 +1,9 @@
-# pbmfix.exe on the repo's SAVEGAME.PBM. It writes a line only when it reads a carriage return,
-# and git stores that file with LF line ends only, so the fixed file is empty: this records
-# that (docs/devnotes.md, "The first builds", Found). pbmfix renames the original SAVEGAME.OLD
-# with SHELL "rename", a Windows command. It reads no key; END's "Press any key to continue"
-# takes the last one.
+# pbmfix.exe on tests/data/scenarios/SAVEGAME.PBM, a play-by-mail file as a mail program could
+# leave it: CR LF line ends, each one doubled. pbmfix writes a line at each carriage return
+# that follows text and drops the rest, so the fixed SAVEGAME.PBM has one CR LF per line. Its
+# hash is that of the same 133 lines with LF ends. SAVEGAME.OLD is the file as it was, and
+# SAVEGAME.FIX is gone, renamed. Under a script the renames are done in BASIC (scriptshell).
+# pbmfix reads no key; END's "Press any key to continue" takes the last one.
 #! program pbmfix
 #! files scenarios/SAVEGAME.PBM scenarios/SAVEGAME.OLD scenarios/SAVEGAME.FIX
 

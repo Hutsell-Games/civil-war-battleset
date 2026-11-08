@@ -1,0 +1,86 @@
+# Builds the game (CIVWAR25.BAS), the scenario editor (CIVSET24.BAS) and pbmfix (PBMFIX.BAS) with
+# QB64Rust on Windows. The result is an artifact named civil-war-battleset: cw.exe, cs.exe and
+# pbmfix.exe with the data folders they read, ready to unzip and play.
+name: Build
+
+# When something reaches main or qb64rust (a merge or a push), or by hand with "Run workflow".
+on:
+  push:
+    branches: [main, qb64rust]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # The QB64Rust commit the game is built with. Change it to take a newer compiler.
+  QB64RUST_REF: main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      # Keep the files' bytes as committed: the runner's default would turn LF into CR LF.
+      - run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@v7
+        with:
+          path: game
+
+      - uses: actions/checkout@v7
+        with:
+          repository: davidshq/QB64Rust
+          ref: ${{ env.QB64RUST_REF }}
+          path: qb64rust
+
+      # Installs the Rust toolchain named in QB64Rust's rust-toolchain.toml.
+      - run: rustup toolchain install
+        working-directory: qb64rust
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: qb64rust
+
+      - run: cargo build --release --locked
+        working-directory: qb64rust
+
+      # The C++ toolchain qb64rust builds with (llvm-mingw, a 190 MB download). Its version is
+      # pinned in toolchain.rs, so the cache is kept until that file changes.
+      - uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\qb64rust\toolchain
+          key: qb64rust-toolchain-${{ hashFiles('qb64rust/crates/driver/src/toolchain.rs') }}
+
+      - run: qb64rust\target\release\qb64rust.exe toolchain install
+
+      # The names matter: the game's Scenario Editor entry runs cs.exe, and the editor's game
+      # entry runs CW.EXE (docs/devnotes.md, "Build"). The original DOS programs are on main only.
+      - name: Build the game, the editor and pbmfix
+        working-directory: game
+        run: |
+          ..\qb64rust\target\release\qb64rust.exe -x CIVWAR25.BAS -o cw.exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ..\qb64rust\target\release\qb64rust.exe -x CIVSET24.BAS -o cs.exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ..\qb64rust\target\release\qb64rust.exe -x PBMFIX.BAS -o pbmfix.exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      # The three programs, PREFER.CFG and LICENSE, the four data folders (FOLDERS.BM), and the
+      # game's own documents in docs. Sources and the developer notes are left out. The game makes
+      # its history files (generalz, maxskors) and the saved games when they are missing.
+      - name: Put the playable folder together
+        run: |
+          New-Item -ItemType Directory dist | Out-Null
+          Copy-Item game\cw.exe, game\cs.exe, game\pbmfix.exe, game\PREFER.CFG, game\LICENSE,
+                    game\README.md -Destination dist
+          Copy-Item game\graphics, game\sound, game\data, game\scenarios -Destination dist -Recurse
+          New-Item -ItemType Directory dist\docs | Out-Null
+          Copy-Item game\docs\CW.DOC, game\docs\CS.DOC, game\docs\SOUNDS.DOC, game\docs\WRHGAMES.DOC,
+                    game\docs\README.TXT, game\docs\CWBSTITL.png -Destination dist\docs
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: civil-war-battleset
+          path: dist
+          if-no-files-found: error

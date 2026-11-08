@@ -3,3 +3,7 @@
 
 # Set the default behavior, in case people don't have core.autocrlfset set.
 * text=auto
+
+# The play-by-mail file that the pbmfix script fixes. Its CR LF line ends, each one doubled, are
+# what pbmfix is for, so git keeps its bytes as they are (tests/README.md, "Scripts written by hand").
+tests/data/scenarios/SAVEGAME.PBM -text

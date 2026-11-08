@@ -11,10 +11,13 @@ rule 2:C key enter
 rule 2:P key enter
 rule 2:S key enter
 
-# Load File; the list highlights $AVE5.CIV first; Enter; Esc at the saved games.
+# Load File; $AVE5.CIV, one down from $AVE1.CIV, which the list highlights first; Enter; Esc at
+# the saved games.
 play until 2:M
 digest
 key enter
+prompt
+key down
 prompt
 key enter
 prompt
@@ -26,6 +29,8 @@ play until 2:M
 digest
 key enter
 prompt
+key down
+prompt
 key enter
 prompt
 text $
@@ -34,6 +39,8 @@ text $
 play until 2:M
 digest
 key enter
+prompt
+key down
 prompt
 key down
 prompt
@@ -73,6 +80,8 @@ prompt
 key up
 prompt
 key enter
+prompt
+key down
 prompt
 key enter
 prompt

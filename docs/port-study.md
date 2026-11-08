@@ -280,6 +280,7 @@ of Fame, a new high score, a campaign victory. Shorter pauses still return at on
 *Panel:* the test engineer wants (a): the results screen is the best single check of a whole battle. The QB64
 engineer notes that no shorter `TICK` is used as "press a key", so the line at 99 is clean. The pragmatic engineer
 agrees. **Recommended: (a).**
+**User (2026-11-07): the recommendations, as built.**
 
 **D11. Under a script, `CURDIR$` shows the folder the program started in as `C:\CWB`.** Both main menus show the
 folder in their Directory entry. Without a hook, the full path would be in every digest of the main menu. It
@@ -294,6 +295,7 @@ would differ for QB64pe and QB64Rust, whose runs go in different folders, and on
 *Panel:* the pragmatic engineer prefers (a): no game line changes, and only a script can see the difference. The
 test engineer accepts (a) and notes that the `directory` script uses a path on drive C that does not exist, so it
 gives the same error everywhere. The QB64 user would rather keep `CURDIR$` true, (b). **Recommended: (a).**
+**User (2026-11-07): the recommendations, as built.**
 
 **D12. The second generated style is Computer vs. Computer, not "Enter at every command".** D8 (a) named an
 `enter` style for 6 to 8 scenarios. Here Enter at a unit's command opens the Unit Command menu, whose first entry
@@ -307,6 +309,7 @@ the keyboard buffer).
 
 *Panel:* the test engineer wants (a), with the hand-written `commands-bullrun1` covering the Unit Command menu
 and the cursor. The pragmatic engineer agrees. **Recommended: (a).**
+**User (2026-11-07): the recommendations, as built.**
 
 **D13. The editor's list of files now trims the name it gives** (the game's `docs\devnotes.md`, item 11). The
 editor could not load a scenario whose name is shorter than 8 characters, because `FILES` pads the name with
@@ -319,6 +322,7 @@ it changes how the editor behaves.
 *Panel:* the QB64 engineer is confident that DOS ignored the blanks (names are stored padded to 8 characters), so
 the fix restores what DOS did. The pragmatic engineer wants (a) now and (b) only if the user wants proof. The
 test engineer notes that `edit-bullrun1` uses `BULLRUN1.CIV`, which worked before. **Recommended: (a).**
+**User (2026-11-07): the recommendations, as built.**
 
 **D14. QB64's `FILES` scrolls the game's list of files by one line** (`docs\devnotes.md`, "Step 7", "Found"). The
 first four files of the list, `$AVE1.CIV` to `$AVE4.CIV`, cannot be chosen there. Saved games still load
@@ -331,6 +335,10 @@ through `$AVE5.CIV` and the slot menu after it. Both compilers do the same, as b
 *Panel:* the QB64 engineer wants (b), as it may be a libqb divergence that QB64Rust should know about. The
 pragmatic engineer agrees but not before step 8, since a fix would move every generated script's keys.
 **Recommended: (b), after step 8, with a `TODO.md` row now.**
+**User (2026-11-07): (b); "sounds like a bug?".** Measured the same day: PDS 7.1 and QB 4.5 scroll the
+list in the same way (the game's `docs\devnotes.md`, "After step 8"). So it is the game's own bug, as in
+DOS, not a QB64 divergence. **User, later the same day: make the list fit.** Built as item 16 of the
+game's `docs\devnotes.md`.
 
 **D15. `pbmfix` is tested only on the repo's `SAVEGAME.PBM`**, which git stores with LF line ends, so its fixed
 file is empty. A test of what `pbmfix` is for needs a PBM file with CR LF line ends and extra line ends.
@@ -340,6 +348,8 @@ file is empty. A test of what `pbmfix` is for needs a PBM file with CR LF line e
 
 *Panel:* the test engineer wants the real case tested. The pragmatic engineer prefers (a): step 8 makes the
 folder anyway, and `play.py` already copies `tests\data\` over the repo's files. **Recommended: (a).**
+**User (2026-11-07): do it.** Built: `tests\data\scenarios\SAVEGAME.PBM` now has CR LF line ends, each
+doubled, and the script `pbmfix` checks the fixed file.
 
 **D16. The computer's move can stop the game with "Illegal function call"** (the game's `docs\devnotes.md`, "Step
 7", "Found"). `cupdate` reads `SCREEN(ynew + 1, xnew)` with `xnew` 0 when a unit in column 2 moves left. DOS would
@@ -354,6 +364,11 @@ stop on it too, so it is the game's own bug. Three generated scripts reach it (`
 excludes "a fix to how the game plays", and that (b) is a fix to a crash, not to the play; it is the user's
 call. The test engineer prefers (b) over (c), as (c) hides a crash the tests found. **Recommended: (b), as a
 numbered change in `devnotes.md`, if the user agrees that a crash fix is in scope.**
+**User (2026-11-07): (b).** Built as item 14 of `devnotes.md`. `rest-bold-confederate` is written. Both
+`ANTIETM2.CIV` scripts still stop, for another reason: the scenario's file gives `possess` the value 20,
+and `vp&(possess)` is out of bounds (`devnotes.md`, "After step 8").
+**User (2026-11-07): make it 0, as in DOS** (no side holds the objective at the start; `devnotes.md`, item 15).
+Both `ANTIETM2.CIV` scripts are now written.
 
 ## 6. The plan
 

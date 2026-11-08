@@ -4,13 +4,15 @@ page 0 mode 0 text 80x25 bits 16 font 16 cursor 26,25 off color 7 background 0
 palette FF000000 FF0000AA FF00AA00 FF00AAAA FFAA0000 FFAA00AA FFAA5500 FFAAAAAA FF555555 FF5555FF FF55FF55 FF55FFFF FFFF5555 FFFF55FF FFFFFF55 FFFFFFFF 00000000*240
 t "PBMFIX removes extra carriage return/line feeds from PBM files                  "
 a 07*80
-t "WorkingDone                                                                     "
+t "Working........................................................................."
+a 07*80
+t "............................................................Done                "
 a 07*80
 t "Your original SAVEGAME.PBM has been renamed SAVEGAME.OLD                        "
 a 07*80
 t "                                                                                "
 a 07*80
-= 20
+= 19
 t "Press any key to continue                                                       "
 a 07*80
 page 1 mode 0 text 80x25 bits 16 font 16 cursor 1,1 off color 7 background 0
@@ -49,6 +51,6 @@ t "                                                                             
 a 07*80
 = 24
 end
-file scenarios/SAVEGAME.PBM E3B0C44298FC1C14
-file scenarios/SAVEGAME.OLD C6853078C95417D8
+file scenarios/SAVEGAME.PBM C6853078C95417D8
+file scenarios/SAVEGAME.OLD FC9A89BF7179CFB8
 file scenarios/SAVEGAME.FIX missing

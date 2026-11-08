@@ -18,6 +18,8 @@ play until 2:M
 digest
 key enter
 prompt
+key down
+prompt
 key right
 prompt
 key right
