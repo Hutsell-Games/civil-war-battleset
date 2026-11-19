@@ -302,7 +302,7 @@ QB64Rust's screen-state check. There are no test hooks yet (step 6 of the plan),
   `GOTO called`, and `whichsave`'s `RETURN` (`CIVWAR25.BAS` line 271) takes `crsr`'s entry. QB64Rust's build,
   made with `$CONSOLE` in a copy so that the message could be read, stops with "Runtime error: Line: 272 (in
   main module) RETURN without GOSUB": 272 because of the added first line. Both builds stop at the same screen
-  (QB64Rust with exit code 1 and QB64pe with 0, as QB64Rust's `QB64PE-DIVERGENCES.md` D-012 records). Without
+  (QB64Rust with exit code 1 and QB64pe with 0, as QB64Rust's `DIVERGENCES-QB64PE.md` D-012 records). Without
   `QB64PE_NOPROMPT`, both builds stopped drawing at that screen and waited until the run's timeout of 90 seconds.
   That is expected of libqb's error dialog, which a desktop that is never shown does not let anyone see or close.
   Fixed in step 5 (item 9 of the changes).

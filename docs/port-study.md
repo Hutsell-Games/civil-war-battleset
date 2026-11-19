@@ -329,7 +329,7 @@ first four files of the list, `$AVE1.CIV` to `$AVE4.CIV`, cannot be chosen there
 through `$AVE5.CIV` and the slot menu after it. Both compilers do the same, as both use libqb's `FILES`.
 - (a) Leave it, as built: the scripts work with it, and `make_scripts.py` counts from the fifth file.
 - (b) Measure in DOSBox whether QB 4.5 or PDS 7.1 `FILES` also ends with a line that scrolls. If DOS did not
-  scroll, it is a QB64 divergence for QB64Rust's `QB64PE-DIVERGENCES.md` and a QB64Rust question, and the game
+  scroll, it is a QB64 divergence for QB64Rust's `DIVERGENCES-QB64PE.md` and a QB64Rust question, and the game
   could be changed so that the list fits.
 
 *Panel:* the QB64 engineer wants (b), as it may be a libqb divergence that QB64Rust should know about. The
